@@ -1,6 +1,6 @@
 /* CopyHex 1.0.5: one navigation, a focused theme workbench. */
 header {
-  max-width: 1600px;
+  max-width: 1440px;
   gap: 20px;
   padding-inline: 3%;
   height: auto;
@@ -128,7 +128,7 @@ header {
   max-width: 110px;
 }
 main {
-  max-width: 1500px;
+  max-width: 1260px;
 }
 .brand-heading {
   display: flex;

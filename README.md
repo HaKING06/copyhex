@@ -6,7 +6,7 @@
 
 [Website](https://copyhex.haking.tr) · [Color studio](https://copyhex.haking.tr/studio/) · [Guide](https://copyhex.haking.tr/guide/) · [Support](mailto:copyhex@haking.tr)
 
-Version **1.0.5** · MIT licensed · 12 languages · No runtime dependencies
+Version **1.0.6** · MIT licensed · 12 languages · No runtime dependencies
 
 ## What you can do
 

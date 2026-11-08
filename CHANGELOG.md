@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6 — 2026-11-08
+
+- Restored the previous centered content width (1260px) and header width (1440px) to bring back balanced side margins. No feature or navigation changes.
+
 ## 1.0.5 — 2026-11-08
 
 - Replaced duplicate tool navigation with one accessible grouped menu on desktop and mobile.
