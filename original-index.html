@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evrensel Renk Kütüphanesi & Palet Rehberi</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              500: '#6366f1',
+              600: '#4f46e5'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes toastSlide {
+      0% { transform: translateY(12px) scale(0.96); opacity: 0; }
+      15% { transform: translateY(0) scale(1); opacity: 1; }
+      85% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-10px) scale(0.96); opacity: 0; }
+    }
+    .toast-anim {
+      animation: toastSlide 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    /* İnce kaydırma çubuğu */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Üst Bar / Header -->
+  <header class="border-b border-slate-800/80 bg-slate-900/70 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 4 4 0 014-4h4a4 4 0 014 4v4H7zM7 3a4 4 0 00-4 4v4a4 4 0 004 4h4a4 4 0 004-4V7a4 4 0 00-4-4H7zM17 3a4 4 0 014 4v4a4 4 0 01-4 4h-4a4 4 0 01-4-4V7a4 4 0 014-4h4z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            Evrensel Renk Kütüphanesi
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">CSS Standart</span>
+          </h1>
+          <p class="text-xs text-slate-400">Resmi web renkleri, HEX ve RGB kodları</p>
+        </div>
+      </div>
+
+      <!-- Sayaç ve Kopyalama Modu -->
+      <div class="flex items-center gap-3 text-xs">
+        <span class="text-slate-400 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+          Listelenen: <strong id="counter" class="text-indigo-400 font-semibold font-mono">0</strong> Renk
+        </span>
+        <button id="format-toggle" onclick="toggleFormat()" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-200 transition font-mono font-medium">
+          Format: <span id="current-format">HEX</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filtreleme ve Arama Alanı -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 pb-2 w-full">
+    <div class="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
+      
+      <!-- Arama Kutusu -->
+      <div class="relative flex-1">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Renk adı (örn. Crimson, Navy) veya kod (#ff..., 255) ara..."
+          class="w-full pl-11 pr-10 py-3 bg-slate-900/90 border border-slate-800 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl text-sm placeholder-slate-500 text-white transition outline-none shadow-inner"
+        />
+        <button id="clear-search" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white">
+          ✕
+        </button>
+      </div>
+
+      <!-- Kategori Hapları -->
+      <div id="category-filters" class="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 text-xs no-scrollbar">
+        <!-- JS ile doldurulacak -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Ana Renk Tablosu / Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-grow">
+    <div id="color-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <!-- Renk Kartları JS ile basılacak -->
+    </div>
+
+    <!-- Boş Durum (Eşleşme Bulunamadı) -->
+    <div id="empty-state" class="hidden flex-col items-center justify-center py-20 text-center">
+      <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3 class="text-base font-semibold text-slate-300">Aramanıza uygun renk bulunamadı</h3>
+      <p class="text-xs text-slate-500 mt-1">Lütfen farklı bir renk adı veya HEX/RGB değeri deneyin.</p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-lg transition border border-slate-700">
+        Filtreleri Temizle
+      </button>
+    </div>
+  </main>
+
+  <!-- Alt Bilgi / Footer -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500 mt-auto">
+    <p>CSS3 / HTML Renk Standartları Kütüphanesi &bull; Kart üzerine tıklayarak anında kopyalayın.</p>
+  </footer>
+
+  <!-- Bildirim Kutusu (Toast Container) -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 pointer-events-none flex flex-col gap-2"></div>
+
+  <!-- Renk Veri Seti & Fonksiyonlar -->
+  <script>
+    // 140+ CSS Standart Rengi ve Grupları
+    const rawColors = [
+      // Kırmızılar & Pembeler
+      { name: "IndianRed", hex: "#CD5C5C", cat: "Kırmızı" },
+      { name: "LightCoral", hex: "#F08080", cat: "Kırmızı" },
+      { name: "Salmon", hex: "#FA8072", cat: "Kırmızı" },
+      { name: "DarkSalmon", hex: "#E9967A", cat: "Kırmızı" },
+      { name: "LightSalmon", hex: "#FFA07A", cat: "Kırmızı" },
+      { name: "Crimson", hex: "#DC143C", cat: "Kırmızı" },
+      { name: "Red", hex: "#FF0000", cat: "Kırmızı" },
+      { name: "FireBrick", hex: "#B22222", cat: "Kırmızı" },
+      { name: "DarkRed", hex: "#8B0000", cat: "Kırmızı" },
+      { name: "Pink", hex: "#FFC0CB", cat: "Pembe" },
+      { name: "LightPink", hex: "#FFB6C1", cat: "Pembe" },
+      { name: "HotPink", hex: "#FF69B4", cat: "Pembe" },
+      { name: "DeepPink", hex: "#FF1493", cat: "Pembe" },
+      { name: "MediumVioletRed", hex: "#C71585", cat: "Pembe" },
+      { name: "PaleVioletRed", hex: "#DB7093", cat: "Pembe" },
+
+      // Turuncular & Kahverengiler
+      { name: "Coral", hex: "#FF7F50", cat: "Turuncu" },
+      { name: "Tomato", hex: "#FF6347", cat: "Turuncu" },
+      { name: "OrangeRed", hex: "#FF4500", cat: "Turuncu" },
+      { name: "DarkOrange", hex: "#FF8C00", cat: "Turuncu" },
+      { name: "Orange", hex: "#FFA500", cat: "Turuncu" },
+      { name: "Cornsilk", hex: "#FFF8DC", cat: "Kahverengi" },
+      { name: "BlanchedAlmond", hex: "#FFEBCD", cat: "Kahverengi" },
+      { name: "Bisque", hex: "#FFE4C4", cat: "Kahverengi" },
+      { name: "NavajoWhite", hex: "#FFDEAD", cat: "Kahverengi" },
+      { name: "Wheat", hex: "#F5DEB3", cat: "Kahverengi" },
+      { name: "BurlyWood", hex: "#DEB887", cat: "Kahverengi" },
+      { name: "Tan", hex: "#D2B48C", cat: "Kahverengi" },
+      { name: "RosyBrown", hex: "#BC8F8F", cat: "Kahverengi" },
+      { name: "SandyBrown", hex: "#F4A460", cat: "Kahverengi" },
+      { name: "Goldenrod", hex: "#DAA520", cat: "Sarı" },
+      { name: "DarkGoldenrod", hex: "#B8860B", cat: "Sarı" },
+      { name: "Peru", hex: "#CD853F", cat: "Kahverengi" },
+      { name: "Chocolate", hex: "#D2691E", cat: "Kahverengi" },
+      { name: "SaddleBrown", hex: "#8B4513", cat: "Kahverengi" },
+      { name: "Sienna", hex: "#A0522D", cat: "Kahverengi" },
+      { name: "Brown", hex: "#A52A2A", cat: "Kahverengi" },
+      { name: "Maroon", hex: "#800000", cat: "Kahverengi" },
+
+      // Sarılar
+      { name: "Gold", hex: "#FFD700", cat: "Sarı" },
+      { name: "Yellow", hex: "#FFFF00", cat: "Sarı" },
+      { name: "LightYellow", hex: "#FFFFE0", cat: "Sarı" },
+      { name: "LemonChiffon", hex: "#FFFACD", cat: "Sarı" },
+      { name: "LightGoldenrodYellow", hex: "#FAFAD2", cat: "Sarı" },
+      { name: "PapayaWhip", hex: "#FFEFD5", cat: "Sarı" },
+      { name: "Moccasin", hex: "#FFE4B5", cat: "Sarı" },
+      { name: "PeachPuff", hex: "#FFDAB9", cat: "Sarı" },
+      { name: "PaleGoldenrod", hex: "#EEE8AA", cat: "Sarı" },
+      { name: "Khaki", hex: "#F0E68C", cat: "Sarı" },
+      { name: "DarkKhaki", hex: "#BDB76B", cat: "Sarı" },
+
+      // Morlar
+      { name: "Lavender", hex: "#E6E6FA", cat: "Mor" },
+      { name: "Thistle", hex: "#D8BFD8", cat: "Mor" },
+      { name: "Plum", hex: "#DDA0DD", cat: "Mor" },
+      { name: "Violet", hex: "#EE82EE", cat: "Mor" },
+      { name: "Orchid", hex: "#DA70D6", cat: "Mor" },
+      { name: "Fuchsia", hex: "#FF00FF", cat: "Mor" },
+      { name: "Magenta", hex: "#FF00FF", cat: "Mor" },
+      { name: "MediumOrchid", hex: "#BA55D3", cat: "Mor" },
+      { name: "MediumPurple", hex: "#9370DB", cat: "Mor" },
+      { name: "Amethyst", hex: "#9966CC", cat: "Mor" },
+      { name: "BlueViolet", hex: "#8A2BE2", cat: "Mor" },
+      { name: "DarkViolet", hex: "#9400D3", cat: "Mor" },
+      { name: "DarkOrchid", hex: "#9932CC", cat: "Mor" },
+      { name: "DarkMagenta", hex: "#8B008B", cat: "Mor" },
+      { name: "Purple", hex: "#800080", cat: "Mor" },
+      { name: "Indigo", hex: "#4B0082", cat: "Mor" },
+      { name: "SlateBlue", hex: "#6A5ACD", cat: "Mor" },
+      { name: "DarkSlateBlue", hex: "#483D8B", cat: "Mor" },
+
+      // Yeşiller
+      { name: "GreenYellow", hex: "#ADFF2F", cat: "Yeşil" },
+      { name: "Chartreuse", hex: "#7FFF00", cat: "Yeşil" },
+      { name: "LawnGreen", hex: "#7CFC00", cat: "Yeşil" },
+      { name: "Lime", hex: "#00FF00", cat: "Yeşil" },
+      { name: "LimeGreen", hex: "#32CD32", cat: "Yeşil" },
+      { name: "PaleGreen", hex: "#98FB98", cat: "Yeşil" },
+      { name: "LightGreen", hex: "#90EE90", cat: "Yeşil" },
+      { name: "MediumSpringGreen", hex: "#00FA9A", cat: "Yeşil" },
+      { name: "SpringGreen", hex: "#00FF7F", cat: "Yeşil" },
+      { name: "MediumSeaGreen", hex: "#3CB371", cat: "Yeşil" },
+      { name: "SeaGreen", hex: "#2E8B57", cat: "Yeşil" },
+      { name: "ForestGreen", hex: "#228B22", cat: "Yeşil" },
+      { name: "Green", hex: "#008000", cat: "Yeşil" },
+      { name: "DarkGreen", hex: "#006400", cat: "Yeşil" },
+      { name: "YellowGreen", hex: "#9ACD32", cat: "Yeşil" },
+      { name: "OliveDrab", hex: "#6B8E23", cat: "Yeşil" },
+      { name: "Olive", hex: "#808000", cat: "Yeşil" },
+      { name: "DarkOliveGreen", hex: "#556B2F", cat: "Yeşil" },
+      { name: "MediumAquamarine", hex: "#66CDAA", cat: "Yeşil" },
+      { name: "DarkSeaGreen", hex: "#8FBC8F", cat: "Yeşil" },
+      { name: "LightSeaGreen", hex: "#20B2AA", cat: "Yeşil" },
+      { name: "DarkCyan", hex: "#008B8B", cat: "Yeşil" },
+      { name: "Teal", hex: "#008080", cat: "Yeşil" },
+
+      // Maviler & Camgöbeği (Cyan)
+      { name: "Aqua", hex: "#00FFFF", cat: "Mavi" },
+      { name: "Cyan", hex: "#00FFFF", cat: "Mavi" },
+      { name: "LightCyan", hex: "#E0FFFF", cat: "Mavi" },
+      { name: "PaleTurquoise", hex: "#AFEEEE", cat: "Mavi" },
+      { name: "Aquamarine", hex: "#7FFFD4", cat: "Mavi" },
+      { name: "Turquoise", hex: "#40E0D0", cat: "Mavi" },
+      { name: "MediumTurquoise", hex: "#48D1CC", cat: "Mavi" },
+      { name: "DarkTurquoise", hex: "#00CED1", cat: "Mavi" },
+      { name: "CadetBlue", hex: "#5F9EA0", cat: "Mavi" },
+      { name: "SteelBlue", hex: "#4682B4", cat: "Mavi" },
+      { name: "LightSteelBlue", hex: "#B0C4DE", cat: "Mavi" },
+      { name: "PowderBlue", hex: "#B0E0E6", cat: "Mavi" },
+      { name: "LightBlue", hex: "#ADD8E6", cat: "Mavi" },
+      { name: "SkyBlue", hex: "#87CEEB", cat: "Mavi" },
+      { name: "LightSkyBlue", hex: "#87CEFA", cat: "Mavi" },
+      { name: "DeepSkyBlue", hex: "#00BFFF", cat: "Mavi" },
+      { name: "DodgerBlue", hex: "#1E90FF", cat: "Mavi" },
+      { name: "CornflowerBlue", hex: "#6495ED", cat: "Mavi" },
+      { name: "RoyalBlue", hex: "#4169E1", cat: "Mavi" },
+      { name: "Blue", hex: "#0000FF", cat: "Mavi" },
+      { name: "MediumBlue", hex: "#0000CD", cat: "Mavi" },
+      { name: "DarkBlue", hex: "#00008B", cat: "Mavi" },
+      { name: "Navy", hex: "#000080", cat: "Mavi" },
+      { name: "MidnightBlue", hex: "#191970", cat: "Mavi" },
+
+      // Beyazlar & Griler & Siyahlar
+      { name: "White", hex: "#FFFFFF", cat: "Nötr" },
+      { name: "Snow", hex: "#FFFAFA", cat: "Nötr" },
+      { name: "Honeydew", hex: "#F0FFF0", cat: "Nötr" },
+      { name: "MintCream", hex: "#F5FFFA", cat: "Nötr" },
+      { name: "Azure", hex: "#F0FFFF", cat: "Nötr" },
+      { name: "AliceBlue", hex: "#F0F8FF", cat: "Nötr" },
+      { name: "GhostWhite", hex: "#F8F8FF", cat: "Nötr" },
+      { name: "WhiteSmoke", hex: "#F5F5F5", cat: "Nötr" },
+      { name: "Seashell", hex: "#FFF5EE", cat: "Nötr" },
+      { name: "Beige", hex: "#F5F5DC", cat: "Nötr" },
+      { name: "OldLace", hex: "#FDF5E6", cat: "Nötr" },
+      { name: "FloralWhite", hex: "#FFFAF0", cat: "Nötr" },
+      { name: "Ivory", hex: "#FFFFF0", cat: "Nötr" },
+      { name: "AntiqueWhite", hex: "#FAEBD7", cat: "Nötr" },
+      { name: "Linen", hex: "#FAF0E6", cat: "Nötr" },
+      { name: "LavenderBlush", hex: "#FFF0F5", cat: "Nötr" },
+      { name: "MistyRose", hex: "#FFE4E1", cat: "Nötr" },
+      { name: "Gainsboro", hex: "#DCDCDC", cat: "Nötr" },
+      { name: "LightGray", hex: "#D3D3D3", cat: "Nötr" },
+      { name: "Silver", hex: "#C0C0C0", cat: "Nötr" },
+      { name: "DarkGray", hex: "#A9A9A9", cat: "Nötr" },
+      { name: "Gray", hex: "#808080", cat: "Nötr" },
+      { name: "DimGray", hex: "#696969", cat: "Nötr" },
+      { name: "LightSlateGray", hex: "#778899", cat: "Nötr" },
+      { name: "SlateGray", hex: "#708090", cat: "Nötr" },
+      { name: "DarkSlateGray", hex: "#2F4F4F", cat: "Nötr" },
+      { name: "Black", hex: "#000000", cat: "Nötr" }
+    ];
+
+    // HEX'ten RGB'ye dönüştürme fonksiyonu
+    function hexToRgb(hex) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) {
+        c = c.split('').map(ch => ch + ch).join('');
+      }
+      const num = parseInt(c, 16);
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    // Renklerin parlaklığına göre kontrastlı yazı rengi (Siyah/Beyaz) belirleme
+    function getContrastColor(hex) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) {
+        c = c.split('').map(ch => ch + ch).join('');
+      }
+      const r = parseInt(c.substring(0, 2), 16);
+      const g = parseInt(c.substring(2, 4), 16);
+      const b = parseInt(c.substring(4, 6), 16);
+      // YIQ parlaklık formülü
+      const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+      return (yiq >= 140) ? '#0f172a' : '#ffffff';
+    }
+
+    // Tüm renk veri tabanını zenginleştirme
+    const colors = rawColors.map(c => ({
+      ...c,
+      rgb: hexToRgb(c.hex),
+      contrast: getContrastColor(c.hex)
+    }));
+
+    // Durum Değişkenleri
+    let currentCategory = "Tümü";
+    let searchQuery = "";
+    let activeFormat = "HEX"; // HEX veya RGB
+
+    const categories = ["Tümü", "Kırmızı", "Turuncu", "Sarı", "Yeşil", "Mavi", "Mor", "Pembe", "Kahverengi", "Nötr"];
+
+    const grid = document.getElementById("color-grid");
+    const emptyState = document.getElementById("empty-state");
+    const counterEl = document.getElementById("counter");
+    const searchInput = document.getElementById("search-input");
+    const clearSearchBtn = document.getElementById("clear-search");
+    const categoryContainer = document.getElementById("category-filters");
+    const currentFormatSpan = document.getElementById("current-format");
+
+    // Kategori butonlarını oluştur
+    function renderCategories() {
+      categoryContainer.innerHTML = categories.map(cat => {
+        const isActive = cat === currentCategory;
+        const activeClass = isActive 
+          ? "bg-indigo-600 text-white font-semibold shadow-md shadow-indigo-600/30" 
+          : "bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-slate-800";
+        return `
+          <button 
+            onclick="setCategory('${cat}')"
+            class="px-3.5 py-1.5 rounded-lg transition-all whitespace-nowrap ${activeClass}"
+          >
+            ${cat}
+          </button>
+        `;
+      }).join("");
+    }
+
+    // Kartları Listeleme
+    function renderColors() {
+      const q = searchQuery.trim().toLowerCase();
+      
+      const filtered = colors.filter(c => {
+        const matchesCategory = currentCategory === "Tümü" || c.cat === currentCategory;
+        const matchesSearch = !q || 
+          c.name.toLowerCase().includes(q) || 
+          c.hex.toLowerCase().includes(q) || 
+          c.rgb.toLowerCase().includes(q) ||
+          c.cat.toLowerCase().includes(q);
+        return matchesCategory && matchesSearch;
+      });
+
+      counterEl.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        emptyState.classList.add("flex");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      emptyState.classList.remove("flex");
+
+      grid.innerHTML = filtered.map(color => {
+        const copyValue = activeFormat === "HEX" ? color.hex : color.rgb;
+        return `
+          <div 
+            onclick="copyText('${copyValue}', '${color.name}')"
+            tabindex="0"
+            role="button"
+            aria-label="${color.name} rengini kopyala"
+            class="group relative bg-slate-900 border border-slate-800/90 hover:border-indigo-500/50 rounded-2xl p-2.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 cursor-pointer flex flex-col focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <!-- Renk Önizleme Kutusu -->
+            <div 
+              class="w-full h-28 rounded-xl relative flex items-center justify-center shadow-inner transition-transform group-hover:scale-[1.02]"
+              style="background-color: ${color.hex};"
+            >
+              <div 
+                class="opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-xs text-xs font-medium px-2.5 py-1 rounded-full text-white shadow-sm"
+              >
+                Kopyala
+              </div>
+            </div>
+
+            <!-- Bilgiler -->
+            <div class="px-2 pt-3 pb-1 flex flex-col gap-1">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-sm text-slate-100 group-hover:text-indigo-300 transition-colors">
+                  ${color.name}
+                </span>
+                <span class="text-[10px] text-slate-400 font-medium px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700/50">
+                  ${color.cat}
+                </span>
+              </div>
+              
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mt-1">
+                <span class="${activeFormat === 'HEX' ? 'text-indigo-400 font-semibold' : ''}">${color.hex}</span>
+                <span class="text-[11px] truncate max-w-[120px] ${activeFormat === 'RGB' ? 'text-indigo-400 font-semibold' : 'text-slate-500'}">${color.rgb}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Arama Olayları
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      if (searchQuery.length > 0) {
+        clearSearchBtn.classList.remove("hidden");
+      } else {
+        clearSearchBtn.classList.add("hidden");
+      }
+      renderColors();
+    });
+
+    function clearSearch() {
+      searchInput.value = "";
+      searchQuery = "";
+            clearSearchBtn.classList.add("hidden");
+      renderColors();
+    }
+
+    // Kategori seçimi
+    function setCategory(cat) {
+      currentCategory = cat;
+      renderCategories();
+      renderColors();
+    }
+
+    // Filtreleri sıfırlama (boş durum butonu için)
+    function resetFilters() {
+      currentCategory = "Tümü";
+      clearSearch();
+      renderCategories();
+      renderColors();
+    }
+
+    // HEX / RGB gösterim formatı değiştirici
+    function toggleFormat() {
+      activeFormat = activeFormat === "HEX" ? "RGB" : "HEX";
+      currentFormatSpan.textContent = activeFormat;
+      renderColors();
+    }
+
+    // Panoya kopyalama ve geri bildirim bildirimi (Toast)
+    async function copyText(text, colorName) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(text, colorName);
+      } catch (err) {
+        // Eski tarayıcılar için fallback kopyalama
+        const fallbackInput = document.createElement("input");
+        fallbackInput.value = text;
+        document.body.appendChild(fallbackInput);
+        fallbackInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(fallbackInput);
+        showToast(text, colorName);
+      }
+    }
+
+    function showToast(value, name) {
+      const toast = document.createElement("div");
+      toast.className = "toast-anim flex items-center gap-3 bg-slate-900 text-slate-100 border border-slate-700/80 px-4 py-3 rounded-xl shadow-2xl backdrop-blur-md";
+      toast.innerHTML = `
+        <span class="w-3.5 h-3.5 rounded-full inline-block border border-white/20 shrink-0" style="background-color: ${value}"></span>
+        <div class="text-xs">
+          <strong class="text-white">${name}</strong> (${value}) panoya kopyalandı!
+        </div>
+      `;
+
+      toastContainer.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 2000);
+    }
+
+    // Klavye erişilebilirliği: Enter ve Boşluk tuşu ile kartları tetikleme
+    grid.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        const card = e.target.closest("[role='button']");
+        if (card) {
+          e.preventDefault();
+          card.click();
+        }
+      }
+    });
+
+    // İlk yükleme ve başlangıç render'ı
+    renderCategories();
+    renderColors();
+  </script>
+</body>
+</html>
