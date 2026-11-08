@@ -1,7 +1,9 @@
 import { localeCodes } from "./js/locales.js";
 import { cp, mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import "./scripts/generate-pages.mjs";
+const { version } = JSON.parse(await readFile('package.json', 'utf8'));
+await writeFile('js/version.js', `// Generated from package.json during build.\nexport const VERSION = ${JSON.stringify(version)};\n`);
+await import('./scripts/generate-pages.mjs');
 const dirs = [
   "css",
   "js",
@@ -65,7 +67,7 @@ for (const asset of assets)
       "dist" + (asset.endsWith("/") ? asset + "index.html" : asset),
     ),
   );
-const cacheName = "copyhex-1.0.1-" + hash.digest("hex").slice(0, 12);
+const cacheName = `copyhex-${version}-` + hash.digest("hex").slice(0, 12);
 const sw = `const CACHE=${JSON.stringify(cacheName)};
 const ASSETS=${JSON.stringify(assets)};
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS))));
@@ -87,4 +89,4 @@ self.addEventListener('fetch',event=>{
 `;
 await writeFile("sw.js", sw);
 await writeFile("dist/sw.js", sw);
-console.log(`CopyHex 1.0.1 built. ${cacheName}`);
+console.log(`CopyHex ${version} built. ${cacheName}`);

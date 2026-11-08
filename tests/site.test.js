@@ -1,3 +1,4 @@
+import { VERSION } from "../js/version.js";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile, access } from "node:fs/promises";
@@ -24,6 +25,7 @@ test("every localized page has unique canonical, language alternates and readabl
     assert.ok(!html.includes("cophex"));
     assert.ok(!html.includes("version-chip"));
     if (p.noindex) assert.match(html, /noindex,follow/);
+    if(p.view === "about") assert.ok(html.includes(`${VERSION} · <a href="/LICENSE">MIT`), p.path);
   }
 });
 test("all internal links and image sources in generated content resolve to real files", async () => {
@@ -71,7 +73,7 @@ test("manifest icons and project license are present", async () => {
   assert.equal(manifest.display, "standalone");
   for (const icon of manifest.icons)
     await access(new URL("." + icon.src, root));
-  assert.equal(JSON.parse(await read("package.json")).version, "1.0.1");
+  assert.equal(JSON.parse(await read("package.json")).version, VERSION);
   assert.match(await read("LICENSE"), /MIT License/);
   assert.match(await read("licenses/color-names-MIT.txt"), /David Aerne/);
 });

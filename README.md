@@ -6,7 +6,7 @@
 
 [Website](https://copyhex.haking.tr) · [Color studio](https://copyhex.haking.tr/studio/) · [Guide](https://copyhex.haking.tr/guide/) · [Support](mailto:copyhex@haking.tr)
 
-Version **1.0.1** · MIT licensed · 12 languages · No runtime dependencies
+Version **1.0.3** · MIT licensed · 12 languages · No runtime dependencies
 
 ## What you can do
 
@@ -44,7 +44,11 @@ node server.mjs --dist  # preview the exact production build
 
 Only run one server on port 4173 at a time. Run `npm run build` after source changes when verifying the production build or offline cache. A new service worker waits for the user to select **Update app** before replacing an active version. Keep only one local preview for the same origin when testing updates.
 
-## Cloudflare Pages
+## Current Cloudflare deployment
+
+The existing site uses **Workers Builds**, Worker `copyhex`, connected to `HaKING06/copyhex` on `main`. Its build command is `npm run build`, and its deploy command is `npx wrangler deploy`. A commit message is only a label; it does not update `package.json`. Check the commit SHA in the build details when diagnosing an outdated deployment.
+
+### Alternative: Cloudflare Pages
 
 1. Push this repository to GitHub and connect it to Cloudflare Pages.
 2. Framework preset: **None**.
@@ -67,7 +71,7 @@ There are **456 localized entry pages**: 432 indexable public pages and 24 priva
 
 ## Data, privacy and limits
 
-Palettes, favorites, recent colors, selected color, language and theme are stored under the existing `copyhex-v1` localStorage key, preserving 1.0.0 collections. The generator keeps its latest working draft separately under `copyhex-generator-v1`. It is not part of the full collection backup until saved as a project palette. JSON backups keep the compatible `version: 1` data format; application version is independently **1.0.1**.
+Palettes, favorites, recent colors, selected color, language and theme are stored under the existing `copyhex-v1` localStorage key, preserving 1.0.0 collections. The generator keeps its latest working draft separately under `copyhex-generator-v1`. It is not part of the full collection backup until saved as a project palette. JSON backups keep the compatible `version: 1` data format; application version is independently **1.0.3**.
 
 There is **no account, cloud database or cross-device sync**. Export JSON before clearing browser data or moving devices. Offline caches are separate from saved palettes. The hosting provider may retain request logs under its own policies. The application includes no analytics or advertising trackers.
 
@@ -156,3 +160,6 @@ Translation sources live in `data/localization/`. Run `npm run locales` with Pyt
 The palette engine now assigns stable harmony offsets and lightness roles, evaluates each new swatch against existing/locked colors and favors useful separation without maximizing unrelated RGB distance. Single-color regeneration and locked-color guarantees are preserved. Decorative gradients and hover motion are kept outside actual color-reference surfaces and respect reduced-motion preferences.
 
 Essential locale workspaces are precached; the full localized content is generated for crawling without forcing every article/detail document into the initial app cache.
+
+
+Application version is maintained in `package.json`. The build generates `js/version.js`; About pages, structured data and the offline-cache version use that value. Git commit messages and release names do not change the application version.

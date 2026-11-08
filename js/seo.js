@@ -74,8 +74,8 @@ export function pageMetadata(view, lang = "en", id = "") {
       ? "Renk arama, palet keşfi, akıllı oluşturucu, yedekleme ve uygulama kurulumu için CopyHex rehberi."
       : "Learn to search color codes, discover palettes, generate color schemes, back up your collection and install the CopyHex app.",
     about: tr
-      ? "CopyHex renk çalışma alanı, açık renk verisi, gizlilik, MIT lisansı ve sürüm 1.0.1 hakkında bilgi."
-      : "Learn about the CopyHex color workspace, open color data, privacy, MIT licensing and version 1.0.1.",
+      ? "CopyHex renk çalışma alanı, açık renk verisi, gizlilik ve MIT lisansı hakkında bilgi."
+      : "Learn about the CopyHex color workspace, open color data, privacy and MIT licensing.",
     favorites: tr
       ? "Bu tarayıcıda saklanan favori renk koleksiyonun."
       : "Your favorite colors, stored privately in this browser.",

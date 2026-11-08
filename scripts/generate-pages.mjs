@@ -1,3 +1,4 @@
+import { VERSION } from "../js/version.js";
 import { collectionDetails } from "../js/localized-content.js";
 import { locales, localeCodes } from "../js/locales.js";
 import { writeFile, mkdir, readFile } from "node:fs/promises";
@@ -83,7 +84,7 @@ function schemaFor(meta) {
     "@type": "WebApplication",
     applicationCategory: "DesignApplication",
     operatingSystem: "Any",
-    softwareVersion: "1.0.1",
+    softwareVersion: VERSION,
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   };

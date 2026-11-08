@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3 — 2026-11-08
+
+- Corrected the displayed application version and made package.json the shared build-time version source.
+- About pages, structured data and service-worker cache names now stay aligned.
+
+
 ## 1.0.1 — 2026-11-08
 
 - Expanded to 12 languages with 263 complete messages per locale, native color-family search and localized palette names.
