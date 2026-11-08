@@ -1,6 +1,9 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+const port = Number(
+  process.argv.find((arg) => arg.startsWith("--port="))?.split("=")[1] || 4173,
+);
 const root = process.argv.includes("--dist")
   ? path.join(process.cwd(), "dist")
   : process.cwd();
@@ -67,6 +70,6 @@ http
       res.end(data);
     });
   })
-  .listen(4173, "127.0.0.1", () =>
-    console.log("CopyHex: http://127.0.0.1:4173"),
+  .listen(port, "127.0.0.1", () =>
+    console.log(`CopyHex: http://127.0.0.1:${port}`),
   );

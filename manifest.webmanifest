@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "CopyHex — Color Workspace",
+  "name": "CopyHex \u2014 Color Workspace",
   "short_name": "CopyHex",
-  "description": "Find 6,000 unique colors, copy HEX/RGB/HSL codes and build project palettes.",
+  "description": "Discover color palettes, generate harmonious combinations, copy HEX codes and build your personal color workspace.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -26,14 +26,44 @@
   ],
   "shortcuts": [
     {
+      "name": "Discover palettes",
+      "url": "/discover/",
+      "icons": [
+        {
+          "src": "/assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Palette generator",
+      "url": "/palette-generator/",
+      "icons": [
+        {
+          "src": "/assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
       "name": "Color studio",
       "url": "/studio/",
-      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "My palettes",
       "url": "/palettes/",
-      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/assets/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

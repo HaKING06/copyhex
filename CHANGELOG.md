@@ -2,6 +2,14 @@
 
 ## 1.0.1 — 2026-11-08
 
+- Standardized the visible brand as CopyHex and removed the header/footer version badges.
+- Added 24 original curated color palettes, editable copies and dedicated bilingual detail pages.
+- Added a 3–8-color smart generator with locks, per-column regeneration, four alternatives, undo/redo, reordering and private local image extraction.
+- Added CSS/JSON/SVG/PNG palette exports, share links, UI preview and contrast-pair review.
+- Added 76 localized English/Turkish pages, including 72 indexable pages; added reciprocal hreflang, contextual image indexing and four thematic sitemaps.
+- Added two campaign posters, 24 original SVG/PNG palette pairs and educational SVG artwork.
+- Added five bilingual practical guides and a source-backed product/SEO research report.
+
 - Expanded the catalog to exactly 6,000 unique HEX values with attributed, reproducible source data.
 - Added indexed bilingual search, combined filters, nearest-RGB sorting and pagination.
 - Added persistent light/dark/system appearance with pre-render theme initialization.

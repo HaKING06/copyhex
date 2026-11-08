@@ -7,9 +7,10 @@
     "dev": "node server.mjs",
     "test": "node --test tests/*.test.js",
     "build": "node build.mjs",
-    "catalog": "node scripts/generate-catalog.mjs"
+    "catalog": "node scripts/generate-catalog.mjs",
+    "assets": "node scripts/generate-palette-assets.mjs"
   },
-  "description": "A bilingual color discovery and palette workspace with 6,000 unique colors, live conversion, dark mode and offline PWA support.",
+  "description": "A bilingual color workspace with 6,000 colors, 24 curated palettes, a smart locked-color generator, local image extraction and offline PWA support.",
   "license": "MIT",
   "homepage": "https://copyhex.haking.tr",
   "author": "Halit / CopyHex"

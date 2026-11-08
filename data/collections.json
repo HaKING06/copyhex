@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sage-studio",
+    "name": "Sage Studio",
+    "tr": "Adaçayı Stüdyosu",
+    "category": "nature",
+    "colors": [
+      "#283D3B",
+      "#6E8B74",
+      "#B8C9AE",
+      "#E9E5D6",
+      "#D4A373"
+    ],
+    "description": "A grounded sage and warm ivory palette for calm interfaces, wellness brands and considered editorial layouts.",
+    "descriptionTr": "Sakin arayüzler, iyi yaşam markaları ve editoryal düzenler için adaçayı ve sıcak fildişi."
+  },
+  {
+    "id": "lilac-morning",
+    "name": "Lilac Morning",
+    "tr": "Lila Sabah",
+    "category": "pastel",
+    "colors": [
+      "#51456B",
+      "#9D8AC2",
+      "#CFBDE8",
+      "#E9E0F2",
+      "#F7F1E9"
+    ],
+    "description": "Soft lilac with a deep plum anchor. Use the darkest shade for text and the lightest tones for generous surfaces.",
+    "descriptionTr": "Koyu erik tonuyla dengelenen yumuşak lila. En koyu tonu metin, açık tonları geniş yüzeyler için kullan."
+  },
+  {
+    "id": "coastal-blue",
+    "name": "Coastal Blue",
+    "tr": "Kıyı Mavisi",
+    "category": "nature",
+    "colors": [
+      "#17324D",
+      "#367588",
+      "#83B5B7",
+      "#DAE5DC",
+      "#F4EBD8"
+    ],
+    "description": "An ocean-inspired blue-green color scheme with warm sand neutrals for travel, lifestyle and product storytelling.",
+    "descriptionTr": "Seyahat, yaşam tarzı ve ürün anlatımı için sıcak kum tonlarıyla okyanus esintili mavi-yeşil palet."
+  },
+  {
+    "id": "sunset-market",
+    "name": "Sunset Market",
+    "tr": "Günbatımı Pazarı",
+    "category": "warm",
+    "colors": [
+      "#5E2B40",
+      "#AE4F54",
+      "#E58B73",
+      "#F4BE8E",
+      "#F8E5C8"
+    ],
+    "description": "Warm rose, coral and apricot create an expressive sunset palette for food brands and creative portfolios.",
+    "descriptionTr": "Yemek markaları ve yaratıcı portfolyolar için gül, mercan ve kayısı tonlarından sıcak günbatımı paleti."
+  },
+  {
+    "id": "midnight-product",
+    "name": "Midnight Product",
+    "tr": "Gece Arayüzü",
+    "category": "dark",
+    "colors": [
+      "#111827",
+      "#263248",
+      "#60748F",
+      "#A5B4FC",
+      "#E4E8F3"
+    ],
+    "description": "A dark product palette with an indigo accent and cool gray surfaces. Test text pairs before applying them to small labels.",
+    "descriptionTr": "İndigo vurgu ve soğuk gri yüzeylerle koyu ürün paleti. Küçük etiketlerde kullanmadan önce metin çiftlerini kontrol et."
+  },
+  {
+    "id": "citrus-pop",
+    "name": "Citrus Pop",
+    "tr": "Narenciye Enerjisi",
+    "category": "vibrant",
+    "colors": [
+      "#233D21",
+      "#6A994E",
+      "#B9D85E",
+      "#F2D84B",
+      "#FFF4CD"
+    ],
+    "description": "Zesty yellow and leafy green add energy to fresh food, outdoor and playful product experiences.",
+    "descriptionTr": "Taze gıda, açık hava ve eğlenceli ürün deneyimleri için canlı sarı ve yaprak yeşili."
+  },
+  {
+    "id": "terracotta-house",
+    "name": "Terracotta House",
+    "tr": "Toprak Ev",
+    "category": "earthy",
+    "colors": [
+      "#49382F",
+      "#8F5745",
+      "#BE8064",
+      "#D8B69A",
+      "#EFE4D4"
+    ],
+    "description": "Clay, leather and linen tones make a tactile palette for architecture, interiors and handmade goods.",
+    "descriptionTr": "Mimari, iç mekân ve el yapımı ürünler için kil, deri ve keten tonlarında dokulu bir palet."
+  },
+  {
+    "id": "arctic-interface",
+    "name": "Arctic Interface",
+    "tr": "Kutup Arayüzü",
+    "category": "minimal",
+    "colors": [
+      "#1F3441",
+      "#597789",
+      "#A3BECC",
+      "#D8E4EB",
+      "#F3F7FA"
+    ],
+    "description": "Cool, quiet neutrals support information-heavy interfaces without sacrificing character.",
+    "descriptionTr": "Karakterden ödün vermeden yoğun bilgi içeren arayüzleri destekleyen serin ve sakin nötrler."
+  },
+  {
+    "id": "berry-editorial",
+    "name": "Berry Editorial",
+    "tr": "Orman Meyvesi",
+    "category": "warm",
+    "colors": [
+      "#402438",
+      "#713956",
+      "#AE6786",
+      "#DCA5B9",
+      "#F5E6EB"
+    ],
+    "description": "Layered berry tones bring depth to editorial stories, beauty identities and sophisticated packaging.",
+    "descriptionTr": "Editoryal hikâyeler, güzellik markaları ve ambalajlar için katmanlı orman meyvesi tonları."
+  },
+  {
+    "id": "peach-garden",
+    "name": "Peach Garden",
+    "tr": "Şeftali Bahçesi",
+    "category": "pastel",
+    "colors": [
+      "#5F7367",
+      "#A2B7A5",
+      "#D7DECA",
+      "#F4C6AC",
+      "#FBECE0"
+    ],
+    "description": "Muted garden greens balance delicate peach tones for friendly lifestyle and personal brands.",
+    "descriptionTr": "Dostça yaşam tarzı ve kişisel markalar için narin şeftaliyi dengeleyen yumuşak bahçe yeşilleri."
+  },
+  {
+    "id": "electric-indigo",
+    "name": "Electric Indigo",
+    "tr": "Elektrik İndigo",
+    "category": "vibrant",
+    "colors": [
+      "#191A3B",
+      "#4238A8",
+      "#7664E8",
+      "#B6A4FF",
+      "#EADEF8"
+    ],
+    "description": "A high-energy indigo progression with a light lavender finish for expressive digital products.",
+    "descriptionTr": "Etkileyici dijital ürünler için açık lavantayla sonlanan enerjik indigo geçişi."
+  },
+  {
+    "id": "forest-journal",
+    "name": "Forest Journal",
+    "tr": "Orman Günlüğü",
+    "category": "nature",
+    "colors": [
+      "#1E352D",
+      "#42624F",
+      "#7D9471",
+      "#B8BD92",
+      "#E9E4CB"
+    ],
+    "description": "Deep forest greens and parchment neutrals evoke a slower, outdoor-focused design direction.",
+    "descriptionTr": "Açık hava odaklı sakin tasarımlar için derin orman yeşilleri ve parşömen nötrleri."
+  },
+  {
+    "id": "espresso-cream",
+    "name": "Espresso & Cream",
+    "tr": "Espresso ve Krema",
+    "category": "earthy",
+    "colors": [
+      "#302622",
+      "#655047",
+      "#9B8070",
+      "#CFBAA7",
+      "#F3EADF"
+    ],
+    "description": "Coffee-inspired browns and creamy neutrals for hospitality, craft and understated brand systems.",
+    "descriptionTr": "Konaklama, el sanatları ve sade marka sistemleri için kahveden ilham alan kahverengiler ve kremsi nötrler."
+  },
+  {
+    "id": "coral-reef",
+    "name": "Coral Reef",
+    "tr": "Mercan Resifi",
+    "category": "vibrant",
+    "colors": [
+      "#164653",
+      "#278C95",
+      "#7BC9BC",
+      "#F19C87",
+      "#FBE3CF"
+    ],
+    "description": "A warm-cool contrast pairing coral accents with aquatic teal surfaces.",
+    "descriptionTr": "Mercan vurguları su yeşili yüzeylerle eşleştiren sıcak-soğuk renk dengesi."
+  },
+  {
+    "id": "rosewater",
+    "name": "Rosewater",
+    "tr": "Gül Suyu",
+    "category": "pastel",
+    "colors": [
+      "#6E5663",
+      "#B38B9F",
+      "#DAB9C7",
+      "#EED9DC",
+      "#FBF3ED"
+    ],
+    "description": "A delicate rose palette with soft mauve shadows and an off-white resting point.",
+    "descriptionTr": "Yumuşak leylak gölgeleri ve kırık beyaz denge noktasıyla zarif gül paleti."
+  },
+  {
+    "id": "ink-and-paper",
+    "name": "Ink & Paper",
+    "tr": "Mürekkep ve Kâğıt",
+    "category": "minimal",
+    "colors": [
+      "#222329",
+      "#56575E",
+      "#909198",
+      "#CCCDD2",
+      "#F5F4F0"
+    ],
+    "description": "A neutral foundation for typography-led websites, portfolios and documentation.",
+    "descriptionTr": "Tipografi odaklı siteler, portfolyolar ve dokümantasyon için nötr bir temel."
+  },
+  {
+    "id": "golden-hour",
+    "name": "Golden Hour",
+    "tr": "Altın Saat",
+    "category": "warm",
+    "colors": [
+      "#603A2B",
+      "#AA6236",
+      "#D9954B",
+      "#EFC77C",
+      "#F9EDCA"
+    ],
+    "description": "A golden amber palette that adds welcoming warmth to storytelling and hospitality experiences.",
+    "descriptionTr": "Hikâye anlatımı ve konaklama deneyimlerine sıcaklık katan altın kehribar paleti."
+  },
+  {
+    "id": "night-orchid",
+    "name": "Night Orchid",
+    "tr": "Gece Orkidesi",
+    "category": "dark",
+    "colors": [
+      "#1E192B",
+      "#413052",
+      "#765487",
+      "#B18CB9",
+      "#E3CEE5"
+    ],
+    "description": "Moody orchid and smoky purple support atmospheric dark themes and creative identities.",
+    "descriptionTr": "Atmosferik koyu temalar ve yaratıcı kimlikler için orkide ve dumanlı mor."
+  },
+  {
+    "id": "lagoon-retreat",
+    "name": "Lagoon Retreat",
+    "tr": "Lagün Molası",
+    "category": "nature",
+    "colors": [
+      "#123D40",
+      "#2E7372",
+      "#76ABA2",
+      "#BED4C0",
+      "#EDF1DC"
+    ],
+    "description": "A restful teal-to-cream collection for wellness, nature-led brands and quiet product screens.",
+    "descriptionTr": "İyi yaşam, doğa markaları ve sakin ekranlar için dinlendirici turkuaz-krem koleksiyonu."
+  },
+  {
+    "id": "apricot-cloud",
+    "name": "Apricot Cloud",
+    "tr": "Kayısı Bulutu",
+    "category": "pastel",
+    "colors": [
+      "#80788C",
+      "#B5A8C3",
+      "#DDD0E3",
+      "#F3CAB0",
+      "#FFF0DF"
+    ],
+    "description": "Lavender gray and apricot offer a gentle alternative to standard pink pastel palettes.",
+    "descriptionTr": "Standart pembe pastellere nazik bir alternatif sunan lavanta grisi ve kayısı."
+  },
+  {
+    "id": "royal-cobalt",
+    "name": "Royal Cobalt",
+    "tr": "Kraliyet Kobaltı",
+    "category": "vibrant",
+    "colors": [
+      "#122343",
+      "#234B9B",
+      "#3B78D8",
+      "#87B9EA",
+      "#E3EFF8"
+    ],
+    "description": "Clean cobalt and sky blue create a confident palette for technology and communication brands.",
+    "descriptionTr": "Teknoloji ve iletişim markaları için güven veren kobalt ve gökyüzü mavisi."
+  },
+  {
+    "id": "sandstone",
+    "name": "Sandstone",
+    "tr": "Kumtaşı",
+    "category": "earthy",
+    "colors": [
+      "#4E443A",
+      "#867565",
+      "#B19E85",
+      "#D7C8AD",
+      "#F1E8D5"
+    ],
+    "description": "A warm mineral-neutral scheme suited to architecture, furniture and editorial design.",
+    "descriptionTr": "Mimari, mobilya ve editoryal tasarıma uygun sıcak mineral nötrleri."
+  },
+  {
+    "id": "mint-lab",
+    "name": "Mint Lab",
+    "tr": "Nane Laboratuvarı",
+    "category": "minimal",
+    "colors": [
+      "#243E3A",
+      "#507F70",
+      "#92BD9F",
+      "#CFE5D1",
+      "#F3F8EE"
+    ],
+    "description": "Fresh mint and crisp off-white offer a simple foundation for clear, welcoming interfaces.",
+    "descriptionTr": "Açık ve davetkâr arayüzler için taze nane ve kırık beyazdan sade bir temel."
+  },
+  {
+    "id": "neon-afterglow",
+    "name": "Neon Afterglow",
+    "tr": "Neon Işıltı",
+    "category": "dark",
+    "colors": [
+      "#171629",
+      "#3F2C69",
+      "#8161BA",
+      "#D5B458",
+      "#F3E8B7"
+    ],
+    "description": "A dark violet setting with warm yellow highlights for music, games and creative campaigns.",
+    "descriptionTr": "Müzik, oyun ve yaratıcı kampanyalar için sıcak sarı vurgulu koyu menekşe."
+  }
+]

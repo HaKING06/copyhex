@@ -1,6 +1,6 @@
 # CopyHex
 
-![CopyHex — Find your color. Build your palette.](assets/copyhex-poster.png)
+![CopyHex — Colors that work together.](assets/copyhex-poster.png)
 
 **A focused color workspace for developers, designers and curious makers.**
 
@@ -10,6 +10,11 @@ Version **1.0.1** · MIT licensed · English / Türkçe · No runtime dependenci
 
 ## What you can do
 
+- Discover **24 original curated palettes**, with dedicated detail pages and SVG/PNG references.
+- Customize ready-made palettes and save personal copies.
+- Generate 3–8-color schemes from a seed; lock colors, regenerate one column or the remaining palette, compare four alternatives and undo/redo.
+- Extract a local image palette without uploading the image; preview colors in a UI and check actual text/background pairs.
+- Export working palettes as CSS, JSON, SVG or PNG and share their color/lock state in a link.
 - Explore **6,000 distinct HEX colors**, with duplicate HEX values merged and alternative names searchable.
 - Search English names, Turkish color families/common color words, HEX, RGB or HSL codes.
 - Combine color-family, lightness, saturation and CSS-collection filters. Sort by name, hue, lightness or nearest RGB color; paginate 24/48/96 results.
@@ -56,11 +61,13 @@ Each public page has readable initial HTML, a unique title and description, cano
 
 After publishing, verify domain ownership in **Google Search Console** and submit `https://copyhex.haking.tr/sitemap.xml`. Use URL inspection to request indexing. This requires the owner's account and is not performed by this project. Search engines decide when and how pages appear; ranking or immediate indexing is not guaranteed. Keyword stuffing and hidden search terms are intentionally avoided.
 
-English and Turkish share the same URLs, with browser detection and a stored language preference. There are no separate language URLs or misleading `hreflang` entries.
+English and Turkish now have separate, fully rendered `/en/` and `/tr/` URLs with reciprocal `hreflang` and self-canonical metadata. Explicit locale URLs display that language; the root entry still uses the saved preference or browser language. The sitemap index references four maps: public tools, curated palette pages, editorial guides and actual page images.
+
+There are **76 localized entry pages**: 72 indexable public pages and four private-workspace entries marked noindex. Each of the 24 palettes has an original name, colors, use notes, a customization link and a genuine SVG/PNG preview. Five bilingual practical guides add substantive use information. Pages are internally linked and can be read without JavaScript; interactive tools require JavaScript. No invented rating or ranking claim is included.
 
 ## Data, privacy and limits
 
-Palettes, favorites, recent colors, selected color, language and theme are stored under the existing `copyhex-v1` localStorage key, preserving 1.0.0 collections. JSON backups keep the compatible `version: 1` data format; application version is independently **1.0.1**.
+Palettes, favorites, recent colors, selected color, language and theme are stored under the existing `copyhex-v1` localStorage key, preserving 1.0.0 collections. The generator keeps its latest working draft separately under `copyhex-generator-v1`. It is not part of the full collection backup until saved as a project palette. JSON backups keep the compatible `version: 1` data format; application version is independently **1.0.1**.
 
 There is **no account, cloud database or cross-device sync**. Export JSON before clearing browser data or moving devices. Offline caches are separate from saved palettes. The hosting provider may retain request logs under its own policies. The application includes no analytics or advertising trackers.
 
@@ -100,7 +107,7 @@ tests/                                 Node test suite
 
 ## Contributing & licensing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) and [SECURITY.md](SECURITY.md). Project code is [MIT licensed](LICENSE); preserve the separate upstream data notice when redistributing the catalog. The CopyHex poster was generated with OpenAI ImageGen and reviewed for the correct brand/domain. The existing vector logo is reused for application icons.
+See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) and [SECURITY.md](SECURITY.md). Project code is [MIT licensed](LICENSE); preserve the separate upstream data notice when redistributing the catalog. Two CopyHex campaign posters were generated with OpenAI ImageGen and reviewed for correct CopyHex capitalization and domain. The 24 palette preview pairs and educational SVG diagrams are generated from project color data and original code. The existing vector logo is reused for application icons.
 
 ---
 
@@ -113,3 +120,24 @@ Türkçe tarayıcıda ilk açılış Türkçe; diğer tarayıcı dillerinde İng
 Çalıştırmak için `npm run dev`, test için `npm test`, yayın çıktısı için `npm run build`. Cloudflare Pages çıktı klasörü `dist` olmalıdır. Ana adres **https://copyhex.haking.tr**, destek **copyhex@haking.tr**.
 
 Kayıtlar tarayıcıdadır. Cihaz değiştirmeden önce JSON yedeğini indir. GitHub push, Cloudflare domain bağlantısı ve Search Console doğrulaması depo sahibinin kontrolündedir.
+
+
+## Palette workspace and search structure
+
+- `/en/discover/` / `/tr/discover/`: curated palettes, mood filters and search.
+- `/en/palette-generator/` / `/tr/palette-generator/`: local smart generator, locks, image extraction, exports and design preview.
+- `/{locale}/collections/{slug}/`: 24 reusable palette directions, each with a PNG and SVG.
+- `/{locale}/resources/` and `/{locale}/learn/{slug}/`: bilingual practical guides and artwork.
+- `/sitemap.xml`: sitemap index; `/sitemaps/pages.xml`, `palettes.xml`, `guides.xml`, `images.xml` hold the actual entries.
+
+New modules: `js/collections.js`, `js/discovery.js`, `js/palette-engine.js`, `js/generator.js`, `js/resources.js`, `js/seo.js`. New styles live in `css/workspace.css`.
+
+`npm run assets` regenerates the palette SVG files and JSON data from the authored collection. The committed PNG previews can be recreated with `python scripts/render-palette-previews.py` when Python/Pillow are installed; this optional authoring step is not required to build or deploy. No image-generation API runs in production.
+
+Research and the implementation rationale: [docs/research-2026-11-08.md](docs/research-2026-11-08.md).
+
+The smart generator is a local harmony engine, not an external AI service. It does not promise objectively perfect combinations or automatic accessibility. Share links contain colors, locks, mode and mood; they do not include private notes. All-locked palettes remain unchanged. Shrinking the palette cannot discard a locked trailing color until it is unlocked.
+
+### Artwork prompts
+
+OpenAI ImageGen was used in built-in mode for `assets/copyhex-palette-discovery.png`: premium dark editorial launch banner, exact brand **CopyHex**, headline **Colors that work together.**, domain **copyhex.haking.tr**, and sage/ivory/spruce/gold/terracotta swatch cards. `assets/copyhex-smart-palette-generator.png`: exact **CopyHex**, **One color. Endless palettes.**, **copyhex.haking.tr**, with one lilac swatch branching into three harmonious palette options. No version number is displayed in either banner. The first poster is also used as the default `copyhex-poster.png` alias.

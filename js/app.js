@@ -5,6 +5,11 @@ import { groups, indexColors, filterColors } from "./catalog.js";
 import { studioPage, bindStudio } from "./studio.js";
 import { infoPage } from "./info-pages.js";
 import { installApp, registerApp } from "./pwa.js";
+import { collections } from "./collections.js";
+import { discoveryPage, bindDiscovery, collectionPage } from "./discovery.js";
+import { generatorPage, bindGenerator } from "./generator.js";
+import { articlePage, resourcesPage } from "./resources.js";
+import { pageMetadata, localizedPath, siteUrl } from "./seo.js";
 const $ = (s) => document.querySelector(s),
   esc = (s) =>
     String(s).replace(
@@ -22,11 +27,16 @@ let stored = {};
 try {
   stored = JSON.parse(localStorage.getItem("copyhex-v1") || "{}") || {};
 } catch {}
-let lang = ["en", "tr"].includes(stored.lang)
-  ? stored.lang
-  : navigator.language.toLowerCase().startsWith("tr")
-    ? "tr"
-    : "en";
+const explicitLocale = ["en", "tr"].includes(location.pathname.split("/")[1])
+  ? location.pathname.split("/")[1]
+  : null;
+let lang =
+  explicitLocale ||
+  (["en", "tr"].includes(stored.lang)
+    ? stored.lang
+    : navigator.language.toLowerCase().startsWith("tr")
+      ? "tr"
+      : "en");
 let favorites = Array.isArray(stored.favorites)
     ? [
         ...new Set(
@@ -40,17 +50,43 @@ let favorites = Array.isArray(stored.favorites)
         colors: [...new Set(p.colors.map((h) => h.toUpperCase()))],
       }))
     : [];
-const routes = ["explore", "studio", "favorites", "palettes", "about", "guide"];
-const routeHref = (v) => (v === "explore" ? "/" : `/${v}/`);
-const getView = () => {
-  const legacy = location.hash.slice(1),
-    path = location.pathname.split("/").filter(Boolean)[0] || "explore";
-  return routes.includes(legacy)
-    ? legacy
-    : routes.includes(path)
-      ? path
-      : "explore";
+const routes = [
+  "explore",
+  "discover",
+  "generator",
+  "collection",
+  "article",
+  "resources",
+  "studio",
+  "favorites",
+  "palettes",
+  "about",
+  "guide",
+];
+const routeKey = (pathname) => {
+  const parts = pathname.split("/").filter(Boolean);
+  if (["en", "tr"].includes(parts[0])) parts.shift();
+  return parts[0] === "palette-generator"
+    ? "generator"
+    : parts[0] === "collections"
+      ? "collection"
+      : parts[0] === "learn"
+        ? "article"
+        : parts[0] || "explore";
 };
+const collectionId = () => location.pathname.split("/").filter(Boolean).at(-1);
+const routeHref = (v) =>
+  localizedPath(
+    v,
+    lang,
+    ["collection", "article"].includes(v) ? collectionId() : "",
+  );
+const getView = () =>
+  routes.includes(location.hash.slice(1))
+    ? location.hash.slice(1)
+    : routes.includes(routeKey(location.pathname))
+      ? routeKey(location.pathname)
+      : "explore";
 let view = getView(),
   query = "",
   category = "all",
@@ -71,6 +107,7 @@ let brightness = "any",
   page = 1,
   pageSize = 48;
 let pendingUpdate = null;
+let cleanupView = null;
 const indexed = indexColors(colors),
   byHex = new Map(colors.map((c) => [c.hex, c]));
 const t = (k) => messages[lang][k] || k;
@@ -128,36 +165,68 @@ function card(c, paletteId = "") {
   return `<article class="color-card"><button class="swatch" style="--swatch:${c.hex}" data-detail="${c.hex}" aria-label="${t("detail")}: ${esc(c.name)}"><span>${t("detail")} ↗</span></button><div class="card-info"><div><strong>${esc(c.name.replace(/([a-z])([A-Z])/g, "$1 $2"))}</strong><button class="heart ${favorites.includes(c.hex) ? "active" : ""}" data-fav="${c.hex}" aria-label="${t("favorite")}" aria-pressed="${favorites.includes(c.hex)}">${favorites.includes(c.hex) ? "♥" : "♡"}</button></div><button class="code" data-copy="${c.hex}">${format(c.hex, copyFormat)} <span>⧉</span></button><div class="card-bottom"><span>${groups[c.cat] ? t(groups[c.cat]) : t("custom")}</span><button data-save="${c.hex}" aria-label="${t("save")}">＋ ${t("save")}</button>${paletteId ? `<button data-remove="${c.hex}" data-palette="${esc(paletteId)}" aria-label="${t("deleteColor")}">×</button>` : ""}</div></div></article>`;
 }
 function render() {
+  cleanupView?.();
+  cleanupView = null;
   applyTheme();
   updateMetadata();
   document.documentElement.lang = lang;
-  document.title =
-    "CopyHex — " +
-    t(view === "explore" ? "explore" : view) +
-    " | HEX, RGB & Color Palettes";
-  document.querySelector('link[rel="canonical"]').href =
-    "https://copyhex.haking.tr" + routeHref(view);
   $("#app").innerHTML =
-    `<a class="skip-link" href="#main-content">${lang === "tr" ? "İçeriğe geç" : "Skip to content"}</a><header><a href="/" class="brand"><img src="/assets/logo.svg" alt="" width="38" height="38">copyhex <span class="version-chip">1.0.1</span></a><nav aria-label="${lang === "tr" ? "Ana menü" : "Main navigation"}">${["explore", "studio", "favorites", "palettes"].map((v) => `<a class="${view === v ? "current" : ""}" href="${routeHref(v)}" ${view === v ? 'aria-current="page"' : ""}>${t(v)}${v === "favorites" ? ` <small>${favorites.length}</small>` : ""}</a>`).join("")}</nav><div class="header-tools"><a href="/guide/" class="help-link">${t("help")}</a><button id="install-app" class="icon-button" aria-label="${t("install")}" title="${t("install")}">↓</button><select id="theme" aria-label="${t("theme")}">${["system", "light", "dark"].map((v) => `<option value="${v}" ${theme === v ? "selected" : ""}>${v === "system" ? "◐ " + t("system") : v === "dark" ? "☾ " + t("darkTheme") : "☀ " + t("lightTheme")}</option>`).join("")}</select><label class="language"><select id="language" aria-label="Language / Dil"><option value="en" ${lang === "en" ? "selected" : ""}>EN</option><option value="tr" ${lang === "tr" ? "selected" : ""}>TR</option></select></label></div></header><div id="connection" class="connection" ${navigator.onLine ? "hidden" : ""}>${t("offline")}</div><div id="update-banner" class="update-banner" hidden></div><main id="main-content">${view === "explore" ? explore() : view === "favorites" ? favoritePage() : view === "palettes" ? palettePage() : view === "studio" ? studioPage(t, selected) : infoPage(view, lang, colors.length)}</main><footer><div><a class="brand" href="/"><img src="/assets/logo.svg" alt="" width="26" height="26">copyhex</a><p>${t("made")}</p><small>${t("privacy")} · v1.0.1</small></div><div class="footer-links"><a href="/studio/">${t("studio")}</a><a href="/guide/">${t("guide")}</a><a href="/about/">${t("about")}</a><a href="mailto:copyhex@haking.tr">${t("contact")} ↗</a></div></footer>`;
+    `<a class="skip-link" href="#main-content">${lang === "tr" ? "İçeriğe geç" : "Skip to content"}</a><header><a href="${routeHref("explore")}" class="brand"><img src="/assets/logo.svg" alt="" width="38" height="38">CopyHex</a><nav aria-label="${lang === "tr" ? "Ana menü" : "Main navigation"}">${["explore", "discover", "generator", "studio", "palettes"].map((v) => `<a class="${view === v || (v === "discover" && view === "collection") ? "current" : ""}" href="${routeHref(v)}" ${view === v ? 'aria-current="page"' : ""}>${t(v === "explore" ? "colorsNav" : v)}${v === "favorites" ? ` <small>${favorites.length}</small>` : ""}</a>`).join("")}</nav><div class="header-tools"><a class="favorites-link" href="${routeHref("favorites")}" aria-label="${t("favorites")}" title="${t("favorites")}">♡ <small>${favorites.length}</small></a><a href="${routeHref("guide")}" class="help-link">${t("help")}</a><button id="install-app" class="icon-button" aria-label="${t("install")}" title="${t("install")}">↓</button><select id="theme" aria-label="${t("theme")}">${["system", "light", "dark"].map((v) => `<option value="${v}" ${theme === v ? "selected" : ""}>${v === "system" ? "◐ " + t("system") : v === "dark" ? "☾ " + t("darkTheme") : "☀ " + t("lightTheme")}</option>`).join("")}</select><label class="language"><select id="language" aria-label="Language / Dil"><option value="en" ${lang === "en" ? "selected" : ""}>EN</option><option value="tr" ${lang === "tr" ? "selected" : ""}>TR</option></select></label></div></header><div id="connection" class="connection" ${navigator.onLine ? "hidden" : ""}>${t("offline")}</div><div id="update-banner" class="update-banner" hidden></div><main id="main-content">${view === "resources" ? resourcesPage(t, lang) : view === "article" ? articlePage(collectionId(), t, lang) : view === "discover" ? discoveryPage(t, lang) : view === "generator" ? generatorPage(t) : view === "collection" ? collectionPage(collectionId(), t, lang) : view === "explore" ? explore() : view === "favorites" ? favoritePage() : view === "palettes" ? palettePage() : view === "studio" ? studioPage(t, selected) : infoPage(view, lang, colors.length)}</main><footer><div><a class="brand" href="${routeHref("explore")}"><img src="/assets/logo.svg" alt="" width="26" height="26">CopyHex</a><p>${t("made")}</p><small>${t("privacy")}</small></div><div class="footer-links"><a href="${routeHref("resources")}">${t("resources")}</a><a href="${routeHref("discover")}">${t("discover")}</a><a href="${routeHref("generator")}">${t("generator")}</a><a href="${routeHref("studio")}">${t("studio")}</a><a href="${routeHref("guide")}">${t("guide")}</a><a href="${routeHref("about")}">${t("about")}</a><a href="mailto:copyhex@haking.tr">${t("contact")} ↗</a></div></footer>`;
   bind();
   showUpdateBanner();
 }
 function updateMetadata() {
-  const desc =
-    lang === "tr"
-      ? "CopyHex ile 6.000 özgün rengi keşfet, HEX, RGB ve HSL renk kodlarını kopyala. Renk seçici, proje paletleri ve kontrast kontrolü."
-      : "Explore 6,000 unique colors with CopyHex. Copy HEX, RGB and HSL color codes, create project palettes and check contrast.";
-  document.querySelector('meta[name="description"]').content = desc;
-  for (const key of ["og:description"])
-    document.querySelector(`meta[property="${key}"]`).content = desc;
-  document.querySelector('meta[property="og:url"]').content =
-    "https://copyhex.haking.tr" + routeHref(view);
-  document.querySelector('meta[name="robots"]').content = [
-    "favorites",
-    "palettes",
-  ].includes(view)
-    ? "noindex,follow"
-    : "index,follow";
+  const meta = pageMetadata(view, lang, collectionId());
+  document.title = meta.title;
+  const set = (selector, value) => {
+    const element = document.querySelector(selector);
+    if (element) element.content = value;
+  };
+  set('meta[name="description"]', meta.description);
+  set('meta[property="og:description"]', meta.description);
+  set('meta[property="og:title"]', meta.title);
+  set('meta[property="og:url"]', siteUrl + meta.path);
+  set(
+    'meta[property="og:image"]',
+    siteUrl +
+      (meta.image.endsWith(".svg")
+        ? "/assets/copyhex-palette-discovery.png"
+        : meta.image),
+  );
+  set('meta[property="og:image:alt"]', meta.imageAlt);
+  set('meta[name="twitter:title"]', meta.title);
+  set('meta[name="twitter:description"]', meta.description);
+  set(
+    'meta[name="twitter:image"]',
+    siteUrl +
+      (meta.image.endsWith(".svg")
+        ? "/assets/copyhex-palette-discovery.png"
+        : meta.image),
+  );
+  set('meta[name="robots"]', meta.noindex ? "noindex,follow" : "index,follow");
+  document.querySelector('link[rel="canonical"]').href = siteUrl + meta.path;
+  const xDefault = document.querySelector('link[hreflang="x-default"]');
+  if (xDefault)
+    xDefault.href =
+      view === "explore"
+        ? siteUrl + "/"
+        : siteUrl +
+          localizedPath(
+            view,
+            "en",
+            ["collection", "article"].includes(view) ? collectionId() : "",
+          );
+  for (const locale of ["en", "tr"]) {
+    const el = document.querySelector(`link[hreflang="${locale}"]`);
+    if (el)
+      el.href =
+        siteUrl +
+        localizedPath(
+          view,
+          locale,
+          ["collection", "article"].includes(view) ? collectionId() : "",
+        );
+  }
 }
 function applyTheme() {
   const resolved =
@@ -188,7 +257,7 @@ function controls() {
   return `<div class="controls"><label>${t("format")} <select id="format">${["HEX", "RGB", "HSL", "CMYK"].map((v) => `<option ${copyFormat === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>${t("sort")} <select id="sort">${["curated", "name", "hue", "light", "dark", ...(view === "explore" ? ["nearest"] : [])].map((v) => `<option value="${v}" ${sort === v ? "selected" : ""}>${t(v)}</option>`).join("")}</select></label></div>`;
 }
 function explore() {
-  return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><i></i> ${t("eyebrow")}</p><h1>${t("title")}</h1><p class="intro">${t("intro")}</p><p class="hero-stats">${t("homeStats")}</p><a class="button-link primary hero-cta" href="/studio/">${t("studioCTA")} ↗</a></div><div class="hero-art" aria-hidden="true"><div style="background:#b6c9b0">01<br><b>Sage</b></div><div style="background:#d8c7f0">02<br><b>Lilac</b></div><div style="background:#f1ad92">03<br><b>Peach</b></div><div style="background:#f0df95">04<br><b>Butter</b></div><span>THE POSSIBILITIES ARE ENDLESS ↗</span></div></section><section class="search-area"><label class="search"><span>⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label><button class="studio-button" id="studio">◉ ${t("studio")}</button></section><p class="search-tip">${t("tip")}</p><div class="filters">${["all", "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "neutral"].map((g) => `<button data-category="${g}" class="${category === g ? "selected" : ""}">${g === "all" ? "" : `<i class="dot ${g}"></i>`}${t(g)}</button>`).join("")}</div>${advancedFilters()}<section class="library"><div class="section-head"><div><h2>${t("library")} <span id="count"></span></h2><p>${t("librarySub")}</p></div>${controls()}</div><div class="grid" id="grid"></div><div id="pagination" class="pagination" aria-label="Pagination"></div></section><section class="studio-banner"><span class="banner-icon">✳</span><div><h2>${t("pick")}</h2><p>${t("pickSub")}</p></div><button id="studio-bottom">${t("open")} ↗</button></section>`;
+  return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><i></i> ${t("eyebrow")}</p><h1>${t("title")}</h1><p class="intro">${t("intro")}</p><p class="hero-stats">${t("homeStats")}</p><a class="button-link primary hero-cta" href="${routeHref("studio")}">${t("studioCTA")} ↗</a></div><div class="hero-art" aria-hidden="true"><div style="background:#b6c9b0">01<br><b>Sage</b></div><div style="background:#d8c7f0">02<br><b>Lilac</b></div><div style="background:#f1ad92">03<br><b>Peach</b></div><div style="background:#f0df95">04<br><b>Butter</b></div><span>THE POSSIBILITIES ARE ENDLESS ↗</span></div></section><section class="home-directions"><a href="${routeHref("discover")}"><b>${t("discover")} ↗</b><span>${lang === "tr" ? "24 düzenlenebilir renk yönü" : "24 editable color directions"}</span><div>${collections[0].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a><a href="${routeHref("generator")}"><b>${t("generator")} ↗</b><span>${lang === "tr" ? "Kilitle. Yeniden üret. Kendine uyarla." : "Lock. Regenerate. Make it yours."}</span><div>${collections[1].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a></section><section class="search-area"><label class="search"><span>⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label><button class="studio-button" id="studio">◉ ${t("studio")}</button></section><p class="search-tip">${t("tip")}</p><div class="filters">${["all", "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "neutral"].map((g) => `<button data-category="${g}" class="${category === g ? "selected" : ""}">${g === "all" ? "" : `<i class="dot ${g}"></i>`}${t(g)}</button>`).join("")}</div>${advancedFilters()}<section class="library"><div class="section-head"><div><h2>${t("library")} <span id="count"></span></h2><p>${t("librarySub")}</p></div>${controls()}</div><div class="grid" id="grid"></div><div id="pagination" class="pagination" aria-label="Pagination"></div></section><section class="studio-banner"><span class="banner-icon">✳</span><div><h2>${t("pick")}</h2><p>${t("pickSub")}</p></div><button id="studio-bottom">${t("open")} ↗</button></section>`;
 }
 function advancedFilters() {
   return `<div class="advanced-filters"><div><b>${t("filterSummary")}</b><small>${t("resultsHint")}</small></div>${[
@@ -269,7 +338,7 @@ function favoritePage() {
   }</div>`;
 }
 function palettePage() {
-  return `<section class="page-head"><p class="eyebrow">${t("palettes")}</p><h1>${t("paletteTitle")}</h1><p>${t("paletteIntro")}</p></section><div class="palette-toolbar"><button class="primary" id="new-palette">＋ ${t("new")}</button><button id="backup">↓ ${t("backup")}</button><label class="file-button">↑ ${t("import")}<input id="import" type="file" accept="application/json,.json"></label></div><p class="muted">${t("local")}</p><div class="palette-list">${palettes.length ? palettes.map((p) => `<article class="palette"><div class="palette-top"><div><h2>${esc(p.name)}</h2><p>${esc(p.note)}</p><small>${p.colors.length} ${t("count")}</small></div><div class="palette-actions"><button data-edit="${esc(p.id)}">${t("rename")}</button><button data-export="${esc(p.id)}">${t("export")}</button><button data-delete="${esc(p.id)}" class="danger">${t("delete")}</button></div></div><div class="grid">${p.colors.length ? p.colors.map((hex) => card({ hex, name: colorName(hex), cat: "" }, p.id)).join("") : `<p class="muted">${t("emptyPalette")}</p>`}</div></article>`).join("") : empty(t("noPalettes"), t("noPalettesSub"))}</div>`;
+  return `<section class="page-head"><p class="eyebrow">${t("palettes")}</p><h1>${t("paletteTitle")}</h1><p>${t("paletteIntro")}</p></section><div class="palette-toolbar"><button class="primary" id="new-palette">＋ ${t("new")}</button><button id="backup">↓ ${t("backup")}</button><label class="file-button">↑ ${t("import")}<input id="import" type="file" accept="application/json,.json"></label></div><p class="muted">${t("local")}</p><div class="palette-list">${palettes.length ? palettes.map((p) => `<article class="palette"><div class="palette-top"><div><h2>${esc(p.name)}</h2><p>${esc(p.note)}</p><small>${p.colors.length} ${t("count")}</small></div><div class="palette-actions"><a class="button-link" href="${routeHref("generator")}?colors=${p.colors.map((h) => h.slice(1)).join("-")}&locked=${p.colors.map(() => 0).join("")}">${t("editPalette")}</a><button data-edit="${esc(p.id)}">${t("rename")}</button><button data-export="${esc(p.id)}">${t("export")}</button><button data-delete="${esc(p.id)}" class="danger">${t("delete")}</button></div></div><div class="grid">${p.colors.length ? p.colors.map((hex) => card({ hex, name: colorName(hex), cat: "" }, p.id)).join("") : `<p class="muted">${t("emptyPalette")}</p>`}</div></article>`).join("") : empty(t("noPalettes"), t("noPalettesSub"))}</div>`;
 }
 function modal(html) {
   const d = $("#dialog");
@@ -301,7 +370,7 @@ function toggleFav(hex) {
 function paletteForm(id = null, hex = null, suggested = "") {
   const p = palettes.find((p) => p.id === id);
   modal(
-    `<div class="dialog-content"><h2>${t(p ? "rename" : "new")}</h2><form id="palette-form"><label>${t("paletteName")}<input name="name" maxlength="100" required value="${esc(p?.name || suggested)}" autofocus></label><label>${t("note")}<textarea name="note" maxlength="1000" rows="3">${esc(p?.note || "")}</textarea></label><button class="primary" type="submit">${t(p ? "saved" : "create")}</button></form></div>`,
+    `<div class="dialog-content"><h2>${t(p ? "rename" : "new")}</h2><form id="palette-form"><label>${t("paletteName")}<input name="name" maxlength="100" required value="${esc(p?.name || suggested)}" autofocus></label><label>${t("note")}<textarea name="note" maxlength="1000" rows="3">${esc(p?.note || "")}</textarea></label><button class="primary" type="submit">${t(p ? "saveChanges" : "create")}</button></form></div>`,
   );
   $("#palette-form").onsubmit = (e) => {
     e.preventDefault();
@@ -353,6 +422,17 @@ function studio(hex = selected) {
   navigate("studio");
 }
 function bind() {
+  if (view === "discover") bindDiscovery(t, lang);
+  if (view === "generator")
+    cleanupView = bindGenerator({
+      t,
+      lang,
+      onSave: (hexes, name) => paletteForm(null, hexes, name),
+      copy,
+      download,
+      toast,
+    });
+
   $("#theme").onchange = (e) => {
     theme = e.target.value;
     persist();
@@ -361,7 +441,7 @@ function bind() {
   $("#install-app").onclick = () =>
     installApp((installed) =>
       modal(
-        `<div class="dialog-content"><h2>${t("installTitle")}</h2><p>${t(installed ? "installed" : "installInfo")}</p><p class="muted">${t("installManual")}</p><a href="/guide/">${t("readGuide")} →</a></div>`,
+        `<div class="dialog-content"><h2>${t("installTitle")}</h2><p>${t(installed ? "installed" : "installInfo")}</p><p class="muted">${t("installManual")}</p><a href="${routeHref("guide")}">${t("readGuide")} →</a></div>`,
       ),
     );
   if (view === "studio")
@@ -375,7 +455,9 @@ function bind() {
           ? favorites.filter((h) => h !== hex)
           : [...favorites, hex];
         persist();
-        const count = document.querySelector('nav a[href="/favorites/"] small');
+        const count = document.querySelector(
+          'nav a[href$="/favorites/"] small, .favorites-link small',
+        );
         if (count) count.textContent = favorites.length;
       },
       isFavorite: (hex) => favorites.includes(hex),
@@ -387,6 +469,7 @@ function bind() {
   $("#language").onchange = (e) => {
     lang = e.target.value;
     persist();
+    history.replaceState({}, "", routeHref(view) + location.search);
     render();
   };
   if (view === "explore") {
@@ -466,6 +549,11 @@ document.addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
   const d = b.dataset;
+  if (d.collectionSave) {
+    const p = collections.find((p) => p.id === d.collectionSave);
+    if (p) paletteForm(null, [...p.colors], lang === "tr" ? p.tr : p.name);
+  }
+
   if (d.category) {
     category = d.category;
     page = 1;
@@ -524,18 +612,28 @@ document.addEventListener("click", (e) => {
     return;
   const url = new URL(a.href);
   if (url.origin !== location.origin || url.hash) return;
-  const v = url.pathname.split("/").filter(Boolean)[0] || "explore";
+  const v = routeKey(url.pathname);
   if (routes.includes(v)) {
     e.preventDefault();
     $("#dialog").close();
     history.pushState({}, "", url.pathname + url.search);
     view = v;
+    const locale = url.pathname.split("/")[1];
+    if (["en", "tr"].includes(locale)) {
+      lang = locale;
+      persist();
+    }
     selected = parseColor(url.searchParams.get("color") || "") || selected;
     render();
     window.scrollTo(0, 0);
   }
 });
 window.addEventListener("popstate", () => {
+  const locale = location.pathname.split("/")[1];
+  if (["en", "tr"].includes(locale)) {
+    lang = locale;
+    persist();
+  }
   view = getView();
   selected =
     parseColor(new URLSearchParams(location.search).get("color") || "") ||

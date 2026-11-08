@@ -11,6 +11,12 @@ const dirs = [
   "favorites",
   "palettes",
   "licenses",
+  "en",
+  "tr",
+  "discover",
+  "palette-generator",
+  "resources",
+  "sitemaps",
 ];
 const files = [
   "index.html",
@@ -23,20 +29,33 @@ const files = [
 await mkdir("dist", { recursive: true });
 for (const item of [...dirs, ...files])
   await cp(item, `dist/${item}`, { recursive: true });
+const pages = JSON.parse(await readFile("data/page-manifest.json", "utf8"));
 const assets = [
-  "/",
-  "/studio/",
-  "/about/",
-  "/guide/",
-  "/favorites/",
-  "/palettes/",
-  "/manifest.webmanifest",
-  "/LICENSE",
-  "/licenses/color-names-MIT.txt",
+  ...new Set([
+    "/",
+    "/studio/",
+    "/about/",
+    "/guide/",
+    "/favorites/",
+    "/palettes/",
+    "/discover/",
+    "/palette-generator/",
+    "/resources/",
+    "/manifest.webmanifest",
+    "/LICENSE",
+    "/licenses/color-names-MIT.txt",
+    ...pages.map((p) => p.path),
+  ]),
 ];
-for (const dir of ["js", "css", "assets"])
-  for (const file of await readdir(dir))
-    if (!file.includes("poster")) assets.push(`/${dir}/${file}`);
+async function includeAssets(dir) {
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const file = dir + "/" + entry.name;
+    if (entry.isDirectory()) await includeAssets(file);
+    else if (!file.endsWith(".png") || entry.name.startsWith("icon-"))
+      assets.push("/" + file);
+  }
+}
+for (const dir of ["js", "css", "assets"]) await includeAssets(dir);
 const hash = createHash("sha256");
 for (const asset of assets)
   hash.update(
@@ -59,7 +78,7 @@ self.addEventListener('fetch',event=>{
       const saved=await cache.match(url.pathname);
       if(saved)return saved;
     }
-    try{return await fetch(event.request);}
+    try{const response=await fetch(event.request);if(response.ok&&url.pathname.startsWith('/assets/')){const copy=response.clone();event.waitUntil(cache.put(url.pathname,copy));}return response;}
     catch{return await cache.match(event.request)||await cache.match(url.pathname)||(event.request.mode==='navigate'?await cache.match('/'):Response.error());}
   })());
 });

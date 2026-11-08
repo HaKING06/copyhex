@@ -1,25 +1,76 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile, access } from "node:fs/promises";
-const read = (path) => readFile(new URL("../" + path, import.meta.url), "utf8");
-test("public entry documents have unique canonical URLs and readable initial content", async () => {
-  for (const slug of ["", "studio/", "about/", "guide/"]) {
-    const html = await read(slug + "index.html");
-    assert.ok(html.includes(`href="https://copyhex.haking.tr/${slug}"`));
+const root = new URL("../", import.meta.url);
+const read = (path) => readFile(new URL(path, root), "utf8");
+const pages = JSON.parse(await read("data/page-manifest.json"));
+test("every localized page has unique canonical, language alternates and readable initial content", async () => {
+  assert.equal(pages.length, 76);
+  assert.equal(new Set(pages.map((p) => p.path)).size, 76);
+  for (const p of pages) {
+    const html = await read(p.file);
+    assert.ok(
+      html.includes(
+        `rel="canonical" href="https://copyhex.haking.tr${p.path}"`,
+      ),
+      p.path,
+    );
+    assert.ok(html.includes(`<html lang="${p.lang}">`), p.path);
     assert.match(html, /<h1>/);
+    assert.match(html, /hreflang="en"/);
+    assert.match(html, /hreflang="tr"/);
     assert.match(html, /<meta property="og:image"/);
     assert.match(html, /<script type="application\/ld\+json">/);
     assert.ok(!html.includes("cophex"));
+    assert.ok(!html.includes("version-chip"));
+    if (p.noindex) assert.match(html, /noindex,follow/);
   }
-  for (const slug of ["favorites/", "palettes/"])
-    assert.match(await read(slug + "index.html"), /noindex,follow/);
 });
-test("manifest icons exist and version stays consistent", async () => {
+test("all internal links and image sources in generated content resolve to real files", async () => {
+  for (const p of pages) {
+    const html = await read(p.file);
+    for (const match of html.matchAll(/(?:href|src)="(\/[^"#]*)"/g)) {
+      const path = decodeURIComponent(match[1].split("?")[0]);
+      await access(
+        new URL("." + (path.endsWith("/") ? path + "index.html" : path), root),
+      );
+    }
+  }
+});
+test("sitemap index separates pages, palettes, guides and actual page images", async () => {
+  const index = await read("sitemap.xml");
+  assert.match(index, /<sitemapindex /);
+  for (const kind of ["pages", "palettes", "guides", "images"])
+    assert.ok(index.includes(`/sitemaps/${kind}.xml`));
+  const urls = [];
+  for (const kind of ["pages", "palettes", "guides"]) {
+    const xml = await read(`sitemaps/${kind}.xml`);
+    assert.match(xml, /xmlns:xhtml=/);
+    for (const match of xml.matchAll(
+      /<loc>https:\/\/copyhex.haking.tr([^<]+)<\/loc>/g,
+    ))
+      urls.push(match[1]);
+  }
+  assert.equal(urls.length, 72);
+  assert.equal(new Set(urls).size, 72);
+  assert.ok(
+    urls.every(
+      (url) => !url.endsWith("/favorites/") && !url.endsWith("/palettes/"),
+    ),
+  );
+  const images = await read("sitemaps/images.xml");
+  assert.match(images, /xmlns:image=/);
+  for (const m of images.matchAll(
+    /<image:loc>https:\/\/copyhex.haking.tr([^<]+)<\/image:loc>/g,
+  ))
+    await access(new URL("." + m[1], root));
+});
+test("manifest icons and project license are present", async () => {
   const manifest = JSON.parse(await read("manifest.webmanifest"));
   assert.equal(manifest.start_url, "/");
   assert.equal(manifest.display, "standalone");
   for (const icon of manifest.icons)
-    await access(new URL(".." + icon.src, import.meta.url));
+    await access(new URL("." + icon.src, root));
   assert.equal(JSON.parse(await read("package.json")).version, "1.0.1");
   assert.match(await read("LICENSE"), /MIT License/);
   assert.match(await read("licenses/color-names-MIT.txt"), /David Aerne/);
