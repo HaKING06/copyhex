@@ -78,3 +78,18 @@ test("manifest icons and project license are present", async () => {
   assert.match(await read("LICENSE"), /MIT License/);
   assert.match(await read("licenses/color-names-MIT.txt"), /David Aerne/);
 });
+
+test("navigation has one grouped tools entry and localized theme controls", async () => {
+  const { navigation } = await import("../js/navigation.js");
+  const { messages } = await import("../js/i18n.js");
+  const { localeCodes } = await import("../js/locales.js");
+  for (const lang of localeCodes) {
+    const t = (k) => messages[lang][k],
+      html = navigation(t, lang, "brand");
+    assert.equal((html.match(/theme-builder\//g) || []).length, 1);
+    assert.equal((html.match(/\/studio\//g) || []).length, 1);
+    assert.match(html, /<details /);
+    assert.ok(html.includes(t("toolsMenu")));
+    assert.ok(!html.includes("undefined"));
+  }
+});

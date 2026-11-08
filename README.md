@@ -6,10 +6,12 @@
 
 [Website](https://copyhex.haking.tr) · [Color studio](https://copyhex.haking.tr/studio/) · [Guide](https://copyhex.haking.tr/guide/) · [Support](mailto:copyhex@haking.tr)
 
-Version **1.0.3** · MIT licensed · 12 languages · No runtime dependencies
+Version **1.0.5** · MIT licensed · 12 languages · No runtime dependencies
 
 ## What you can do
 
+- Use a single grouped tools menu with keyboard and mobile support.
+- Customize brand name, color intensity, surface tint and corner radius; edit individual semantic colors with live contrast feedback and share the full configuration.
 - Build coordinated light/dark brand themes, semantic roles and 50–950 OKLCH shade scales from one seed.
 - Preview dashboard, storefront, portfolio and mobile layouts with optional color-vision simulations.
 - Export themes as CSS (HEX or OKLCH) or DTCG color tokens with typed sRGB components.
@@ -159,7 +161,7 @@ OpenAI ImageGen was used in built-in mode for `assets/copyhex-palette-discovery.
 
 CopyHex is English-first and supports **English, Turkish, Russian, Spanish, French, German, Portuguese, Simplified Chinese, Japanese, Korean, Arabic and Hindi**. This is a broad international language set, not a claim of a definitive popularity ranking.
 
-Each language has 317 complete interface messages, localized search examples, color-family search terms, palette names, public-page metadata and reciprocal language links. Arabic uses RTL layout; color codes remain LTR. Community/CSS color identifiers retain their standard names. Shared reference artwork remains English-branded; the surrounding captions and controls are localized.
+Each language has 332 complete interface messages, localized search examples, color-family search terms, palette names, public-page metadata and reciprocal language links. Arabic uses RTL layout; color codes remain LTR. Community/CSS color identifiers retain their standard names. Shared reference artwork remains English-branded; the surrounding captions and controls are localized.
 
 `js/locales.js` is the single registry for routing, browser detection and language options. Priority is explicit locale URL, saved valid preference, supported primary browser language, then English. Unsupported browser languages such as Swedish or Italian fall back to English. Device storage remains backward compatible.
 

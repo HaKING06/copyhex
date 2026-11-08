@@ -172,3 +172,25 @@ test("palette versions retain baseline, restore as a new version and exclude pri
     assert.equal(decodePalette(value), null);
   assert.throws(() => encodePalette({ ...payload, colors: [] }));
 });
+
+test("custom theme settings preserve overrides in CSS and DTCG exports", () => {
+  const original = themeFromSeed("#8B7CF8");
+  const theme = themeFromSeed("#8B7CF8", {
+    intensity: 0.6,
+    tint: 0,
+    overrides: {
+      light: { primary: "#123456", textPrimary: "#FFFFFF", madeUp: "bad" },
+      dark: { surface: "not-a-color" },
+    },
+  });
+  assert.equal(theme.light.primary, "#123456");
+  assert.equal(theme.light.textPrimary, "#FFFFFF");
+  assert.equal(theme.light.madeUp, undefined);
+  assert.match(theme.dark.surface, /^#[0-9A-F]{6}$/);
+  assert.notDeepEqual(theme.brand, original.brand);
+  assert.ok(contrast(theme.light.textPrimary, theme.light.surface) < 4.5);
+  theme.radius = 18;
+  assert.match(themeCss(theme), /--radius: 18px/);
+  assert.match(themeCss(theme), /--color-primary: #123456/);
+  assert.deepEqual(themeTokens(theme).radius.$value, { value: 18, unit: "px" });
+});

@@ -1,5 +1,12 @@
 export function icon(name) {
   const paths = {
+    palette:
+      '<circle cx="12" cy="12" r="9"/><circle cx="8" cy="9" r="1"/><circle cx="13" cy="7" r="1"/><circle cx="17" cy="11" r="1"/><path d="M11 21c-3-6 5-3 2-7"/>',
+    picker: '<path d="m15 3 6 6-3 3-6-6zM13 7 4 16v4h4l9-9M3 21l2-2"/>',
+    layers: '<path d="m12 3 10 5-10 5L2 8zM2 12l10 5 10-5M2 16l10 5 10-5"/>',
+    gradient:
+      '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M7 3v18M11 3v18M15 3v18M19 4v16"/>',
+
     install:
       '<rect x="3" y="3" width="18" height="14" rx="3"/><path d="M8 21h8M12 17v4M9 10h6M12 7v6"/>',
     globe:

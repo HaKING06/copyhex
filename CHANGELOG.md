@@ -1,6 +1,14 @@
 # Changelog
 
-## Unreleased
+## 1.0.5 — 2026-11-08
+
+- Replaced duplicate tool navigation with one accessible grouped menu on desktop and mobile.
+- Rebuilt the brand theme workspace with a settings sidebar, presets, brand name, intensity, surface tint and radius controls.
+- Added directly editable semantic roles, per-role reset, visible contrast results and focused color/scale/export tabs.
+- Refined light/dark previews, scenario and view switches, and full-configuration share links.
+- Expanded all 12 dictionaries to 332 messages and updated versioned About pages and offline assets.
+
+## 1.0.4 — 2026-11-08
 
 - Added paired brand themes, 50–950 perceptual shade scales, semantic roles, OKLCH and DTCG exports.
 - Added four live design previews, color-vision simulations and supported-browser EyeDropper controls.

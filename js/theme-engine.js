@@ -29,15 +29,23 @@ export function readableColor(hex, bg, min = 4.5) {
   }
   return toward ? "#FFFFFF" : "#000000";
 }
-export function themeFromSeed(seed) {
-  const brand = toneScale(seed),
-    neutral = toneScale(seed, { neutral: true }),
-    [, c, h] = hexToOklch(seed);
+export function themeFromSeed(
+  seed,
+  { intensity = 1, tint = 1, overrides = {} } = {},
+) {
+  const [l, c, h] = hexToOklch(seed);
+  intensity = Number.isFinite(+intensity)
+    ? Math.max(0.5, Math.min(1.5, +intensity))
+    : 1;
+  tint = Number.isFinite(+tint) ? Math.max(0, Math.min(2, +tint)) : 1;
+  const adjusted = oklchToHex(l, c * intensity, h),
+    brand = toneScale(adjusted),
+    neutral = toneScale(oklchToHex(l, c * tint, h), { neutral: true });
   const make = (dark) => {
     const background = dark ? neutral[950] : neutral[50],
       surface = dark ? neutral[900] : "#FFFFFF",
       surfaceRaised = dark ? neutral[800] : neutral[100];
-    const primary = readableColor(seed, background, 3),
+    const primary = readableColor(adjusted, background, 3),
       onPrimary =
         contrast(primary, "#000000") >= contrast(primary, "#FFFFFF")
           ? "#000000"
@@ -67,7 +75,14 @@ export function themeFromSeed(seed) {
       info: status(240, 0.14),
     };
   };
-  return { seed, brand, neutral, light: make(false), dark: make(true) };
+  const theme = { seed, brand, neutral, light: make(false), dark: make(true) };
+  for (const mode of ["light", "dark"])
+    for (const key of roleKeys) {
+      const value = overrides?.[mode]?.[key];
+      if (typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value))
+        theme[mode][key] = value.toUpperCase();
+    }
+  return theme;
 }
 export function themeCss(theme, space = "HEX") {
   const value = (hex) => (space === "OKLCH" ? formatOklch(hex) : hex),
@@ -81,7 +96,7 @@ export function themeCss(theme, space = "HEX") {
   const scales = Object.entries(theme.brand)
     .map(([step, hex]) => `  --color-brand-${step}: ${value(hex)};`)
     .join("\n");
-  return `/* CopyHex — ${theme.seed} */\n:root {\n${scales}\n${lines(theme.light)}\n}\n[data-theme="dark"], .dark {\n${lines(theme.dark)}\n}\n`;
+  return `/* CopyHex — ${theme.seed} */\n:root {\n${Number.isFinite(theme.radius) ? `  --radius: ${theme.radius}px;\n` : ""}${scales}\n${lines(theme.light)}\n}\n[data-theme="dark"], .dark {\n${lines(theme.dark)}\n}\n`;
 }
 const token = (hex) => ({
   $type: "color",
@@ -102,5 +117,13 @@ export function themeTokens(theme) {
       neutral: group(theme.neutral),
     },
     theme: { light: group(theme.light), dark: group(theme.dark) },
+    ...(Number.isFinite(theme.radius)
+      ? {
+          radius: {
+            $type: "dimension",
+            $value: { value: theme.radius, unit: "px" },
+          },
+        }
+      : {}),
   };
 }
