@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/meodai/color-names",
+  "source": "https://raw.githubusercontent.com/meodai/color-names/main/src/colornames.csv",
+  "retrieved": "2026-11-08",
+  "sha256": "f34bd13b369da0c35475b9008b0693228a0a5fecf59fb2a3eb1c80eea4e72fc9",
+  "license": "MIT",
+  "sourceRows": 32004,
+  "uniqueColors": 6000,
+  "selection": "Original colors deduplicated by HEX; deterministic evenly spaced sampling ordered by HSL hue and lightness. CSS aliases retained."
+}

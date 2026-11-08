@@ -1,1 +1,16 @@
-{"name":"copyhex","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"node server.mjs","test":"node --test tests/*.test.js","build":"node build.mjs"}}
+{
+  "name": "copyhex",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "test": "node --test tests/*.test.js",
+    "build": "node build.mjs",
+    "catalog": "node scripts/generate-catalog.mjs"
+  },
+  "description": "A bilingual color discovery and palette workspace with 6,000 unique colors, live conversion, dark mode and offline PWA support.",
+  "license": "MIT",
+  "homepage": "https://copyhex.haking.tr",
+  "author": "Halit / CopyHex"
+}
