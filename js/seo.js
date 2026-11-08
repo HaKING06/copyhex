@@ -14,10 +14,13 @@ export function localizedPath(view, lang = "en", id = "") {
           ? `collections/${id}/`
           : view === "article"
             ? `learn/${id}/`
-            : `${view}/`)
+            : `${view === "brand" ? "theme-builder" : view === "gradient" ? "gradient-studio" : view}/`)
   );
 }
 export const corePages = [
+  "brand",
+  "gradient",
+  "project",
   "explore",
   "discover",
   "generator",
@@ -153,6 +156,24 @@ export function pageMetadata(view, lang = "en", id = "") {
       }
     }
   }
+  if (["brand", "gradient", "project"].includes(view)) {
+    title =
+      "CopyHex — " +
+      t(
+        view === "brand"
+          ? "brandBuilder"
+          : view === "gradient"
+            ? "gradientStudio"
+            : "sharedPalette",
+      );
+    description = t(
+      view === "brand"
+        ? "brandIntro"
+        : view === "gradient"
+          ? "gradientIntro"
+          : "sharedIntro",
+    );
+  }
   imageAlt =
     "CopyHex · " +
     t(
@@ -162,6 +183,24 @@ export function pageMetadata(view, lang = "en", id = "") {
           ? "paletteColors"
           : "colorsNav",
     );
+  if (["brand", "gradient", "project"].includes(view)) {
+    title =
+      "CopyHex — " +
+      t(
+        view === "brand"
+          ? "brandBuilder"
+          : view === "gradient"
+            ? "gradientStudio"
+            : "sharedPalette",
+      );
+    description = t(
+      view === "brand"
+        ? "brandIntro"
+        : view === "gradient"
+          ? "gradientIntro"
+          : "sharedIntro",
+    );
+  }
   return {
     view,
     lang,
@@ -173,6 +212,6 @@ export function pageMetadata(view, lang = "en", id = "") {
     width,
     height,
     path: localizedPath(view, lang, id),
-    noindex: ["favorites", "palettes"].includes(view),
+    noindex: ["favorites", "palettes", "project"].includes(view),
   };
 }

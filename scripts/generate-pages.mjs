@@ -1,3 +1,6 @@
+import { brandPage } from "../js/brand-studio.js";
+import { gradientPage } from "../js/gradient-studio.js";
+import { projectPage } from "../js/project-palette.js";
 import { VERSION } from "../js/version.js";
 import { collectionDetails } from "../js/localized-content.js";
 import { locales, localeCodes } from "../js/locales.js";
@@ -17,12 +20,13 @@ const esc = (s) =>
         c
       ],
   );
-const publicCore = corePages.filter(
-  (v) => !["favorites", "palettes"].includes(v),
-);
+const publicCore = corePages.filter((v) => !pageMetadata(v, "en").noindex);
 const records = [];
 function initialContent(view, lang, id) {
   const t = (k) => messages[lang][k];
+  if (view === "brand") return brandPage(t);
+  if (view === "gradient") return gradientPage(t);
+  if (view === "project") return projectPage(t, lang);
   if (view === "discover") return discoveryPage(t, lang);
   if (view === "collection") return collectionPage(id, t, lang);
   if (view === "article") return articlePage(id, t, lang);
@@ -122,7 +126,7 @@ async function page(view, lang, id = "", alias = null) {
         }
       : schema;
   const nav = `<header><a class="brand" href="/${lang}/"><img src="/assets/logo.svg" width="38" height="38" alt="">CopyHex</a><nav>${["explore", "discover", "generator", "studio", "resources", "about"].map((v) => `<a href="${localizedPath(v, lang)}">${t(v === "explore" ? "colorsNav" : v)}</a>`).join("")}</nav><details class="static-languages"><summary>${t("language")}</summary>${locales.map((l) => `<a href="${localizedPath(view, l.code, id)}" lang="${l.code}">${l.name}</a>`).join(" · ")}</details></header>`;
-  const html = `<!doctype html><html lang="${lang}" dir="${locales.find((l) => l.code === lang).dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f9fc"><meta name="color-scheme" content="light dark"><title>${esc(meta.title)}</title><meta name="description" content="${esc(meta.description)}"><meta name="robots" content="${meta.noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}"><meta name="author" content="CopyHex"><link rel="canonical" href="${canonical}">${alternates}<meta property="og:type" content="${view === "article" ? "article" : "website"}"><meta property="og:site_name" content="CopyHex"><meta property="og:locale" content="${locales.find((l) => l.code === lang).og}"><meta property="og:locale:alternate" content="en_US"><meta property="og:title" content="${esc(meta.title)}"><meta property="og:description" content="${esc(meta.description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl + og}"><meta property="og:image:width" content="${meta.image.endsWith(".svg") ? 1536 : meta.width}"><meta property="og:image:height" content="${meta.image.endsWith(".svg") ? 1024 : meta.height}"><meta property="og:image:alt" content="${esc(meta.imageAlt)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(meta.title)}"><meta name="twitter:description" content="${esc(meta.description)}"><meta name="twitter:image" content="${siteUrl + og}"><link rel="icon" href="/assets/logo.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/icon-180.png"><link rel="manifest" href="/manifest.webmanifest"><script src="/js/theme-init.js"></script><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/workspace.css"><link rel="stylesheet" href="/css/global.css"><script type="application/ld+json">${JSON.stringify(structured)}</script><script type="module" src="/js/app.js"></script></head><body><div id="app">${nav}<main>${initialContent(view, lang, id)}</main><footer><a class="brand" href="/${lang}/">CopyHex</a><a href="mailto:copyhex@haking.tr">copyhex@haking.tr</a></footer></div><div id="toast" role="status" aria-live="polite"></div><dialog id="dialog"></dialog><noscript>CopyHex · ${t("guide")}</noscript></body></html>`;
+  const html = `<!doctype html><html lang="${lang}" dir="${locales.find((l) => l.code === lang).dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f9fc"><meta name="color-scheme" content="light dark"><title>${esc(meta.title)}</title><meta name="description" content="${esc(meta.description)}"><meta name="robots" content="${meta.noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}"><meta name="author" content="CopyHex"><link rel="canonical" href="${canonical}">${alternates}<meta property="og:type" content="${view === "article" ? "article" : "website"}"><meta property="og:site_name" content="CopyHex"><meta property="og:locale" content="${locales.find((l) => l.code === lang).og}"><meta property="og:locale:alternate" content="en_US"><meta property="og:title" content="${esc(meta.title)}"><meta property="og:description" content="${esc(meta.description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl + og}"><meta property="og:image:width" content="${meta.image.endsWith(".svg") ? 1536 : meta.width}"><meta property="og:image:height" content="${meta.image.endsWith(".svg") ? 1024 : meta.height}"><meta property="og:image:alt" content="${esc(meta.imageAlt)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(meta.title)}"><meta name="twitter:description" content="${esc(meta.description)}"><meta name="twitter:image" content="${siteUrl + og}"><link rel="icon" href="/assets/logo.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/icon-180.png"><link rel="manifest" href="/manifest.webmanifest"><script src="/js/theme-init.js"></script><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/workspace.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/tools.css"><script type="application/ld+json">${JSON.stringify(structured)}</script><script type="module" src="/js/app.js"></script></head><body><div id="app">${nav}<main>${initialContent(view, lang, id)}</main><footer><a class="brand" href="/${lang}/">CopyHex</a><a href="mailto:copyhex@haking.tr">copyhex@haking.tr</a></footer></div><div id="toast" role="status" aria-live="polite"></div><dialog id="dialog"></dialog><noscript>CopyHex · ${t("guide")}</noscript></body></html>`;
   const file = path === "/" ? "index.html" : path.slice(1) + "index.html";
   const parent = file.slice(0, file.lastIndexOf("/"));
   if (parent) await mkdir(parent, { recursive: true });
@@ -137,12 +141,7 @@ for (const lang of localeCodes) {
 // Existing URLs remain usable; their canonical points to the explicit English URL.
 await page("explore", "en", "", "/");
 for (const view of corePages.filter((v) => v !== "explore"))
-  await page(
-    view,
-    "en",
-    "",
-    view === "generator" ? "/palette-generator/" : `/${view}/`,
-  );
+  await page(view, "en", "", localizedPath(view, "en").replace("/en/", "/"));
 await mkdir("sitemaps", { recursive: true });
 const alternateXml = (r) =>
   localeCodes

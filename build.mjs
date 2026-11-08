@@ -1,10 +1,16 @@
 import { localeCodes } from "./js/locales.js";
 import { cp, mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
-const { version } = JSON.parse(await readFile('package.json', 'utf8'));
-await writeFile('js/version.js', `// Generated from package.json during build.\nexport const VERSION = ${JSON.stringify(version)};\n`);
-await import('./scripts/generate-pages.mjs');
+const { version } = JSON.parse(await readFile("package.json", "utf8"));
+await writeFile(
+  "js/version.js",
+  `// Generated from package.json during build.\nexport const VERSION = ${JSON.stringify(version)};\n`,
+);
+await import("./scripts/generate-pages.mjs");
 const dirs = [
+  "theme-builder",
+  "gradient-studio",
+  "project",
   "css",
   "js",
   "assets",

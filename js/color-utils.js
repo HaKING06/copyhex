@@ -1,3 +1,4 @@
+import {parseOklch,formatOklch} from "./color-spaces.js";
 export function rgb(hex) {
   return hex
     .slice(1)
@@ -27,6 +28,7 @@ export function hsl(hex) {
 export function format(hex, type = "HEX") {
   const [r, g, b] = rgb(hex),
     [h, s, l] = hsl(hex);
+  if (type === "OKLCH") return formatOklch(hex);
   if (type === "RGB") return `rgb(${r}, ${g}, ${b})`;
   if (type === "HSL") return `hsl(${h}, ${s}%, ${l}%)`;
   if (type === "CMYK") {
@@ -83,7 +85,7 @@ export function parseColor(value) {
         .toUpperCase()
     );
   }
-  return null;
+  return parseOklch(value);
 }
 export function luminance(hex) {
   return rgb(hex)

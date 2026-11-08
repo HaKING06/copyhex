@@ -1,3 +1,17 @@
+import { brandPage, bindBrand } from "./brand-studio.js";
+import { gradientPage, bindGradient } from "./gradient-studio.js";
+import {
+  projectPage,
+  bindProject,
+  historyMarkup,
+  bindHistory,
+} from "./project-palette.js";
+import {
+  cleanVersions,
+  updatePalette,
+  encodePalette,
+  sharePayload,
+} from "./palette-versions.js";
 import { colors } from "./colors.js";
 import { format, parseColor, hsl, luminance, contrast } from "./color-utils.js";
 import { messages } from "./i18n.js";
@@ -46,9 +60,13 @@ let favorites = Array.isArray(stored.favorites)
     ? stored.palettes.filter(validPalette).map((p) => ({
         ...p,
         colors: [...new Set(p.colors.map((h) => h.toUpperCase()))],
+        versions: cleanVersions(p.versions),
       }))
     : [];
 const routes = [
+  "brand",
+  "gradient",
+  "project",
   "explore",
   "discover",
   "generator",
@@ -64,6 +82,8 @@ const routes = [
 const routeKey = (pathname) => {
   const parts = pathname.split("/").filter(Boolean);
   if (isLocale(parts[0])) parts.shift();
+  if (parts[0] === "theme-builder") return "brand";
+  if (parts[0] === "gradient-studio") return "gradient";
   return parts[0] === "palette-generator"
     ? "generator"
     : parts[0] === "collections"
@@ -170,7 +190,7 @@ function render() {
   document.documentElement.lang = lang;
   document.documentElement.dir = locales.find((l) => l.code === lang).dir;
   $("#app").innerHTML =
-    `<a class="skip-link" href="#main-content">${t("skipContent")}</a><header><a href="${routeHref("explore")}" class="brand"><img src="/assets/logo.svg" alt="" width="38" height="38">CopyHex</a><nav aria-label="${t("tools")}">${["explore", "discover", "generator", "studio", "palettes"].map((v) => `<a class="${view === v || (v === "discover" && view === "collection") ? "current" : ""}" href="${routeHref(v)}" ${view === v ? 'aria-current="page"' : ""}>${t(v === "explore" ? "colorsNav" : v)}${v === "favorites" ? ` <small>${favorites.length}</small>` : ""}</a>`).join("")}</nav><div class="header-tools"><a class="favorites-link" href="${routeHref("favorites")}" aria-label="${t("favorites")}" title="${t("favorites")}">♡ <small>${favorites.length}</small></a><a href="${routeHref("guide")}" class="help-link">${t("help")}</a><button id="install-app" class="install-action" aria-label="${t("install")}" title="${t("install")}">${icon("install")}</button><select id="theme" aria-label="${t("theme")}">${["system", "light", "dark"].map((v) => `<option value="${v}" ${theme === v ? "selected" : ""}>${v === "system" ? "◐ " + t("system") : v === "dark" ? "☾ " + t("darkTheme") : "☀ " + t("lightTheme")}</option>`).join("")}</select><label class="language">${icon("globe")}<select id="language" aria-label="${t("language")}">${locales.map((l) => `<option value="${l.code}" ${lang === l.code ? "selected" : ""}>${l.name}</option>`).join("")}</select></label></div></header><div id="connection" class="connection" ${navigator.onLine ? "hidden" : ""}>${t("offline")}</div><div id="update-banner" class="update-banner" hidden></div><main id="main-content">${view === "resources" ? resourcesPage(t, lang) : view === "article" ? articlePage(collectionId(), t, lang) : view === "discover" ? discoveryPage(t, lang) : view === "generator" ? generatorPage(t) : view === "collection" ? collectionPage(collectionId(), t, lang) : view === "explore" ? explore() : view === "favorites" ? favoritePage() : view === "palettes" ? palettePage() : view === "studio" ? studioPage(t, selected) : infoPage(view, lang, colors.length)}</main><footer><div><a class="brand" href="${routeHref("explore")}"><img src="/assets/logo.svg" alt="" width="26" height="26">CopyHex</a><small>${t("privacy")}</small></div><div class="footer-links"><a href="${routeHref("resources")}">${t("resources")}</a><a href="${routeHref("discover")}">${t("discover")}</a><a href="${routeHref("generator")}">${t("generator")}</a><a href="${routeHref("studio")}">${t("studio")}</a><a href="${routeHref("guide")}">${t("guide")}</a><a href="${routeHref("about")}">${t("about")}</a><a href="mailto:copyhex@haking.tr">${t("contact")} ↗</a></div></footer>`;
+    `<a class="skip-link" href="#main-content">${t("skipContent")}</a><header><a href="${routeHref("explore")}" class="brand"><img src="/assets/logo.svg" alt="" width="38" height="38">CopyHex</a><nav aria-label="${t("tools")}">${["explore", "discover", "generator", "studio", "palettes"].map((v) => `<a class="${view === v || (v === "discover" && view === "collection") ? "current" : ""}" href="${routeHref(v)}" ${view === v ? 'aria-current="page"' : ""}>${t(v === "explore" ? "colorsNav" : v)}${v === "favorites" ? ` <small>${favorites.length}</small>` : ""}</a>`).join("")}</nav><div class="header-tools"><a class="favorites-link" href="${routeHref("favorites")}" aria-label="${t("favorites")}" title="${t("favorites")}">♡ <small>${favorites.length}</small></a><a href="${routeHref("guide")}" class="help-link">${t("help")}</a><button id="install-app" class="install-action" aria-label="${t("install")}" title="${t("install")}">${icon("install")}</button><select id="theme" aria-label="${t("theme")}">${["system", "light", "dark"].map((v) => `<option value="${v}" ${theme === v ? "selected" : ""}>${v === "system" ? "◐ " + t("system") : v === "dark" ? "☾ " + t("darkTheme") : "☀ " + t("lightTheme")}</option>`).join("")}</select><label class="language">${icon("globe")}<select id="language" aria-label="${t("language")}">${locales.map((l) => `<option value="${l.code}" ${lang === l.code ? "selected" : ""}>${l.name}</option>`).join("")}</select></label></div></header><div id="connection" class="connection" ${navigator.onLine ? "hidden" : ""}>${t("offline")}</div><div id="update-banner" class="update-banner" hidden></div><main id="main-content"><div class="tool-shortcuts">${["studio", "brand", "gradient"].map((v) => `<a href="${routeHref(v)}" class="${view === v ? "current" : ""}">${t(v === "brand" ? "brandBuilder" : v === "gradient" ? "gradientStudio" : v)} ↗</a>`).join("")}</div>${view === "brand" ? brandPage(t) : view === "gradient" ? gradientPage(t) : view === "project" ? projectPage(t, lang, location.hash) : view === "resources" ? resourcesPage(t, lang) : view === "article" ? articlePage(collectionId(), t, lang) : view === "discover" ? discoveryPage(t, lang) : view === "generator" ? generatorPage(t) : view === "collection" ? collectionPage(collectionId(), t, lang) : view === "explore" ? explore() : view === "favorites" ? favoritePage() : view === "palettes" ? palettePage() : view === "studio" ? studioPage(t, selected) : infoPage(view, lang, colors.length)}</main><footer><div><a class="brand" href="${routeHref("explore")}"><img src="/assets/logo.svg" alt="" width="26" height="26">CopyHex</a><small>${t("privacy")}</small></div><div class="footer-links"><a href="${routeHref("resources")}">${t("resources")}</a><a href="${routeHref("discover")}">${t("discover")}</a><a href="${routeHref("generator")}">${t("generator")}</a><a href="${routeHref("studio")}">${t("studio")}</a><a href="${routeHref("guide")}">${t("guide")}</a><a href="${routeHref("about")}">${t("about")}</a><a href="mailto:copyhex@haking.tr">${t("contact")} ↗</a></div></footer>`;
   bind();
   showUpdateBanner();
 }
@@ -253,7 +273,7 @@ function remember(hex, save = true) {
   }
 }
 function controls() {
-  return `<div class="controls"><label>${t("format")} <select id="format">${["HEX", "RGB", "HSL", "CMYK"].map((v) => `<option ${copyFormat === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>${t("sort")} <select id="sort">${["curated", "name", "hue", "light", "dark", ...(view === "explore" ? ["nearest"] : [])].map((v) => `<option value="${v}" ${sort === v ? "selected" : ""}>${t(v)}</option>`).join("")}</select></label></div>`;
+  return `<div class="controls"><label>${t("format")} <select id="format">${["HEX", "RGB", "HSL", "OKLCH", "CMYK"].map((v) => `<option ${copyFormat === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>${t("sort")} <select id="sort">${["curated", "name", "hue", "light", "dark", ...(view === "explore" ? ["nearest"] : [])].map((v) => `<option value="${v}" ${sort === v ? "selected" : ""}>${t(v)}</option>`).join("")}</select></label></div>`;
 }
 function explore() {
   return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><i></i> ${t("eyebrow")}</p><h1>${t("title")}</h1><p class="intro">${t("intro")}</p><p class="hero-stats">${t("homeStats")}</p><a class="button-link primary hero-cta" href="${routeHref("studio")}">${t("studioCTA")} ↗</a></div><div class="hero-art" aria-hidden="true"><div style="background:#b6c9b0">01<br><b>#B6C9B0</b></div><div style="background:#d8c7f0">02<br><b>#D8C7F0</b></div><div style="background:#f1ad92">03<br><b>#F1AD92</b></div><div style="background:#f0df95">04<br><b>#F0DF95</b></div><span>CopyHex</span></div></section><section class="home-directions"><a href="${routeHref("discover")}"><b>${t("discover")} ↗</b><span>${t("allPalettes")}</span><div>${collections[0].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a><a href="${routeHref("generator")}"><b>${t("generator")} ↗</b><span>${t("lockedHint")}</span><div>${collections[1].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a></section><section class="search-area"><label class="search"><span>⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label><button class="studio-button" id="studio">◉ ${t("studio")}</button></section><p class="search-tip">${t("tip")}</p><div class="filters">${["all", "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "neutral"].map((g) => `<button data-category="${g}" class="${category === g ? "selected" : ""}">${g === "all" ? "" : `<i class="dot ${g}"></i>`}${t(g)}</button>`).join("")}</div>${advancedFilters()}<section class="library"><div class="section-head"><div><h2>${t("library")} <span id="count"></span></h2><p>${t("librarySub")}</p></div>${controls()}</div><div class="grid" id="grid"></div><div id="pagination" class="pagination" aria-label="${t("page")}"></div></section><section class="studio-banner"><span class="banner-icon">✳</span><div><h2>${t("pick")}</h2><p>${t("pickSub")}</p></div><button id="studio-bottom">${t("open")} ↗</button></section>`;
@@ -337,7 +357,7 @@ function favoritePage() {
   }</div>`;
 }
 function palettePage() {
-  return `<section class="page-head"><p class="eyebrow">${t("palettes")}</p><h1>${t("paletteTitle")}</h1><p>${t("paletteIntro")}</p></section><div class="palette-toolbar"><button class="primary" id="new-palette">＋ ${t("new")}</button><button id="backup">↓ ${t("backup")}</button><label class="file-button">↑ ${t("import")}<input id="import" type="file" accept="application/json,.json"></label></div><p class="muted">${t("local")}</p><div class="palette-list">${palettes.length ? palettes.map((p) => `<article class="palette"><div class="palette-top"><div><h2>${esc(p.name)}</h2><p>${esc(p.note)}</p><small>${p.colors.length} ${t("count")}</small></div><div class="palette-actions"><a class="button-link" href="${routeHref("generator")}?colors=${p.colors.map((h) => h.slice(1)).join("-")}&locked=${p.colors.map(() => 0).join("")}">${t("editPalette")}</a><button data-edit="${esc(p.id)}">${t("rename")}</button><button data-export="${esc(p.id)}">${t("export")}</button><button data-delete="${esc(p.id)}" class="danger">${t("delete")}</button></div></div><div class="grid">${p.colors.length ? p.colors.map((hex) => card({ hex, name: colorName(hex), cat: "" }, p.id)).join("") : `<p class="muted">${t("emptyPalette")}</p>`}</div></article>`).join("") : empty(t("noPalettes"), t("noPalettesSub"))}</div>`;
+  return `<section class="page-head"><p class="eyebrow">${t("palettes")}</p><h1>${t("paletteTitle")}</h1><p>${t("paletteIntro")}</p></section><div class="palette-toolbar"><button class="primary" id="new-palette">＋ ${t("new")}</button><button id="backup">↓ ${t("backup")}</button><label class="file-button">↑ ${t("import")}<input id="import" type="file" accept="application/json,.json"></label></div><p class="muted">${t("local")}</p><div class="palette-list">${palettes.length ? palettes.map((p) => `<article class="palette"><div class="palette-top"><div><h2>${esc(p.name)}</h2><p>${esc(p.note)}</p><small>${p.colors.length} ${t("count")}</small></div><div class="palette-actions">${p.colors.length >= 3 && p.colors.length <= 8 ? `<a class="button-link" href="${routeHref("generator")}?edit=${encodeURIComponent(p.id)}&colors=${p.colors.map((h) => h.slice(1)).join("-")}&locked=${p.colors.map(() => 0).join("")}">${t("editPalette")}</a>` : ""}<button data-history="${esc(p.id)}">${t("history")}</button><button data-share="${esc(p.id)}" ${p.colors.length ? "" : "disabled"}>${t("share")}</button><button data-edit="${esc(p.id)}">${t("rename")}</button><button data-export="${esc(p.id)}">${t("export")}</button><button data-delete="${esc(p.id)}" class="danger">${t("delete")}</button></div></div><div class="grid">${p.colors.length ? p.colors.map((hex) => card({ hex, name: colorName(hex), cat: "" }, p.id)).join("") : `<p class="muted">${t("emptyPalette")}</p>`}</div></article>`).join("") : empty(t("noPalettes"), t("noPalettesSub"))}</div>`;
 }
 function modal(html) {
   const d = $("#dialog");
@@ -350,7 +370,7 @@ function detail(hex) {
   const black = contrast(hex, "#000000"),
     white = contrast(hex, "#FFFFFF");
   modal(
-    `<div class="detail-swatch" style="background:${hex};color:${black > white ? "#000" : "#fff"}">${esc(colorName(hex))}<b>${hex}</b></div><div class="dialog-content"><h2>${t("detail")}</h2><div class="values">${["HEX", "RGB", "HSL", "CMYK"].map((f) => `<button data-value="${format(hex, f)}"><span>${f}</span><b>${format(hex, f)}</b> ⧉</button>`).join("")}</div><small class="muted">${t("aboutCMYK")}</small><div class="dialog-actions"><button class="primary" id="detail-save">＋ ${t("save")}</button><button id="detail-fav">${favorites.includes(hex) ? "♥" : "♡"} ${t("favorites")}</button><button id="detail-studio">${t("contrast")}</button></div></div>`,
+    `<div class="detail-swatch" style="background:${hex};color:${black > white ? "#000" : "#fff"}">${esc(colorName(hex))}<b>${hex}</b></div><div class="dialog-content"><h2>${t("detail")}</h2><div class="values">${["HEX", "RGB", "HSL", "OKLCH", "CMYK"].map((f) => `<button data-value="${format(hex, f)}"><span>${f}</span><b>${format(hex, f)}</b> ⧉</button>`).join("")}</div><small class="muted">${t("aboutCMYK")}</small><div class="dialog-actions"><button class="primary" id="detail-save">＋ ${t("save")}</button><button id="detail-fav">${favorites.includes(hex) ? "♥" : "♡"} ${t("favorites")}</button><button id="detail-studio">${t("contrast")}</button></div></div>`,
   );
   $("#detail-save").onclick = () => saveDialog(hex);
   $("#detail-fav").onclick = () => {
@@ -377,15 +397,20 @@ function paletteForm(id = null, hex = null, suggested = "") {
       name = data.get("name").trim();
     if (!name) return;
     if (p) {
-      p.name = name;
-      p.note = data.get("note").trim();
-    } else
-      palettes.push({
-        id: crypto.randomUUID(),
+      updatePalette(p, {
         name,
         note: data.get("note").trim(),
-        colors: Array.isArray(hex) ? hex : hex ? [hex] : [],
+        ...(Array.isArray(hex) ? { colors: [...hex] } : {}),
       });
+    } else
+      palettes.push(
+        updatePalette({
+          id: crypto.randomUUID(),
+          name,
+          note: data.get("note").trim(),
+          colors: Array.isArray(hex) ? hex : hex ? [hex] : [],
+        }),
+      );
     persist();
     $("#dialog").close();
     render();
@@ -407,7 +432,7 @@ function saveDialog(hex) {
             toast(t("exists"));
             return;
           }
-          p.colors.push(hex);
+          updatePalette(p, { colors: [...p.colors, hex] });
           persist();
           $("#dialog").close();
           render();
@@ -421,12 +446,29 @@ function studio(hex = selected) {
   navigate("studio");
 }
 function bind() {
+  const saveColors = (colors, name) => paletteForm(null, colors, name);
+  if (view === "brand")
+    bindBrand({
+      t,
+      lang,
+      copy,
+      download,
+      onSave: saveColors,
+      onSaveColor: saveDialog,
+      toast,
+    });
+  if (view === "gradient")
+    bindGradient({ t, copy, download, onSave: saveColors, toast });
+  if (view === "project") bindProject({ onSave: saveColors, copy });
   if (view === "discover") bindDiscovery(t, lang);
   if (view === "generator")
     cleanupView = bindGenerator({
       t,
       lang,
-      onSave: (hexes, name) => paletteForm(null, hexes, name),
+      onSave: (hexes, name) => {
+        const id = new URLSearchParams(location.search).get("edit");
+        paletteForm(palettes.some((p) => p.id === id) ? id : null, hexes, name);
+      },
       copy,
       download,
       toast,
@@ -447,6 +489,7 @@ function bind() {
     bindStudio({
       t,
       initial: selected,
+      toast,
       onColor: remember,
       onSave: saveDialog,
       onFavorite: (hex) => {
@@ -468,7 +511,11 @@ function bind() {
   $("#language").onchange = (e) => {
     lang = e.target.value;
     persist();
-    history.replaceState({}, "", routeHref(view) + location.search);
+    history.replaceState(
+      {},
+      "",
+      routeHref(view) + location.search + location.hash,
+    );
     render();
   };
   if (view === "explore") {
@@ -528,6 +575,7 @@ function bind() {
           ...p,
           id: crypto.randomUUID(),
           colors: [...new Set(p.colors.map((h) => h.toUpperCase()))],
+          versions: cleanVersions(p.versions),
         })),
       );
       favorites = [
@@ -576,9 +624,29 @@ document.addEventListener("click", (e) => {
   if (d.fav) toggleFav(d.fav);
   if (d.save) saveDialog(d.save);
   if (d.edit) paletteForm(d.edit);
+  if (d.share) shareSavedPalette(palettes.find((p) => p.id === d.share));
+  if (d.history) {
+    const p = palettes.find((p) => p.id === d.history);
+    updatePalette(p);
+    persist();
+    modal(historyMarkup(p, t));
+    bindHistory({
+      p,
+      t,
+      lang,
+      onShare: (v) => shareSavedPalette(p, v),
+      onRestore: (v) => {
+        updatePalette(p, { name: v.name, colors: [...v.colors] });
+        persist();
+        $("#dialog").close();
+        render();
+        toast(t("saved"));
+      },
+    });
+  }
   if (d.remove) {
     const p = palettes.find((p) => p.id === d.palette);
-    p.colors = p.colors.filter((h) => h !== d.remove);
+    updatePalette(p, { colors: p.colors.filter((h) => h !== d.remove) });
     persist();
     render();
   }
@@ -689,3 +757,14 @@ registerApp((update) => {
   pendingUpdate = update;
   showUpdateBanner();
 });
+
+function shareSavedPalette(p, version = null) {
+  try {
+    const encoded = encodePalette(sharePayload(p, version));
+    copy(
+      location.origin + localizedPath("project", lang) + "#palette=" + encoded,
+    );
+  } catch {
+    toast(t("shareTooLarge"));
+  }
+}

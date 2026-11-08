@@ -6,8 +6,8 @@ const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
 const pages = JSON.parse(await read("data/page-manifest.json"));
 test("every localized page has unique canonical, language alternates and readable initial content", async () => {
-  assert.equal(pages.length, 456);
-  assert.equal(new Set(pages.map((p) => p.path)).size, 456);
+  assert.equal(pages.length, 492);
+  assert.equal(new Set(pages.map((p) => p.path)).size, 492);
   for (const p of pages) {
     const html = await read(p.file);
     assert.ok(
@@ -25,7 +25,8 @@ test("every localized page has unique canonical, language alternates and readabl
     assert.ok(!html.includes("cophex"));
     assert.ok(!html.includes("version-chip"));
     if (p.noindex) assert.match(html, /noindex,follow/);
-    if(p.view === "about") assert.ok(html.includes(`${VERSION} · <a href="/LICENSE">MIT`), p.path);
+    if (p.view === "about")
+      assert.ok(html.includes(`${VERSION} · <a href="/LICENSE">MIT`), p.path);
   }
 });
 test("all internal links and image sources in generated content resolve to real files", async () => {
@@ -53,8 +54,8 @@ test("sitemap index separates pages, palettes, guides and actual page images", a
     ))
       urls.push(match[1]);
   }
-  assert.equal(urls.length, 432);
-  assert.equal(new Set(urls).size, 432);
+  assert.equal(urls.length, 456);
+  assert.equal(new Set(urls).size, 456);
   assert.ok(
     urls.every(
       (url) => !url.endsWith("/favorites/") && !url.endsWith("/palettes/"),

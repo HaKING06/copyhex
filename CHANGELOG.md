@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added paired brand themes, 50–950 perceptual shade scales, semantic roles, OKLCH and DTCG exports.
+- Added four live design previews, color-vision simulations and supported-browser EyeDropper controls.
+- Added a dedicated gradient studio with CSS, SVG and PNG exports.
+- Added local palette version comparison, restoration and shareable snapshots without private notes.
+- Expanded all 12 dictionaries to 317 messages and generated 492 localized entry pages (456 public).
+
 ## 1.0.3 — 2026-11-08
 
 - Corrected the displayed application version and made package.json the shared build-time version source.

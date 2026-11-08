@@ -1,3 +1,5 @@
+import { designPreview, previewKinds } from "./design-preview.js";
+import { visionModes } from "./color-spaces.js";
 import {
   generatePalette,
   modes,
@@ -77,7 +79,10 @@ export function bindGenerator({ t, lang, onSave, copy, download, toast }) {
     past = [],
     future = [],
     options = [],
-    background = state.colors.length - 1;
+    background = state.colors.length - 1,
+    previewKind = "dashboard",
+    previewVision = "normal";
+  const editId = new URLSearchParams(location.search).get("edit");
   const $ = (s) => document.querySelector(s);
   const root = $("#generator-workbench");
   function store() {
@@ -90,6 +95,7 @@ export function bindGenerator({ t, lang, onSave, copy, download, toast }) {
       mode: state.mode,
       style: state.style,
     });
+    if (editId) params.set("edit", editId);
     history.replaceState({}, "", location.pathname + "?" + params.toString());
   }
   function commit(next) {
@@ -121,7 +127,7 @@ export function bindGenerator({ t, lang, onSave, copy, download, toast }) {
   }
   function draw() {
     background = Math.min(background, state.colors.length - 1);
-    root.innerHTML = `<div class="generator-toolbar"><button class="primary generate-button" id="generate-palette">✳ ${t("regenerate")}</button><div class="history-buttons"><button id="generator-undo" ${past.length ? "" : "disabled"} aria-label="${t("undo")}">↶</button><button id="generator-redo" ${future.length ? "" : "disabled"} aria-label="${t("redo")}">↷</button></div><span class="keyboard-hint">${t("spaceHint")}</span><button id="save-generated">＋ ${t("savePalette")}</button><button id="share-generated">↗ ${t("sharePalette")}</button></div><div class="generator-controls"><form id="seed-form"><label>${t("seed")}<input id="seed-input" value="${state.seed}" spellcheck="false" aria-label="${t("seed")}"></label><button>${t("applySeed")}</button></form><label>${t("harmonyMode")}<select id="generator-mode">${modes.map((v) => `<option value="${v}" ${v === state.mode ? "selected" : ""}>${t(v === "dark" ? "darkTheme" : v)}</option>`).join("")}</select></label><label>${t("paletteStyle")}<select id="generator-style">${styles.map((v) => `<option value="${v}" ${v === state.style ? "selected" : ""}>${t(v === "dark" ? "darkTheme" : v)}</option>`).join("")}</select></label><label>${t("colorCount")}<select id="generator-count">${[3, 4, 5, 6, 7, 8].map((n) => `<option ${n === state.colors.length ? "selected" : ""}>${n}</option>`).join("")}</select></label></div><div class="palette-canvas" style="--columns:${state.colors.length}">${state.colors.map((hex, i) => swatch(hex, i)).join("")}</div><div class="generator-underbar"><p id="generator-status" role="status">${t("lockedHint")}</p><button id="copy-generated">⧉ ${t("copyAll")}</button><label>${t("exportFormat")}<select id="generator-export"><option>CSS</option><option>JSON</option><option>SVG</option><option>PNG</option></select></label><button id="export-generated">${t("download")}</button></div><div class="generator-lower"><section class="panel alternatives-panel"><div class="section-head"><div><h2>${t("alternatives")}</h2><p>${t("alternativesIntro")}</p></div><button id="more-options">✳ ${t("moreOptions")}</button></div><div id="palette-options" class="palette-options-grid"></div></section><section class="panel image-extract-panel"><p class="eyebrow">${t("privacy")}</p><h2>${t("imageExtract")}</h2><p>${t("imageExtractInfo")}</p><label class="file-button">↑ ${t("chooseImage")}<input id="palette-image" type="file" accept="image/png,image/jpeg,image/webp"></label><p id="image-status" role="status"></p></section></div><section class="panel palette-preview-panel"><div><p class="eyebrow">${t("previewUI")}</p><h2>${t("previewTitle")}</h2><p>${t("previewText")}</p><label>${t("previewBackground")}<select id="preview-bg">${state.colors.map((h, i) => `<option value="${i}" ${i === background ? "selected" : ""}>${h}</option>`).join("")}</select></label><p class="muted">${t("contrastNote")}</p><div id="contrast-matrix"></div></div><div id="ui-preview" class="ui-preview"></div></section>`;
+    root.innerHTML = `<div class="generator-toolbar"><button class="primary generate-button" id="generate-palette">✳ ${t("regenerate")}</button><div class="history-buttons"><button id="generator-undo" ${past.length ? "" : "disabled"} aria-label="${t("undo")}">↶</button><button id="generator-redo" ${future.length ? "" : "disabled"} aria-label="${t("redo")}">↷</button></div><span class="keyboard-hint">${t("spaceHint")}</span><button id="save-generated">＋ ${t("savePalette")}</button><button id="share-generated">↗ ${t("sharePalette")}</button></div><div class="generator-controls"><form id="seed-form"><label>${t("seed")}<input id="seed-input" value="${state.seed}" spellcheck="false" aria-label="${t("seed")}"></label><button>${t("applySeed")}</button></form><label>${t("harmonyMode")}<select id="generator-mode">${modes.map((v) => `<option value="${v}" ${v === state.mode ? "selected" : ""}>${t(v === "dark" ? "darkTheme" : v)}</option>`).join("")}</select></label><label>${t("paletteStyle")}<select id="generator-style">${styles.map((v) => `<option value="${v}" ${v === state.style ? "selected" : ""}>${t(v === "dark" ? "darkTheme" : v)}</option>`).join("")}</select></label><label>${t("colorCount")}<select id="generator-count">${[3, 4, 5, 6, 7, 8].map((n) => `<option ${n === state.colors.length ? "selected" : ""}>${n}</option>`).join("")}</select></label></div><div class="palette-canvas" style="--columns:${state.colors.length}">${state.colors.map((hex, i) => swatch(hex, i)).join("")}</div><div class="generator-underbar"><p id="generator-status" role="status">${t("lockedHint")}</p><button id="copy-generated">⧉ ${t("copyAll")}</button><label>${t("exportFormat")}<select id="generator-export"><option>CSS</option><option>JSON</option><option>SVG</option><option>PNG</option></select></label><button id="export-generated">${t("download")}</button></div><div class="generator-lower"><section class="panel alternatives-panel"><div class="section-head"><div><h2>${t("alternatives")}</h2><p>${t("alternativesIntro")}</p></div><button id="more-options">✳ ${t("moreOptions")}</button></div><div id="palette-options" class="palette-options-grid"></div></section><section class="panel image-extract-panel"><p class="eyebrow">${t("privacy")}</p><h2>${t("imageExtract")}</h2><p>${t("imageExtractInfo")}</p><label class="file-button">↑ ${t("chooseImage")}<input id="palette-image" type="file" accept="image/png,image/jpeg,image/webp"></label><p id="image-status" role="status"></p></section></div><section class="panel palette-preview-panel"><div><p class="eyebrow">${t("previewUI")}</p><h2>${t("previewTitle")}</h2><p>${t("previewText")}</p><label>${t("previewBackground")}<select id="preview-bg">${state.colors.map((h, i) => `<option value="${i}" ${i === background ? "selected" : ""}>${h}</option>`).join("")}</select></label><label>${t("previewScenario")}<select id="preview-kind">${previewKinds.map((k) => `<option value="${k}" ${previewKind === k ? "selected" : ""}>${t(k)}</option>`).join("")}</select></label><label>${t("vision")}<select id="preview-vision">${visionModes.map((k) => `<option value="${k}" ${previewVision === k ? "selected" : ""}>${t(k === "normal" ? "normalVision" : k)}</option>`).join("")}</select></label><p class="muted">${t("visionNote")} ${t("contrastNote")}</p><div id="contrast-matrix"></div></div><div id="ui-preview" class="ui-preview"></div></section>`;
     $("#generate-palette").onclick = () => generate();
     $("#generator-undo").onclick = () => {
       if (!past.length) return;
@@ -176,10 +182,23 @@ export function bindGenerator({ t, lang, onSave, copy, download, toast }) {
     };
     $("#save-generated").onclick = () =>
       onSave([...state.colors], t("generatedName"));
-    $("#share-generated").onclick = () => copy(location.href);
+    $("#share-generated").onclick = () => {
+      store();
+      const u = new URL(location.href);
+      u.searchParams.delete("edit");
+      copy(u.href);
+    };
     $("#copy-generated").onclick = () => copy(state.colors.join(", "));
     $("#export-generated").onclick = exportPalette;
     $("#more-options").onclick = createOptions;
+    $("#preview-kind").onchange = (e) => {
+      previewKind = e.target.value;
+      drawPreview();
+    };
+    $("#preview-vision").onchange = (e) => {
+      previewVision = e.target.value;
+      drawPreview();
+    };
     $("#preview-bg").onchange = (e) => {
       background = +e.target.value;
       drawPreview();
@@ -280,9 +299,24 @@ export function bindGenerator({ t, lang, onSave, copy, download, toast }) {
         contrast(accent, "#000000") > contrast(accent, "#FFFFFF")
           ? "#171927"
           : "#FFFFFF";
-    $("#ui-preview").style.cssText = `background:${bg};color:${text}`;
-    $("#ui-preview").innerHTML =
-      `<div class="preview-mini-nav"><b>CopyHex /</b><span>● ● ●</span></div><h3>${t("previewTitle")}</h3><p>${t("previewText")}</p><span class="preview-cta" style="background:${accent};color:${accentText}">${t("previewAction")} ↗</span><div class="preview-mini-swatches">${state.colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div>`;
+    $("#ui-preview").style.cssText = "padding:0;background:transparent";
+    $("#ui-preview").innerHTML = designPreview(
+      {
+        background: bg,
+        surface: bg,
+        surfaceRaised: bg,
+        textPrimary: text,
+        textMuted: text,
+        primary: accent,
+        onPrimary: accentText,
+        border: text,
+        success: accent,
+        warning: accent,
+        danger: accent,
+        info: accent,
+      },
+      { kind: previewKind, vision: previewVision, t },
+    );
     $("#contrast-matrix").innerHTML = state.colors
       .map((hex) => {
         const ratio = contrast(hex, bg);

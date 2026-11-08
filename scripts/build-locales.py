@@ -32,10 +32,14 @@ family=['red','pink','orange','yellow','green','blue','purple','brown','neutral'
 'hi':['लाल','गुलाबी','नारंगी','पीला','हरा','नीला','बैंगनी','भूरा','तटस्थ']}
 aliases={'eyebrow':'workspace','pickSub':'intro','noPalettes':'paletteTitle','noPalettesSub':'paletteIntro','noFav':'favTitle','noFavSub':'favIntro','made':'intro','deleteColor':'remove','removeColor':'remove','darkColors':'darkTheme','lightColors':'lightTheme','saveHarmony':'savePalette','shared':'copied','installTitle':'install','release':'version','studioCTA':'open','newVersion':'title','colorLink':'pick','online':'saved','resultsHint':'tip','backupTip':'local','detailsButton':'detail','myPalettes':'palettes','discoverEyebrow':'collectionsLabel','generatorEyebrow':'workspace','previewTitle':'paletteTitle','previewAction':'explore','previewLabel':'paletteName','previewBackground':'background','paletteLink':'sharePalette','savedPaletteNote':'local','swatch':'colorsNav','editHint':'lockedHint','mobileGenerate':'generate','adjust':'editColor','preview':'previewUI','savedFrom':'saved','tools':'studio','vibrant':'vivid'}
 for code in codes:
- d=messages[code];d.update(zip(family,colorLabels[code]));d['hexLabel']='HEX / RGB / HSL'
+ d=messages[code];d.update(zip(family,colorLabels[code]));d['hexLabel']='HEX / RGB / HSL / OKLCH'
  for key,target in aliases.items():d[key]=d[target]
  d['downloadSvg']=d['download']+' SVG';d['downloadPng']=d['download']+' PNG'
  missing=set(messages['en'])-set(d);assert not missing,(code,missing)
+for line in (root/'data/localization/advanced.tsv').read_text(encoding='utf-8-sig').splitlines():
+ if not line:continue
+ parts=line.split('|');assert len(parts)==13,(parts[0],len(parts))
+ for code,value in zip(['en','tr',*codes],parts[1:]):messages[code][parts[0]]=value
 for code,d in messages.items():
  missing=set(messages['en'])-set(d);assert not missing,(code,missing)
 (root/'js/i18n.js').write_text('// Generated from data/localization by scripts/build-locales.py.\nexport const messages = '+json.dumps(messages,ensure_ascii=False,separators=(',',':'))+';\n',encoding='utf-8')
