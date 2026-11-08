@@ -2,6 +2,13 @@
 
 ## 1.0.1 — 2026-11-08
 
+- Expanded to 12 languages with 263 complete messages per locale, native color-family search and localized palette names.
+- Added Arabic RTL layout and strict English fallback for unsupported browser languages.
+- Expanded locale URLs, metadata and reciprocal language links to 456 pages, including 432 indexable public pages.
+- Replaced the install arrow with an accessible application icon and refined the global visual identity.
+- Improved palette cohesion with fixed harmony offsets, lightness roles and sequential candidate scoring.
+- Removed hardcoded English interface headings and reduced redundant interface copy.
+
 - Standardized the visible brand as CopyHex and removed the header/footer version badges.
 - Added 24 original curated color palettes, editable copies and dedicated bilingual detail pages.
 - Added a 3–8-color smart generator with locks, per-column regeneration, four alternatives, undo/redo, reordering and private local image extraction.

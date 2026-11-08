@@ -90,3 +90,14 @@ test("palette exports retain exact HEX values and escape unsafe SVG title text",
   assert.ok(!svg.includes("<script>"));
   for (const hex of original) assert.ok(svg.includes(hex));
 });
+test("analogous palettes keep new hues close to the anchor", () => {
+  const palette = generatePalette(
+    { seed: "#663399", mode: "analogous", count: 8 },
+    random(19),
+  );
+  const hue = hsl("#663399")[0];
+  for (const hex of palette) {
+    const delta = Math.abs(hsl(hex)[0] - hue);
+    assert.ok(Math.min(delta, 360 - delta) <= 40, hex);
+  }
+});

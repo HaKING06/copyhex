@@ -1,3 +1,4 @@
+import { articleDetails } from "./localized-content.js";
 export const articles = [
   {
     id: "color-harmonies",
@@ -189,18 +190,27 @@ const e = (s) =>
       ],
   );
 export function articlePage(id, t, lang) {
-  const a = articles.find((x) => x.id === id);
+  const original = articles.find((x) => x.id === id);
+  const a = original ? articleDetails(original, lang) : null;
   if (!a) return "";
-  return `<section class="page-head"><a class="breadcrumb" href="/${lang}/resources/">← ${t("resources")}</a><p class="eyebrow">COPYHEX / FIELD NOTES</p><h1>${e(lang === "tr" ? a.tr : a.title)}</h1><p>${e(lang === "tr" ? a.descriptionTr : a.description)}</p></section><article class="prose"><figure class="article-figure"><img src="${a.image}" alt="${e(lang === "tr" ? a.tr : a.title)}" width="1200" height="720"><figcaption>${e(lang === "tr" ? a.descriptionTr : a.description)}</figcaption></figure>${a.sections.map(([h, tr, p, pt]) => `<section><h2>${e(lang === "tr" ? tr : h)}</h2><p>${e(lang === "tr" ? pt : p)}</p></section>`).join("")}<div class="article-links"><a href="/${lang}/palette-generator/">${t("generator")} →</a><a href="/${lang}/discover/">${t("discover")} →</a><a href="/${lang}/studio/">${t("studio")} →</a></div>${id === "accessible-color-palettes" ? '<p><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html" target="_blank" rel="noopener">W3C: Understanding contrast minimum ↗</a></p>' : ""}</article>`;
+  return `<section class="page-head"><a class="breadcrumb" href="/${lang}/resources/">← ${t("resources")}</a><p class="eyebrow">CopyHex / ${t("fieldNotes")}</p><h1>${e(a.title)}</h1><p>${e(a.description)}</p></section><article class="prose"><figure class="article-figure"><img src="${a.image}" alt="${e(a.title)}" width="1200" height="720"><figcaption>${e(a.description)}</figcaption></figure>${a.sections.map(([h, tr, p, pt]) => `<section><h2>${e(h)}</h2><p>${e(p)}</p></section>`).join("")}<div class="article-links"><a href="/${lang}/palette-generator/">${t("generator")} →</a><a href="/${lang}/discover/">${t("discover")} →</a><a href="/${lang}/studio/">${t("studio")} →</a></div>${id === "accessible-color-palettes" ? '<p><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html" target="_blank" rel="noopener">W3C · WCAG ↗</a></p>' : ""}</article>`;
 }
 export function resourcesPage(t, lang) {
-  return `<section class="page-head"><p class="eyebrow">COPYHEX / RESOURCES</p><h1>${lang === "tr" ? "Renklerle daha iyi çalış." : "Work better with color."}</h1><p>${lang === "tr" ? "Palet oluşturma, okunabilirlik ve tasarıma aktarım için uygulamalı rehberler." : "Practical guides to palette creation, readability and bringing your colors into a real design."}</p></section><div class="guide-grid">${articles.map((a) => `<article><img class="resource-thumb" src="${a.image}" alt="${e(lang === "tr" ? a.tr : a.title)}" loading="lazy" width="1200" height="720"><h2><a href="/${lang}/learn/${a.id}/">${e(lang === "tr" ? a.tr : a.title)} ↗</a></h2><p>${e(lang === "tr" ? a.descriptionTr : a.description)}</p></article>`).join("")}</div><section class="page-head"><h2>${lang === "tr" ? "CopyHex görselleri" : "CopyHex artwork"}</h2><p>${lang === "tr" ? "Palet keşfi ve oluşturucu için paylaşılabilir görseller." : "Shareable artwork for palette discovery and generation."}</p></section><div class="resource-grid">${[
+  return `<section class="page-head"><p class="eyebrow">CopyHex / ${t("resources")}</p><h1>${t("resources")}</h1><p>${t("seoSummary")}</p></section><div class="guide-grid">${articles
+    .map((a) => articleDetails(a, lang))
+    .map(
+      (a) =>
+        `<article><img class="resource-thumb" src="${a.image}" alt="${e(a.title)}" loading="lazy" width="1200" height="720"><h2><a href="/${lang}/learn/${a.id}/">${e(a.title)} ↗</a></h2><p>${e(a.description)}</p></article>`,
+    )
+    .join(
+      "",
+    )}</div><section class="page-head"><h2>${t("artwork")}</h2><p>${t("discoverIntro")}</p></section><div class="resource-grid">${[
     ["copyhex-palette-discovery", "Colors that work together."],
     ["copyhex-smart-palette-generator", "One color. Endless palettes."],
   ]
     .map(
       ([id, caption]) =>
-        `<figure><img src="/assets/${id}.png" alt="CopyHex — ${caption}" width="1536" height="1024" loading="lazy"><figcaption>${caption} <a href="/assets/${id}.png" download>PNG ↓</a></figcaption></figure>`,
+        `<figure><img src="/assets/${id}.png" alt="CopyHex — ${caption}" width="1536" height="1024" loading="lazy"><figcaption>${t("artwork")} <a href="/assets/${id}.png" download>PNG ↓</a></figcaption></figure>`,
     )
     .join("")}</div>`;
 }

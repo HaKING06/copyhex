@@ -1,3 +1,5 @@
+import { collectionDetails } from "../js/localized-content.js";
+import { locales, localeCodes } from "../js/locales.js";
 import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { infoPage } from "../js/info-pages.js";
 import { messages } from "../js/i18n.js";
@@ -19,29 +21,19 @@ const publicCore = corePages.filter(
 );
 const records = [];
 function initialContent(view, lang, id) {
-  const t = (k) => messages[lang][k] || k,
-    tr = lang === "tr";
-  let html;
-  if (view === "discover") html = discoveryPage(t, lang);
-  else if (view === "collection") html = collectionPage(id, t, lang);
-  else if (view === "article") html = articlePage(id, t, lang);
-  else if (view === "resources") html = resourcesPage(t, lang);
-  else if (view === "generator")
-    html =
+  const t = (k) => messages[lang][k];
+  if (view === "discover") return discoveryPage(t, lang);
+  if (view === "collection") return collectionPage(id, t, lang);
+  if (view === "article") return articlePage(id, t, lang);
+  if (view === "resources") return resourcesPage(t, lang);
+  if (view === "generator")
+    return (
       generatorPage(t) +
-      `<section class="prose"><h2>${t("generatorGuide")}</h2><p>${t("generatorGuideText")}</p><figure class="article-figure"><img src="/assets/graphics/locked-palette-workflow.svg" width="1200" height="650" alt="${tr ? "Bir rengi kilitle, diğer renkleri yeniden oluştur" : "Lock one color and generate new palette alternatives"}"></figure><h2>${tr ? "Bir başlangıçtan birden fazla seçenek" : "Multiple alternatives from one starting color"}</h2><p>${tr ? "3–8 renkli bir palet oluştur. RGB ve HEX değerlerini düzenle; kilitli tonları koruyarak kalanları üret. Geri al, tek renk değiştirme, tasarım önizlemesi ve görselden renk çıkarma aynı çalışma alanındadır." : "Build a palette of 3–8 colors. Edit HEX values, lock any swatch and regenerate the rest. Undo, single-color regeneration, design preview and local image color extraction share one workspace."}</p><p>${tr ? "CSS, JSON, SVG ve PNG olarak indir veya kendi proje paletine kaydet." : "Export CSS, JSON, SVG or PNG, or save a personal project palette."}</p></section>`;
-  else if (["guide", "about"].includes(view))
-    html =
-      infoPage(view, lang, 6000) +
-      `<section class="support-panel"><h2>${t("generator")}</h2><p>${t("generatorGuideText")}</p><a class="button-link primary" href="/${lang}/palette-generator/">${t("generator")} →</a><a class="button-link" href="/${lang}/resources/">${t("resources")} →</a></section>`;
-  else {
-    const meta = pageMetadata(view, lang);
-    html = `<section class="page-head"><p class="eyebrow">COPYHEX / COLOR WORKSPACE</p><h1>${view === "explore" ? (tr ? "Rengini bul.<br>Fikrine dönüştür." : "Find your color.<br>Build your next idea.") : esc(meta.title)}</h1><p>${esc(meta.description)}</p><div class="article-links"><a href="/${lang}/discover/">${t("discover")}</a><a href="/${lang}/palette-generator/">${t("generator")}</a><a href="/${lang}/studio/">${t("studio")}</a></div></section><article class="prose"><h2>${tr ? "HEX, RGB ve HSL renk kodları" : "HEX, RGB and HSL color codes"}</h2><p>${tr ? "CopyHex; 6.000 özgün isimli renk, arama, gelişmiş filtreler ve canlı renk seçiciyi birleştirir. Kodu tek dokunuşla kopyala, rengi favorilerine veya proje paletine ekle." : "CopyHex brings 6,000 unique named colors, searchable filters and a live color picker into one workspace. Copy a code, save a favorite or organize colors into a project palette."}</p><h2>${tr ? "Uyumlu renk paletleri oluştur" : "Create harmonious color palettes"}</h2><p>${tr ? "Hazır renk birleşimlerini keşfet veya bir başlangıç renginden kendi paletini oluştur. Sevdiğin tonları kilitle, diğerlerini yeniden üret; farklı yönleri karşılaştır ve CSS, SVG, PNG veya JSON olarak indir." : "Discover ready-made color combinations or start from one color. Lock the shades you like, regenerate the rest, compare directions and export CSS, SVG, PNG or JSON."}</p><h2>${tr ? "Özel, ücretsiz ve cihazında" : "Private, free and on your device"}</h2><p>${tr ? "Dil, tema ve paletler bu tarayıcıda saklanır. Üyelik ve takip betiği yoktur. Cihaz değiştirmeden koleksiyonunu JSON olarak yedekle." : "Language, theme and palettes stay in this browser. No account or analytics script is required. Export a JSON backup before moving to another device."}</p></article>`;
-  }
-  return html.replace(
-    /href="\/(studio|guide|about|discover|palette-generator|resources)\//g,
-    `href="/${lang}/$1/`,
-  );
+      `<article class="prose"><h2>${t("generatorGuide")}</h2><p>${t("generatorGuideText")}</p><img src="/assets/graphics/locked-palette-workflow.svg" width="1200" height="650" alt="${t("lockedHint")}"><h2>${t("exportFormat")}</h2><p>${t("exportLearning")}</p></article>`
+    );
+  if (["guide", "about"].includes(view)) return infoPage(view, lang, 6000);
+  const meta = pageMetadata(view, lang);
+  return `<section class="page-head"><p class="eyebrow">CopyHex</p><h1>${view === "explore" ? t("title") : esc(meta.title)}</h1><p>${esc(meta.description)}</p><div class="article-links"><a href="/${lang}/discover/">${t("discover")}</a><a href="/${lang}/palette-generator/">${t("generator")}</a><a href="/${lang}/studio/">${t("studio")}</a></div></section><article class="prose"><h2>${t("workspace")}</h2><p>${t("seoSummary")}</p><h2>${t("generator")}</h2><p>${t("generatorGuideText")}</p><h2>${t("privacyLabel")}</h2><p>${t("privacyNotice")}</p></article>`;
 }
 function schemaFor(meta) {
   const common = {
@@ -74,7 +66,7 @@ function schemaFor(meta) {
         itemListElement: collections.map((p, i) => ({
           "@type": "ListItem",
           position: i + 1,
-          name: meta.lang === "tr" ? p.tr : p.name,
+          name: collectionDetails(p, meta.lang).name,
           url: siteUrl + localizedPath("collection", meta.lang, p.id),
         })),
       },
@@ -105,7 +97,7 @@ async function page(view, lang, id = "", alias = null) {
     ? "/assets/copyhex-palette-discovery.png"
     : meta.image;
   const alternates =
-    ["en", "tr"]
+    localeCodes
       .map(
         (locale) =>
           `<link rel="alternate" hreflang="${locale}" href="${siteUrl + localizedPath(view, locale, id)}">`,
@@ -123,20 +115,20 @@ async function page(view, lang, id = "", alias = null) {
               "@type": "WebSite",
               name: "CopyHex",
               url: siteUrl + "/en/",
-              inLanguage: ["en", "tr"],
+              inLanguage: localeCodes,
             },
           ],
         }
       : schema;
-  const nav = `<header><a class="brand" href="/${lang}/"><img src="/assets/logo.svg" width="38" height="38" alt="">CopyHex</a><nav>${["explore", "discover", "generator", "studio", "resources", "about"].map((v) => `<a href="${localizedPath(v, lang)}">${t(v === "explore" ? "colorsNav" : v)}</a>`).join("")}</nav><div><a href="${localizedPath(view, "en", id)}" lang="en">English</a> / <a href="${localizedPath(view, "tr", id)}" lang="tr">Türkçe</a></div></header>`;
-  const html = `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f9fc"><meta name="color-scheme" content="light dark"><title>${esc(meta.title)}</title><meta name="description" content="${esc(meta.description)}"><meta name="robots" content="${meta.noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}"><meta name="author" content="CopyHex"><link rel="canonical" href="${canonical}">${alternates}<meta property="og:type" content="${view === "article" ? "article" : "website"}"><meta property="og:site_name" content="CopyHex"><meta property="og:locale" content="${lang === "tr" ? "tr_TR" : "en_US"}"><meta property="og:locale:alternate" content="${lang === "tr" ? "en_US" : "tr_TR"}"><meta property="og:title" content="${esc(meta.title)}"><meta property="og:description" content="${esc(meta.description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl + og}"><meta property="og:image:width" content="${meta.image.endsWith(".svg") ? 1536 : meta.width}"><meta property="og:image:height" content="${meta.image.endsWith(".svg") ? 1024 : meta.height}"><meta property="og:image:alt" content="${esc(meta.imageAlt)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(meta.title)}"><meta name="twitter:description" content="${esc(meta.description)}"><meta name="twitter:image" content="${siteUrl + og}"><link rel="icon" href="/assets/logo.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/icon-180.png"><link rel="manifest" href="/manifest.webmanifest"><script src="/js/theme-init.js"></script><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/workspace.css"><script type="application/ld+json">${JSON.stringify(structured)}</script><script type="module" src="/js/app.js"></script></head><body><div id="app">${nav}<main>${initialContent(view, lang, id)}</main><footer><a class="brand" href="/${lang}/">CopyHex</a><a href="mailto:copyhex@haking.tr">copyhex@haking.tr</a></footer></div><div id="toast" role="status" aria-live="polite"></div><dialog id="dialog"></dialog><noscript>${lang === "tr" ? "Etkileşimli araçlar için JavaScript gerekir. Rehberler ve palet açıklamaları okunabilir." : "Enable JavaScript for interactive tools. The guides and palette descriptions remain readable."}</noscript></body></html>`;
+  const nav = `<header><a class="brand" href="/${lang}/"><img src="/assets/logo.svg" width="38" height="38" alt="">CopyHex</a><nav>${["explore", "discover", "generator", "studio", "resources", "about"].map((v) => `<a href="${localizedPath(v, lang)}">${t(v === "explore" ? "colorsNav" : v)}</a>`).join("")}</nav><details class="static-languages"><summary>${t("language")}</summary>${locales.map((l) => `<a href="${localizedPath(view, l.code, id)}" lang="${l.code}">${l.name}</a>`).join(" · ")}</details></header>`;
+  const html = `<!doctype html><html lang="${lang}" dir="${locales.find((l) => l.code === lang).dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f9fc"><meta name="color-scheme" content="light dark"><title>${esc(meta.title)}</title><meta name="description" content="${esc(meta.description)}"><meta name="robots" content="${meta.noindex ? "noindex,follow" : "index,follow,max-image-preview:large"}"><meta name="author" content="CopyHex"><link rel="canonical" href="${canonical}">${alternates}<meta property="og:type" content="${view === "article" ? "article" : "website"}"><meta property="og:site_name" content="CopyHex"><meta property="og:locale" content="${locales.find((l) => l.code === lang).og}"><meta property="og:locale:alternate" content="en_US"><meta property="og:title" content="${esc(meta.title)}"><meta property="og:description" content="${esc(meta.description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${siteUrl + og}"><meta property="og:image:width" content="${meta.image.endsWith(".svg") ? 1536 : meta.width}"><meta property="og:image:height" content="${meta.image.endsWith(".svg") ? 1024 : meta.height}"><meta property="og:image:alt" content="${esc(meta.imageAlt)}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(meta.title)}"><meta name="twitter:description" content="${esc(meta.description)}"><meta name="twitter:image" content="${siteUrl + og}"><link rel="icon" href="/assets/logo.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/icon-180.png"><link rel="manifest" href="/manifest.webmanifest"><script src="/js/theme-init.js"></script><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/workspace.css"><link rel="stylesheet" href="/css/global.css"><script type="application/ld+json">${JSON.stringify(structured)}</script><script type="module" src="/js/app.js"></script></head><body><div id="app">${nav}<main>${initialContent(view, lang, id)}</main><footer><a class="brand" href="/${lang}/">CopyHex</a><a href="mailto:copyhex@haking.tr">copyhex@haking.tr</a></footer></div><div id="toast" role="status" aria-live="polite"></div><dialog id="dialog"></dialog><noscript>CopyHex · ${t("guide")}</noscript></body></html>`;
   const file = path === "/" ? "index.html" : path.slice(1) + "index.html";
   const parent = file.slice(0, file.lastIndexOf("/"));
   if (parent) await mkdir(parent, { recursive: true });
   await writeFile(file, html);
   if (alias === null) records.push({ ...meta, file });
 }
-for (const lang of ["en", "tr"]) {
+for (const lang of localeCodes) {
   for (const view of corePages) await page(view, lang);
   for (const p of collections) await page("collection", lang, p.id);
   for (const a of articles) await page("article", lang, a.id);
@@ -152,7 +144,7 @@ for (const view of corePages.filter((v) => v !== "explore"))
   );
 await mkdir("sitemaps", { recursive: true });
 const alternateXml = (r) =>
-  ["en", "tr"]
+  localeCodes
     .map(
       (lang) =>
         `<xhtml:link rel="alternate" hreflang="${lang}" href="${siteUrl + localizedPath(r.view, lang, r.id)}"/>`,

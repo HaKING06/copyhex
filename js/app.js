@@ -1,6 +1,9 @@
 import { colors } from "./colors.js";
 import { format, parseColor, hsl, luminance, contrast } from "./color-utils.js";
 import { messages } from "./i18n.js";
+import { locales, localeCodes, isLocale, resolveLocale } from "./locales.js";
+import { icon } from "./icons.js";
+import { collectionDetails } from "./localized-content.js";
 import { groups, indexColors, filterColors } from "./catalog.js";
 import { studioPage, bindStudio } from "./studio.js";
 import { infoPage } from "./info-pages.js";
@@ -27,16 +30,11 @@ let stored = {};
 try {
   stored = JSON.parse(localStorage.getItem("copyhex-v1") || "{}") || {};
 } catch {}
-const explicitLocale = ["en", "tr"].includes(location.pathname.split("/")[1])
-  ? location.pathname.split("/")[1]
-  : null;
-let lang =
-  explicitLocale ||
-  (["en", "tr"].includes(stored.lang)
-    ? stored.lang
-    : navigator.language.toLowerCase().startsWith("tr")
-      ? "tr"
-      : "en");
+let lang = resolveLocale({
+  path: location.pathname,
+  stored: stored.lang,
+  browser: navigator.language,
+});
 let favorites = Array.isArray(stored.favorites)
     ? [
         ...new Set(
@@ -65,7 +63,7 @@ const routes = [
 ];
 const routeKey = (pathname) => {
   const parts = pathname.split("/").filter(Boolean);
-  if (["en", "tr"].includes(parts[0])) parts.shift();
+  if (isLocale(parts[0])) parts.shift();
   return parts[0] === "palette-generator"
     ? "generator"
     : parts[0] === "collections"
@@ -170,8 +168,9 @@ function render() {
   applyTheme();
   updateMetadata();
   document.documentElement.lang = lang;
+  document.documentElement.dir = locales.find((l) => l.code === lang).dir;
   $("#app").innerHTML =
-    `<a class="skip-link" href="#main-content">${lang === "tr" ? "İçeriğe geç" : "Skip to content"}</a><header><a href="${routeHref("explore")}" class="brand"><img src="/assets/logo.svg" alt="" width="38" height="38">CopyHex</a><nav aria-label="${lang === "tr" ? "Ana menü" : "Main navigation"}">${["explore", "discover", "generator", "studio", "palettes"].map((v) => `<a class="${view === v || (v === "discover" && view === "collection") ? "current" : ""}" href="${routeHref(v)}" ${view === v ? 'aria-current="page"' : ""}>${t(v === "explore" ? "colorsNav" : v)}${v === "favorites" ? ` <small>${favorites.length}</small>` : ""}</a>`).join("")}</nav><div class="header-tools"><a class="favorites-link" href="${routeHref("favorites")}" aria-label="${t("favorites")}" title="${t("favorites")}">♡ <small>${favorites.length}</small></a><a href="${routeHref("guide")}" class="help-link">${t("help")}</a><button id="install-app" class="icon-button" aria-label="${t("install")}" title="${t("install")}">↓</button><select id="theme" aria-label="${t("theme")}">${["system", "light", "dark"].map((v) => `<option value="${v}" ${theme === v ? "selected" : ""}>${v === "system" ? "◐ " + t("system") : v === "dark" ? "☾ " + t("darkTheme") : "☀ " + t("lightTheme")}</option>`).join("")}</select><label class="language"><select id="language" aria-label="Language / Dil"><option value="en" ${lang === "en" ? "selected" : ""}>EN</option><option value="tr" ${lang === "tr" ? "selected" : ""}>TR</option></select></label></div></header><div id="connection" class="connection" ${navigator.onLine ? "hidden" : ""}>${t("offline")}</div><div id="update-banner" class="update-banner" hidden></div><main id="main-content">${view === "resources" ? resourcesPage(t, lang) : view === "article" ? articlePage(collectionId(), t, lang) : view === "discover" ? discoveryPage(t, lang) : view === "generator" ? generatorPage(t) : view === "collection" ? collectionPage(collectionId(), t, lang) : view === "explore" ? explore() : view === "favorites" ? favoritePage() : view === "palettes" ? palettePage() : view === "studio" ? studioPage(t, selected) : infoPage(view, lang, colors.length)}</main><footer><div><a class="brand" href="${routeHref("explore")}"><img src="/assets/logo.svg" alt="" width="26" height="26">CopyHex</a><p>${t("made")}</p><small>${t("privacy")}</small></div><div class="footer-links"><a href="${routeHref("resources")}">${t("resources")}</a><a href="${routeHref("discover")}">${t("discover")}</a><a href="${routeHref("generator")}">${t("generator")}</a><a href="${routeHref("studio")}">${t("studio")}</a><a href="${routeHref("guide")}">${t("guide")}</a><a href="${routeHref("about")}">${t("about")}</a><a href="mailto:copyhex@haking.tr">${t("contact")} ↗</a></div></footer>`;
+    `<a class="skip-link" href="#main-content">${t("skipContent")}</a><header><a href="${routeHref("explore")}" class="brand"><img src="/assets/logo.svg" alt="" width="38" height="38">CopyHex</a><nav aria-label="${t("tools")}">${["explore", "discover", "generator", "studio", "palettes"].map((v) => `<a class="${view === v || (v === "discover" && view === "collection") ? "current" : ""}" href="${routeHref(v)}" ${view === v ? 'aria-current="page"' : ""}>${t(v === "explore" ? "colorsNav" : v)}${v === "favorites" ? ` <small>${favorites.length}</small>` : ""}</a>`).join("")}</nav><div class="header-tools"><a class="favorites-link" href="${routeHref("favorites")}" aria-label="${t("favorites")}" title="${t("favorites")}">♡ <small>${favorites.length}</small></a><a href="${routeHref("guide")}" class="help-link">${t("help")}</a><button id="install-app" class="install-action" aria-label="${t("install")}" title="${t("install")}">${icon("install")}</button><select id="theme" aria-label="${t("theme")}">${["system", "light", "dark"].map((v) => `<option value="${v}" ${theme === v ? "selected" : ""}>${v === "system" ? "◐ " + t("system") : v === "dark" ? "☾ " + t("darkTheme") : "☀ " + t("lightTheme")}</option>`).join("")}</select><label class="language">${icon("globe")}<select id="language" aria-label="${t("language")}">${locales.map((l) => `<option value="${l.code}" ${lang === l.code ? "selected" : ""}>${l.name}</option>`).join("")}</select></label></div></header><div id="connection" class="connection" ${navigator.onLine ? "hidden" : ""}>${t("offline")}</div><div id="update-banner" class="update-banner" hidden></div><main id="main-content">${view === "resources" ? resourcesPage(t, lang) : view === "article" ? articlePage(collectionId(), t, lang) : view === "discover" ? discoveryPage(t, lang) : view === "generator" ? generatorPage(t) : view === "collection" ? collectionPage(collectionId(), t, lang) : view === "explore" ? explore() : view === "favorites" ? favoritePage() : view === "palettes" ? palettePage() : view === "studio" ? studioPage(t, selected) : infoPage(view, lang, colors.length)}</main><footer><div><a class="brand" href="${routeHref("explore")}"><img src="/assets/logo.svg" alt="" width="26" height="26">CopyHex</a><small>${t("privacy")}</small></div><div class="footer-links"><a href="${routeHref("resources")}">${t("resources")}</a><a href="${routeHref("discover")}">${t("discover")}</a><a href="${routeHref("generator")}">${t("generator")}</a><a href="${routeHref("studio")}">${t("studio")}</a><a href="${routeHref("guide")}">${t("guide")}</a><a href="${routeHref("about")}">${t("about")}</a><a href="mailto:copyhex@haking.tr">${t("contact")} ↗</a></div></footer>`;
   bind();
   showUpdateBanner();
 }
@@ -216,7 +215,7 @@ function updateMetadata() {
             "en",
             ["collection", "article"].includes(view) ? collectionId() : "",
           );
-  for (const locale of ["en", "tr"]) {
+  for (const locale of localeCodes) {
     const el = document.querySelector(`link[hreflang="${locale}"]`);
     if (el)
       el.href =
@@ -257,7 +256,7 @@ function controls() {
   return `<div class="controls"><label>${t("format")} <select id="format">${["HEX", "RGB", "HSL", "CMYK"].map((v) => `<option ${copyFormat === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>${t("sort")} <select id="sort">${["curated", "name", "hue", "light", "dark", ...(view === "explore" ? ["nearest"] : [])].map((v) => `<option value="${v}" ${sort === v ? "selected" : ""}>${t(v)}</option>`).join("")}</select></label></div>`;
 }
 function explore() {
-  return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><i></i> ${t("eyebrow")}</p><h1>${t("title")}</h1><p class="intro">${t("intro")}</p><p class="hero-stats">${t("homeStats")}</p><a class="button-link primary hero-cta" href="${routeHref("studio")}">${t("studioCTA")} ↗</a></div><div class="hero-art" aria-hidden="true"><div style="background:#b6c9b0">01<br><b>Sage</b></div><div style="background:#d8c7f0">02<br><b>Lilac</b></div><div style="background:#f1ad92">03<br><b>Peach</b></div><div style="background:#f0df95">04<br><b>Butter</b></div><span>THE POSSIBILITIES ARE ENDLESS ↗</span></div></section><section class="home-directions"><a href="${routeHref("discover")}"><b>${t("discover")} ↗</b><span>${lang === "tr" ? "24 düzenlenebilir renk yönü" : "24 editable color directions"}</span><div>${collections[0].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a><a href="${routeHref("generator")}"><b>${t("generator")} ↗</b><span>${lang === "tr" ? "Kilitle. Yeniden üret. Kendine uyarla." : "Lock. Regenerate. Make it yours."}</span><div>${collections[1].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a></section><section class="search-area"><label class="search"><span>⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label><button class="studio-button" id="studio">◉ ${t("studio")}</button></section><p class="search-tip">${t("tip")}</p><div class="filters">${["all", "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "neutral"].map((g) => `<button data-category="${g}" class="${category === g ? "selected" : ""}">${g === "all" ? "" : `<i class="dot ${g}"></i>`}${t(g)}</button>`).join("")}</div>${advancedFilters()}<section class="library"><div class="section-head"><div><h2>${t("library")} <span id="count"></span></h2><p>${t("librarySub")}</p></div>${controls()}</div><div class="grid" id="grid"></div><div id="pagination" class="pagination" aria-label="Pagination"></div></section><section class="studio-banner"><span class="banner-icon">✳</span><div><h2>${t("pick")}</h2><p>${t("pickSub")}</p></div><button id="studio-bottom">${t("open")} ↗</button></section>`;
+  return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><i></i> ${t("eyebrow")}</p><h1>${t("title")}</h1><p class="intro">${t("intro")}</p><p class="hero-stats">${t("homeStats")}</p><a class="button-link primary hero-cta" href="${routeHref("studio")}">${t("studioCTA")} ↗</a></div><div class="hero-art" aria-hidden="true"><div style="background:#b6c9b0">01<br><b>#B6C9B0</b></div><div style="background:#d8c7f0">02<br><b>#D8C7F0</b></div><div style="background:#f1ad92">03<br><b>#F1AD92</b></div><div style="background:#f0df95">04<br><b>#F0DF95</b></div><span>CopyHex</span></div></section><section class="home-directions"><a href="${routeHref("discover")}"><b>${t("discover")} ↗</b><span>${t("allPalettes")}</span><div>${collections[0].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a><a href="${routeHref("generator")}"><b>${t("generator")} ↗</b><span>${t("lockedHint")}</span><div>${collections[1].colors.map((h) => `<i style="background:${h}"></i>`).join("")}</div></a></section><section class="search-area"><label class="search"><span>⌕</span><input id="search" type="search" value="${esc(query)}" placeholder="${t("search")}" aria-label="${t("search")}"><kbd>/</kbd></label><button class="studio-button" id="studio">◉ ${t("studio")}</button></section><p class="search-tip">${t("tip")}</p><div class="filters">${["all", "red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "neutral"].map((g) => `<button data-category="${g}" class="${category === g ? "selected" : ""}">${g === "all" ? "" : `<i class="dot ${g}"></i>`}${t(g)}</button>`).join("")}</div>${advancedFilters()}<section class="library"><div class="section-head"><div><h2>${t("library")} <span id="count"></span></h2><p>${t("librarySub")}</p></div>${controls()}</div><div class="grid" id="grid"></div><div id="pagination" class="pagination" aria-label="${t("page")}"></div></section><section class="studio-banner"><span class="banner-icon">✳</span><div><h2>${t("pick")}</h2><p>${t("pickSub")}</p></div><button id="studio-bottom">${t("open")} ↗</button></section>`;
 }
 function advancedFilters() {
   return `<div class="advanced-filters"><div><b>${t("filterSummary")}</b><small>${t("resultsHint")}</small></div>${[
@@ -551,7 +550,7 @@ document.addEventListener("click", (e) => {
   const d = b.dataset;
   if (d.collectionSave) {
     const p = collections.find((p) => p.id === d.collectionSave);
-    if (p) paletteForm(null, [...p.colors], lang === "tr" ? p.tr : p.name);
+    if (p) paletteForm(null, [...p.colors], collectionDetails(p, lang).name);
   }
 
   if (d.category) {
@@ -619,7 +618,7 @@ document.addEventListener("click", (e) => {
     history.pushState({}, "", url.pathname + url.search);
     view = v;
     const locale = url.pathname.split("/")[1];
-    if (["en", "tr"].includes(locale)) {
+    if (isLocale(locale)) {
       lang = locale;
       persist();
     }
@@ -630,7 +629,7 @@ document.addEventListener("click", (e) => {
 });
 window.addEventListener("popstate", () => {
   const locale = location.pathname.split("/")[1];
-  if (["en", "tr"].includes(locale)) {
+  if (isLocale(locale)) {
     lang = locale;
     persist();
   }

@@ -6,7 +6,7 @@
 
 [Website](https://copyhex.haking.tr) · [Color studio](https://copyhex.haking.tr/studio/) · [Guide](https://copyhex.haking.tr/guide/) · [Support](mailto:copyhex@haking.tr)
 
-Version **1.0.1** · MIT licensed · English / Türkçe · No runtime dependencies
+Version **1.0.1** · MIT licensed · 12 languages · No runtime dependencies
 
 ## What you can do
 
@@ -61,9 +61,9 @@ Each public page has readable initial HTML, a unique title and description, cano
 
 After publishing, verify domain ownership in **Google Search Console** and submit `https://copyhex.haking.tr/sitemap.xml`. Use URL inspection to request indexing. This requires the owner's account and is not performed by this project. Search engines decide when and how pages appear; ranking or immediate indexing is not guaranteed. Keyword stuffing and hidden search terms are intentionally avoided.
 
-English and Turkish now have separate, fully rendered `/en/` and `/tr/` URLs with reciprocal `hreflang` and self-canonical metadata. Explicit locale URLs display that language; the root entry still uses the saved preference or browser language. The sitemap index references four maps: public tools, curated palette pages, editorial guides and actual page images.
+All 12 supported languages have separate, fully rendered locale URLs, including `/en/`, `/tr/`, `/ru/` and `/ar/` with reciprocal `hreflang` and self-canonical metadata. Explicit locale URLs display that language; the root entry still uses the saved preference or browser language. The sitemap index references four maps: public tools, curated palette pages, editorial guides and actual page images.
 
-There are **76 localized entry pages**: 72 indexable public pages and four private-workspace entries marked noindex. Each of the 24 palettes has an original name, colors, use notes, a customization link and a genuine SVG/PNG preview. Five bilingual practical guides add substantive use information. Pages are internally linked and can be read without JavaScript; interactive tools require JavaScript. No invented rating or ranking claim is included.
+There are **456 localized entry pages**: 432 indexable public pages and 24 private-workspace entries marked noindex. Each of the 24 palettes has an original name, colors, use notes, a customization link and a genuine SVG/PNG preview. Five localized practical guides add substantive use information. Pages are internally linked and can be read without JavaScript; interactive tools require JavaScript. No invented rating or ranking claim is included.
 
 ## Data, privacy and limits
 
@@ -115,7 +115,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md), [CHANGELOG.md](CHANGELOG.md) and [SECURI
 
 CopyHex, renk kodu bulmak, HEX/RGB/HSL değerlerini anlık kopyalamak ve projeye özel renk paletleri oluşturmak için hazırlanmıştır. 1.0.1 sürümünde 6.000 özgün HEX rengi, gelişmiş filtreler, kalıcı koyu tema, ana menüden erişilen renk stüdyosu, renk uyumları, rehber ve kurulabilir uygulama desteği bulunur.
 
-Türkçe tarayıcıda ilk açılış Türkçe; diğer tarayıcı dillerinde İngilizcedir. Son seçilen dil ve görünüm korunur. Menü dili ne olursa olsun İngilizce isim veya Türkçe renk ailesi ile arama yapılabilir.
+Desteklenen 12 tarayıcı dilinden biri otomatik seçilir; desteklenmeyen tarayıcı dillerinde İngilizce açılır. Son seçilen dil ve görünüm korunur. Dilin açıkça belirtildiği adresler o dilde açılır. Renk aileleri 12 dilde aranabilir; katalogdaki CSS ve topluluk renk adları da aranabilir.
 
 Çalıştırmak için `npm run dev`, test için `npm test`, yayın çıktısı için `npm run build`. Cloudflare Pages çıktı klasörü `dist` olmalıdır. Ana adres **https://copyhex.haking.tr**, destek **copyhex@haking.tr**.
 
@@ -127,7 +127,7 @@ Kayıtlar tarayıcıdadır. Cihaz değiştirmeden önce JSON yedeğini indir. Gi
 - `/en/discover/` / `/tr/discover/`: curated palettes, mood filters and search.
 - `/en/palette-generator/` / `/tr/palette-generator/`: local smart generator, locks, image extraction, exports and design preview.
 - `/{locale}/collections/{slug}/`: 24 reusable palette directions, each with a PNG and SVG.
-- `/{locale}/resources/` and `/{locale}/learn/{slug}/`: bilingual practical guides and artwork.
+- `/{locale}/resources/` and `/{locale}/learn/{slug}/`: localized practical guides and artwork.
 - `/sitemap.xml`: sitemap index; `/sitemaps/pages.xml`, `palettes.xml`, `guides.xml`, `images.xml` hold the actual entries.
 
 New modules: `js/collections.js`, `js/discovery.js`, `js/palette-engine.js`, `js/generator.js`, `js/resources.js`, `js/seo.js`. New styles live in `css/workspace.css`.
@@ -141,3 +141,18 @@ The smart generator is a local harmony engine, not an external AI service. It do
 ### Artwork prompts
 
 OpenAI ImageGen was used in built-in mode for `assets/copyhex-palette-discovery.png`: premium dark editorial launch banner, exact brand **CopyHex**, headline **Colors that work together.**, domain **copyhex.haking.tr**, and sage/ivory/spruce/gold/terracotta swatch cards. `assets/copyhex-smart-palette-generator.png`: exact **CopyHex**, **One color. Endless palettes.**, **copyhex.haking.tr**, with one lilac swatch branching into three harmonious palette options. No version number is displayed in either banner. The first poster is also used as the default `copyhex-poster.png` alias.
+
+
+## Global localization
+
+CopyHex is English-first and supports **English, Turkish, Russian, Spanish, French, German, Portuguese, Simplified Chinese, Japanese, Korean, Arabic and Hindi**. This is a broad international language set, not a claim of a definitive popularity ranking.
+
+Each language has 263 complete interface messages, localized search examples, color-family search terms, palette names, public-page metadata and reciprocal language links. Arabic uses RTL layout; color codes remain LTR. Community/CSS color identifiers retain their standard names. Shared reference artwork remains English-branded; the surrounding captions and controls are localized.
+
+`js/locales.js` is the single registry for routing, browser detection and language options. Priority is explicit locale URL, saved valid preference, supported primary browser language, then English. Unsupported browser languages such as Swedish or Italian fall back to English. Device storage remains backward compatible.
+
+Translation sources live in `data/localization/`. Run `npm run locales` with Python to rebuild the committed dictionaries and palette names, then `npm run build`. Production builds need Node only; no translation API or external service is used at runtime. Original English/Turkish long guides are retained; additional languages have concise localized editions covering the same practical tasks.
+
+The palette engine now assigns stable harmony offsets and lightness roles, evaluates each new swatch against existing/locked colors and favors useful separation without maximizing unrelated RGB distance. Single-color regeneration and locked-color guarantees are preserved. Decorative gradients and hover motion are kept outside actual color-reference surfaces and respect reduced-motion preferences.
+
+Essential locale workspaces are precached; the full localized content is generated for crawling without forcing every article/detail document into the initial app cache.

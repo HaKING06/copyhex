@@ -5,8 +5,8 @@ const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
 const pages = JSON.parse(await read("data/page-manifest.json"));
 test("every localized page has unique canonical, language alternates and readable initial content", async () => {
-  assert.equal(pages.length, 76);
-  assert.equal(new Set(pages.map((p) => p.path)).size, 76);
+  assert.equal(pages.length, 456);
+  assert.equal(new Set(pages.map((p) => p.path)).size, 456);
   for (const p of pages) {
     const html = await read(p.file);
     assert.ok(
@@ -15,7 +15,7 @@ test("every localized page has unique canonical, language alternates and readabl
       ),
       p.path,
     );
-    assert.ok(html.includes(`<html lang="${p.lang}">`), p.path);
+    assert.ok(html.includes(`<html lang="${p.lang}"`), p.path);
     assert.match(html, /<h1>/);
     assert.match(html, /hreflang="en"/);
     assert.match(html, /hreflang="tr"/);
@@ -51,8 +51,8 @@ test("sitemap index separates pages, palettes, guides and actual page images", a
     ))
       urls.push(match[1]);
   }
-  assert.equal(urls.length, 72);
-  assert.equal(new Set(urls).size, 72);
+  assert.equal(urls.length, 432);
+  assert.equal(new Set(urls).size, 432);
   assert.ok(
     urls.every(
       (url) => !url.endsWith("/favorites/") && !url.endsWith("/palettes/"),

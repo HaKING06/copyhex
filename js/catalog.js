@@ -1,3 +1,4 @@
+import { colorWords } from "./locales.js";
 import { hsl, rgb, luminance, parseColor } from "./color-utils.js";
 export const groups = {
   Kırmızı: "red",
@@ -61,6 +62,39 @@ export function indexColors(colors) {
       .split(/\s+/)
       .map((w) => words[w] || "")
       .join(" ");
+    const family = [
+      "red",
+      "pink",
+      "orange",
+      "yellow",
+      "green",
+      "blue",
+      "purple",
+      "brown",
+      "neutral",
+      "white",
+      "black",
+      "gray",
+      "light",
+      "dark",
+    ];
+    const translated = Object.values(colorWords)
+      .map((list) => {
+        const category = family.indexOf(groups[c.cat]);
+        return (
+          (category >= 0 ? list[category] : "") +
+          " " +
+          aliases
+            .toLowerCase()
+            .split(/\s+/)
+            .map((word) => {
+              const i = family.indexOf(word === "grey" ? "gray" : word);
+              return i >= 0 ? list[i] : "";
+            })
+            .join(" ")
+        );
+      })
+      .join(" ");
     return {
       ...c,
       hsl: hsl(c.hex),
@@ -70,6 +104,8 @@ export function indexColors(colors) {
         aliases +
           " " +
           translations +
+          " " +
+          translated +
           " " +
           c.cat +
           " " +

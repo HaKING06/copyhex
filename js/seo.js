@@ -1,3 +1,5 @@
+import { messages } from "./i18n.js";
+import { collectionDetails, articleDetails } from "./localized-content.js";
 import { collections } from "./collections.js";
 import { articles } from "./resources.js";
 export const siteUrl = "https://copyhex.haking.tr";
@@ -115,6 +117,51 @@ export function pageMetadata(view, lang = "en", id = "") {
       height = 720;
     }
   }
+  const t = (k) => messages[lang][k];
+  if (!["en", "tr"].includes(lang)) {
+    title =
+      "CopyHex — " +
+      t(
+        view === "explore"
+          ? "colorsNav"
+          : view === "collection"
+            ? "paletteColors"
+            : view === "article"
+              ? "resources"
+              : view,
+      );
+    description =
+      view === "generator"
+        ? t("generatorGuideText")
+        : view === "studio"
+          ? t("studioIntro") + " " + t("seoSummary")
+          : t("seoSummary");
+    if (view === "collection") {
+      const p = collections.find((p) => p.id === id);
+      if (p) {
+        const local = collectionDetails(p, lang);
+        title = local.name + " · " + t("paletteColors") + " | CopyHex";
+        description = local.description;
+      }
+    }
+    if (view === "article") {
+      const a = articles.find((a) => a.id === id);
+      if (a) {
+        const local = articleDetails(a, lang);
+        title = local.title + " | CopyHex";
+        description = local.description;
+      }
+    }
+  }
+  imageAlt =
+    "CopyHex · " +
+    t(
+      view === "generator"
+        ? "generator"
+        : view === "collection"
+          ? "paletteColors"
+          : "colorsNav",
+    );
   return {
     view,
     lang,

@@ -8,9 +8,10 @@
     "test": "node --test tests/*.test.js",
     "build": "node build.mjs",
     "catalog": "node scripts/generate-catalog.mjs",
-    "assets": "node scripts/generate-palette-assets.mjs"
+    "assets": "node scripts/generate-palette-assets.mjs",
+    "locales": "python scripts/build-locales.py"
   },
-  "description": "A bilingual color workspace with 6,000 colors, 24 curated palettes, a smart locked-color generator, local image extraction and offline PWA support.",
+  "description": "An English-first color workspace in 12 languages, with 6,000 colors, curated palettes, a harmony generator, local image extraction and offline PWA support.",
   "license": "MIT",
   "homepage": "https://copyhex.haking.tr",
   "author": "Halit / CopyHex"

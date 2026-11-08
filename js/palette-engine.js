@@ -26,77 +26,90 @@ export function generatePalette(
   random = Math.random,
 ) {
   count = clamp(Math.round(count), 3, 8);
-  const locked = colors.filter((c, i) => locks[i]);
-  const base = locked[0] || seed,
-    [h, s, l] = hsl(base);
+  const protectedColors = colors.filter(
+    (_, i) => locks[i] || (replaceIndex !== null && i !== replaceIndex),
+  );
+  const anchor = colors.find((_, i) => locks[i]) || seed,
+    [h, s, l] = hsl(anchor);
   const chosenMode =
     mode === "smart"
-      ? ["analogous", "complementary", "split", "triadic"][
-          Math.floor(random() * 4)
+      ? ["analogous", "analogous", "complementary", "split", "triadic"][
+          Math.floor(random() * 5)
         ]
       : mode;
   const offsets = {
-    analogous: [-30, -15, 0, 15, 30, 45, -45, 60],
-    complementary: [0, 180, 0, 180, 15, 195, -15, 165],
-    split: [0, 150, 210, 0, 150, 210, 15, 195],
-    triadic: [0, 120, 240, 0, 120, 240, 15, 135],
+    analogous: [0, -22, 22, -10, 10, 32, -32, 16],
+    complementary: [0, 0, 180, 180, 0, 180, 0, 180],
+    split: [0, 0, 150, 210, 0, 150, 210, 0],
+    triadic: [0, 0, 120, 240, 0, 120, 240, 0],
     monochromatic: [0, 0, 0, 0, 0, 0, 0, 0],
-  }[chosenMode] || [0, 30, 180, 210];
-  const anchorJitter = mode === "monochromatic" ? 0 : (random() - 0.5) * 18;
-  const result = Array.from({ length: count }, (_, i) => {
+  }[chosenMode] || [0, 0, 22, -22, 0, 30, -30, 15];
+  const plannedLight = [l, 20, 93, 68, 44, 81, 32, 74],
+    variation = (random() - 0.5) * 8;
+  const result = [];
+  const deltaHue = (a, b) =>
+    Math.min(Math.abs(a - b) % 360, 360 - (Math.abs(a - b) % 360));
+  for (let i = 0; i < count; i++) {
     if (
       colors[i] &&
       (locks[i] || (replaceIndex !== null && i !== replaceIndex))
-    )
-      return colors[i];
-    if (i === 0 && !colors.length) return seed;
+    ) {
+      result.push(colors[i]);
+      continue;
+    }
+    if (i === 0 && !colors.length) {
+      result.push(seed);
+      continue;
+    }
+    let targetHue = h + offsets[i],
+      targetS = clamp(s * 0.72 + 12, 24, 76),
+      targetL = plannedLight[i] + variation;
+    if (style === "pastel") {
+      targetS = clamp(s * 0.55 + 18, 30, 62);
+      targetL = [l, 75, 94, 83, 88, 79, 91, 85][i];
+    }
+    if (style === "vibrant") {
+      targetS = clamp(s + 12, 72, 92);
+      targetL = [l, 25, 91, 62, 48, 74, 36, 83][i];
+    }
+    if (style === "earthy") {
+      targetS = clamp(s * 0.48 + 9, 19, 43);
+      targetL = [l, 24, 91, 66, 43, 80, 34, 73][i];
+    }
+    if (style === "dark") {
+      targetS = clamp(s * 0.65 + 8, 20, 65);
+      targetL = [l, 13, 23, 38, 77, 53, 18, 86][i];
+    }
+    if (chosenMode === "monochromatic") targetHue = h;
     let best = null,
       bestScore = -Infinity;
-    for (let attempt = 0; attempt < 18; attempt++) {
-      let hue =
-        h +
-        offsets[(i + Math.floor(random() * 3)) % offsets.length] +
-        anchorJitter +
-        (random() - 0.5) * 12;
-      let saturation = clamp(s * 0.7 + 20 + (random() - 0.5) * 25, 20, 90),
-        lightness = 20 + (i / (count - 1)) * 65 + (random() - 0.5) * 14;
-      if (style === "pastel") {
-        saturation = 30 + random() * 38;
-        lightness = 72 + random() * 19;
-      }
-      if (style === "vibrant") {
-        saturation = 70 + random() * 25;
-        lightness = 35 + random() * 32;
-      }
-      if (style === "earthy") {
-        saturation = 20 + random() * 28;
-        lightness = 25 + (i / (count - 1)) * 60;
-        hue = h + offsets[i % offsets.length] * 0.7 + (random() - 0.5) * 10;
-      }
-      if (style === "dark") {
-        saturation = 20 + random() * 50;
-        lightness = i === count - 1 ? 72 + random() * 12 : 12 + random() * 34;
-      }
-      if (chosenMode === "monochromatic") hue = h;
-      const hex = asHex(hue, saturation, lightness);
-      const others = [
-        ...locked,
-        ...colors.filter((_, j) => replaceIndex !== null && j !== replaceIndex),
-      ];
-      let score = others.length
-        ? Math.min(...others.map((c) => rgbDistance(c, hex)))
-        : Math.abs(lightness - l) * 0.1;
-      score +=
-        Math.max(contrast(hex, "#FFFFFF"), contrast(hex, "#000000")) * 0.3;
-      if (others.includes(hex)) score -= 1000;
+    const references = [...protectedColors, ...result];
+    for (let attempt = 0; attempt < 24; attempt++) {
+      const hh =
+        chosenMode === "monochromatic" ? h : targetHue + (random() - 0.5) * 10;
+      const hex = asHex(
+        hh,
+        targetS + (random() - 0.5) * 14,
+        targetL + (random() - 0.5) * 12,
+      );
+      const [actualH, actualS, actualL] = hsl(hex);
+      const separation = references.length
+        ? Math.min(...references.map((c) => rgbDistance(c, hex)))
+        : 60;
+      let score =
+        -Math.abs(actualL - targetL) * 1.4 -
+        Math.abs(actualS - targetS) * 0.16 -
+        deltaHue(actualH, ((targetHue % 360) + 360) % 360) * 0.28 +
+        Math.min(separation, 72) * 0.09;
+      if (separation < 28) score -= (28 - separation) * 1.5;
+      if (references.includes(hex)) score -= 1000;
       if (score > bestScore) {
         bestScore = score;
         best = hex;
       }
     }
-    return best;
-  });
-  // Keep unlocked columns distinct without ever changing a locked color.
+    result.push(best);
+  }
   const seen = new Set(
     result.filter(
       (_, i) => locks[i] || (replaceIndex !== null && i !== replaceIndex),
@@ -104,11 +117,14 @@ export function generatePalette(
   );
   for (let i = 0; i < result.length; i++) {
     if (locks[i] || (replaceIndex !== null && i !== replaceIndex)) continue;
+    const [hh, ss, ll] = hsl(result[i]);
     let n = 0;
-    while (seen.has(result[i]) && n++ < 24) {
-      const [hh, ss, ll] = hsl(result[i]);
-      result[i] = asHex(hh + n * 3, ss, clamp(ll + n, 5, 95));
-    }
+    while (seen.has(result[i]) && n++ < 50)
+      result[i] = asHex(
+        hh,
+        ss,
+        clamp(ll + (n % 2 ? 1 : -1) * Math.ceil(n / 2), 2, 98),
+      );
     seen.add(result[i]);
   }
   return result;

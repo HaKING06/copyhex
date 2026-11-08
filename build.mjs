@@ -1,3 +1,4 @@
+import { localeCodes } from "./js/locales.js";
 import { cp, mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import "./scripts/generate-pages.mjs";
@@ -11,8 +12,7 @@ const dirs = [
   "favorites",
   "palettes",
   "licenses",
-  "en",
-  "tr",
+  ...localeCodes,
   "discover",
   "palette-generator",
   "resources",
@@ -44,7 +44,9 @@ const assets = [
     "/manifest.webmanifest",
     "/LICENSE",
     "/licenses/color-names-MIT.txt",
-    ...pages.map((p) => p.path),
+    ...pages
+      .filter((p) => !["collection", "article"].includes(p.view))
+      .map((p) => p.path),
   ]),
 ];
 async function includeAssets(dir) {

@@ -1,0 +1,172 @@
+# key|ru|es|fr|de|pt|zh|ja|ko|ar|hi
+colorsNav|Цвета|Colores|Couleurs|Farben|Cores|颜色|カラー|색상|الألوان|रंग
+explore|Найти цвет|Explorar colores|Explorer les couleurs|Farben entdecken|Explorar cores|探索颜色|色を探す|색상 탐색|استكشف الألوان|रंग खोजें
+favorites|Избранное|Favoritos|Favoris|Favoriten|Favoritos|收藏|お気に入り|즐겨찾기|المفضلة|पसंदीदा
+palettes|Мои палитры|Mis paletas|Mes palettes|Meine Paletten|Minhas paletas|我的调色板|マイパレット|내 팔레트|لوحاتي|मेरे पैलेट
+discover|Подборки палитр|Descubrir paletas|Découvrir les palettes|Paletten entdecken|Descobrir paletas|探索配色|パレットを探す|팔레트 탐색|اكتشف اللوحات|पैलेट खोजें
+generator|Генератор палитр|Generador de paletas|Générateur de palettes|Palettengenerator|Gerador de paletas|配色生成器|パレット生成|팔레트 생성기|مولّد اللوحات|पैलेट जनरेटर
+studio|Студия цвета|Estudio de color|Studio couleur|Farbstudio|Estúdio de cores|色彩工作室|カラースタジオ|컬러 스튜디오|استوديو الألوان|रंग स्टूडियो
+resources|Руководства|Recursos de color|Guides couleur|Farbwissen|Guias de cores|色彩指南|カラーガイド|색상 가이드|أدلة الألوان|रंग गाइड
+about|О CopyHex|Acerca de|À propos|Über CopyHex|Sobre|关于|概要|소개|حول CopyHex|परिचय
+guide|Как пользоваться|Cómo usar|Mode d’emploi|Anleitung|Como usar|使用指南|使い方|사용 방법|طريقة الاستخدام|उपयोग कैसे करें
+help|Помощь|Ayuda|Aide|Hilfe|Ajuda|帮助|ヘルプ|도움말|مساعدة|सहायता
+theme|Оформление|Apariencia|Apparence|Darstellung|Aparência|外观|表示|화면 설정|المظهر|थीम
+system|Системная|Sistema|Système|System|Sistema|跟随系统|システム|시스템|النظام|सिस्टम
+lightTheme|Светлая|Claro|Clair|Hell|Claro|浅色|ライト|라이트|فاتح|हल्का
+darkTheme|Тёмная|Oscuro|Sombre|Dunkel|Escuro|深色|ダーク|다크|داكن|गहरा
+install|Установить приложение|Instalar aplicación|Installer l’application|App installieren|Instalar aplicativo|安装应用|アプリをインストール|앱 설치|تثبيت التطبيق|ऐप इंस्टॉल करें
+all|Все цвета|Todos los colores|Toutes les couleurs|Alle Farben|Todas as cores|全部颜色|すべての色|모든 색상|كل الألوان|सभी रंग
+library|Библиотека цветов|Biblioteca de colores|Bibliothèque de couleurs|Farbbibliothek|Biblioteca de cores|颜色库|カラーライブラリ|색상 라이브러리|مكتبة الألوان|रंग लाइब्रेरी
+librarySub|6 000 оттенков для ваших идей.|6.000 tonos para tus ideas.|6 000 nuances pour vos idées.|6.000 Farbtöne für deine Ideen.|6.000 tons para suas ideias.|为灵感精选的 6,000 种色彩。|アイデアを彩る6,000色。|아이디어를 위한 6,000가지 색상.|6,000 درجة لأفكارك.|आपके विचारों के लिए 6,000 रंग।
+format|Формат копирования|Formato de copia|Format de copie|Kopierformat|Formato de cópia|复制格式|コピー形式|복사 형식|صيغة النسخ|कॉपी प्रारूप
+sort|Сортировка|Ordenar por|Trier par|Sortierung|Ordenar por|排序|並び順|정렬|الترتيب|क्रम
+curated|Рекомендуемые|Selección|Sélection|Empfohlen|Seleção|精选|おすすめ|추천|مختارة|चुने हुए
+name|Название|Nombre|Nom|Name|Nome|名称|名前|이름|الاسم|नाम
+light|От светлого к тёмному|De claro a oscuro|Du clair au sombre|Hell nach dunkel|Do claro ao escuro|从浅到深|明るい順|밝은 순|من الفاتح إلى الداكن|हल्के से गहरे
+dark|От тёмного к светлому|De oscuro a claro|Du sombre au clair|Dunkel nach hell|Do escuro ao claro|从深到浅|暗い順|어두운 순|من الداكن إلى الفاتح|गहरे से हल्के
+results|цветов|colores|couleurs|Farben|cores|种颜色|色|색상|لون|रंग
+custom|Свой цвет|Color personalizado|Couleur personnalisée|Eigene Farbe|Cor personalizada|自定义颜色|カスタムカラー|사용자 색상|لون مخصص|कस्टम रंग
+pick|Выбрать цвет|Elegir color|Choisir une couleur|Farbe wählen|Escolher cor|选择颜色|色を選ぶ|색상 선택|اختر لونًا|रंग चुनें
+open|Открыть студию|Abrir estudio|Ouvrir le studio|Studio öffnen|Abrir estúdio|打开工作室|スタジオを開く|스튜디오 열기|افتح الاستوديو|स्टूडियो खोलें
+copy|Копировать|Copiar|Copier|Kopieren|Copiar|复制|コピー|복사|نسخ|कॉपी करें
+copied|Скопировано|Copiado|Copié|Kopiert|Copiado|已复制|コピーしました|복사됨|تم النسخ|कॉपी हो गया
+failed|Не удалось скопировать. Скопируйте вручную.|No se pudo copiar. Copia el valor manualmente.|Copie impossible. Copiez la valeur manuellement.|Kopieren fehlgeschlagen. Wert manuell kopieren.|Não foi possível copiar. Copie manualmente.|复制失败，请手动复制。|コピーできませんでした。手動でコピーしてください。|복사하지 못했습니다. 직접 복사해 주세요.|تعذّر النسخ. انسخ القيمة يدويًا.|कॉपी नहीं हुआ। मान को मैन्युअल रूप से कॉपी करें।
+save|Сохранить в палитру|Guardar en paleta|Enregistrer dans une palette|Zur Palette hinzufügen|Salvar na paleta|保存到调色板|パレットに保存|팔레트에 저장|حفظ في لوحة|पैलेट में सहेजें
+favorite|Добавить или убрать из избранного|Cambiar favorito|Ajouter ou retirer des favoris|Favorit umschalten|Alternar favorito|切换收藏|お気に入りを切り替え|즐겨찾기 전환|تبديل المفضلة|पसंदीदा बदलें
+detail|Информация о цвете|Detalles del color|Détails de la couleur|Farbdetails|Detalhes da cor|颜色详情|色の詳細|색상 정보|تفاصيل اللون|रंग विवरण
+close|Закрыть|Cerrar|Fermer|Schließen|Fechar|关闭|閉じる|닫기|إغلاق|बंद करें
+empty|Цвета не найдены|No se encontraron colores|Aucune couleur trouvée|Keine Farben gefunden|Nenhuma cor encontrada|未找到颜色|色が見つかりません|색상을 찾을 수 없습니다|لم يتم العثور على ألوان|रंग नहीं मिले
+emptySub|Попробуйте другое название или сбросьте фильтры.|Prueba otro nombre o restablece los filtros.|Essayez un autre nom ou réinitialisez les filtres.|Anderen Namen versuchen oder Filter zurücksetzen.|Tente outro nome ou limpe os filtros.|请尝试其他名称或重置筛选。|別の名前を試すか、条件をリセットしてください。|다른 이름을 입력하거나 필터를 초기화하세요.|جرّب اسمًا آخر أو أعد ضبط المرشحات.|दूसरा नाम आज़माएँ या फ़िल्टर रीसेट करें।
+reset|Сбросить фильтры|Restablecer filtros|Réinitialiser les filtres|Filter zurücksetzen|Limpar filtros|重置筛选|条件をリセット|필터 초기화|إعادة ضبط المرشحات|फ़िल्टर रीसेट करें
+new|Новая палитра|Nueva paleta|Nouvelle palette|Neue Palette|Nova paleta|新建调色板|新しいパレット|새 팔레트|لوحة جديدة|नया पैलेट
+paletteName|Название палитры|Nombre de la paleta|Nom de la palette|Palettenname|Nome da paleta|调色板名称|パレット名|팔레트 이름|اسم اللوحة|पैलेट का नाम
+note|Заметки о проекте|Notas del proyecto|Notes du projet|Projektnotizen|Notas do projeto|项目备注|プロジェクトのメモ|프로젝트 메모|ملاحظات المشروع|प्रोजेक्ट नोट्स
+create|Создать палитру|Crear paleta|Créer une palette|Palette erstellen|Criar paleta|创建调色板|パレットを作成|팔레트 만들기|إنشاء لوحة|पैलेट बनाएँ
+cancel|Отмена|Cancelar|Annuler|Abbrechen|Cancelar|取消|キャンセル|취소|إلغاء|रद्द करें
+local|Сохранено в этом браузере. Экспортируйте резервную копию.|Guardado en este navegador. Exporta una copia de seguridad.|Enregistré dans ce navigateur. Exportez une sauvegarde.|In diesem Browser gespeichert. Sicherung exportieren.|Salvo neste navegador. Exporte um backup.|保存在此浏览器中，请导出备份。|このブラウザーに保存されます。バックアップを書き出してください。|이 브라우저에 저장됩니다. 백업을 내보내세요.|محفوظ في هذا المتصفح. صدّر نسخة احتياطية.|इस ब्राउज़र में सहेजा गया। बैकअप निर्यात करें।
+backup|Экспорт резервной копии|Exportar copia|Exporter une sauvegarde|Sicherung exportieren|Exportar backup|导出备份|バックアップを書き出す|백업 내보내기|تصدير نسخة احتياطية|बैकअप निर्यात करें
+import|Импорт резервной копии|Importar copia|Importer une sauvegarde|Sicherung importieren|Importar backup|导入备份|バックアップを読み込む|백업 가져오기|استيراد نسخة احتياطية|बैकअप आयात करें
+export|Экспорт CSS|Exportar CSS|Exporter CSS|CSS exportieren|Exportar CSS|导出 CSS|CSSを書き出す|CSS 내보내기|تصدير CSS|CSS निर्यात करें
+delete|Удалить палитру|Eliminar paleta|Supprimer la palette|Palette löschen|Excluir paleta|删除调色板|パレットを削除|팔레트 삭제|حذف اللوحة|पैलेट हटाएँ
+remove|Удалить|Quitar|Retirer|Entfernen|Remover|移除|削除|제거|إزالة|हटाएँ
+rename|Изменить палитру|Editar paleta|Modifier la palette|Palette bearbeiten|Editar paleta|编辑调色板|パレットを編集|팔레트 편집|تعديل اللوحة|पैलेट संपादित करें
+saved|Сохранено|Guardado|Enregistré|Gespeichert|Salvo|已保存|保存しました|저장됨|تم الحفظ|सहेजा गया
+select|Выберите палитру|Elegir paleta|Choisir une palette|Palette auswählen|Escolher paleta|选择调色板|パレットを選ぶ|팔레트 선택|اختر لوحة|पैलेट चुनें
+contrast|Проверка контраста|Comprobar contraste|Vérifier le contraste|Kontrastprüfung|Verificar contraste|对比度检查|コントラスト確認|대비 확인|فحص التباين|कॉन्ट्रास्ट जाँच
+foreground|Цвет текста|Color del texto|Couleur du texte|Textfarbe|Cor do texto|文字颜色|文字色|텍스트 색상|لون النص|टेक्स्ट रंग
+background|Цвет фона|Color de fondo|Couleur du fond|Hintergrundfarbe|Cor de fundo|背景颜色|背景色|배경 색상|لون الخلفية|पृष्ठभूमि रंग
+sample|Хороший дизайн говорит цветом.|El buen diseño habla en color.|Le bon design s’exprime en couleur.|Gutes Design spricht in Farben.|Um bom design fala em cores.|好设计，用色彩表达。|よいデザインは色で語る。|좋은 디자인은 색으로 말합니다.|التصميم الجيد يتحدث بالألوان.|अच्छा डिज़ाइन रंगों से बोलता है।
+ratio|Контрастность|Relación de contraste|Rapport de contraste|Kontrastverhältnis|Taxa de contraste|对比度|コントラスト比|대비율|نسبة التباين|कॉन्ट्रास्ट अनुपात
+pass|Пройдено|Cumple|Conforme|Bestanden|Aprovado|通过|合格|통과|ناجح|उत्तीर्ण
+fail|Не пройдено|No cumple|Non conforme|Nicht bestanden|Reprovado|未通过|不合格|미달|غير ناجح|असफल
+apply|Применить|Aplicar|Appliquer|Anwenden|Aplicar|应用|適用|적용|تطبيق|लागू करें
+invalid|Введите корректный HEX, RGB или HSL.|Introduce un HEX, RGB o HSL válido.|Saisissez un code HEX, RGB ou HSL valide.|Gültigen HEX-, RGB- oder HSL-Wert eingeben.|Insira um HEX, RGB ou HSL válido.|请输入有效的 HEX、RGB 或 HSL。|有効なHEX、RGB、HSLを入力してください。|올바른 HEX, RGB 또는 HSL을 입력하세요.|أدخل قيمة HEX أو RGB أو HSL صحيحة.|मान्य HEX, RGB या HSL दर्ज करें।
+support|Нужна помощь?|¿Necesitas ayuda?|Besoin d’aide ?|Brauchst du Hilfe?|Precisa de ajuda?|需要帮助？|お困りですか？|도움이 필요하신가요?|تحتاج مساعدة؟|सहायता चाहिए?
+privacy|Без регистрации и отслеживания.|Sin cuenta ni seguimiento.|Sans compte ni suivi.|Ohne Konto und Tracking.|Sem conta ou rastreamento.|无需账户，无追踪。|アカウント不要、追跡なし。|계정 없이, 추적 없이.|بلا حساب أو تتبّع.|बिना खाते, बिना ट्रैकिंग।
+confirm|Удалить палитру без возможности восстановления?|¿Eliminar esta paleta de forma permanente?|Supprimer définitivement cette palette ?|Diese Palette endgültig löschen?|Excluir esta paleta permanentemente?|确定永久删除此调色板？|このパレットを完全に削除しますか？|이 팔레트를 영구 삭제할까요?|هل تريد حذف هذه اللوحة نهائيًا؟|यह पैलेट हमेशा के लिए हटाएँ?
+badFile|Некорректный файл резервной копии.|Archivo de copia no válido.|Fichier de sauvegarde invalide.|Ungültige Sicherungsdatei.|Arquivo de backup inválido.|备份文件无效。|無効なバックアップファイルです。|잘못된 백업 파일입니다.|ملف النسخة الاحتياطية غير صالح.|अमान्य बैकअप फ़ाइल।
+imported|Резервная копия импортирована|Copia importada|Sauvegarde importée|Sicherung importiert|Backup importado|备份已导入|読み込みました|백업을 가져왔습니다|تم استيراد النسخة|बैकअप आयात हुआ
+exists|Этот цвет уже есть в палитре.|Este color ya está en la paleta.|Cette couleur est déjà présente.|Diese Farbe ist bereits enthalten.|Esta cor já está na paleta.|调色板中已有此颜色。|この色はパレットにあります。|이미 팔레트에 있는 색상입니다.|هذا اللون موجود بالفعل.|यह रंग पैलेट में पहले से है।
+count|цветов сохранено|colores guardados|couleurs enregistrées|Farben gespeichert|cores salvas|种已保存颜色|色を保存済み|저장된 색상|ألوان محفوظة|रंग सहेजे गए
+emptyPalette|Добавьте первый цвет в эту палитру.|Añade el primer color a esta paleta.|Ajoutez la première couleur.|Füge die erste Farbe hinzu.|Adicione a primeira cor.|添加此调色板的第一个颜色。|最初の色を追加しましょう。|첫 번째 색상을 추가하세요.|أضف أول لون إلى هذه اللوحة.|इस पैलेट में पहला रंग जोड़ें।
+aboutCMYK|CMYK — приблизительный расчёт. Печать зависит от ICC-профиля.|CMYK es aproximado. La impresión depende del perfil ICC.|CMYK est approximatif. L’impression dépend du profil ICC.|CMYK ist eine Näherung. Druck hängt vom ICC-Profil ab.|CMYK é aproximado. A impressão depende do perfil ICC.|CMYK 为近似值，印刷效果取决于 ICC 配置。|CMYKは概算です。印刷結果はICCプロファイルに依存します。|CMYK는 근사값입니다. 인쇄는 ICC 프로필에 따라 달라집니다.|CMYK تقديري. تعتمد الطباعة على ملف ICC.|CMYK अनुमानित है। प्रिंट ICC प्रोफ़ाइल पर निर्भर है।
+storageError|Хранилище недоступно. Экспортируйте коллекцию.|Almacenamiento no disponible. Exporta tu colección.|Stockage indisponible. Exportez votre collection.|Speicher nicht verfügbar. Sammlung exportieren.|Armazenamento indisponível. Exporte sua coleção.|存储不可用，请导出收藏。|保存領域を利用できません。コレクションを書き出してください。|저장 공간을 사용할 수 없습니다. 컬렉션을 내보내세요.|التخزين غير متاح. صدّر مجموعتك.|स्टोरेज उपलब्ध नहीं है। संग्रह निर्यात करें।
+random|Случайный цвет|Sorpréndeme|Surprenez-moi|Zufällige Farbe|Surpreenda-me|随机颜色|ランダムな色|무작위 색상|لون عشوائي|यादृच्छिक रंग
+brightness|Светлота|Luminosidad|Luminosité|Helligkeit|Luminosidade|明度|明度|명도|الإضاءة|प्रकाशमानता
+saturation|Насыщенность|Saturación|Saturation|Sättigung|Saturação|饱和度|彩度|채도|التشبّع|संतृप्ति
+any|Любая|Cualquiera|Toutes|Beliebig|Qualquer|全部|すべて|전체|الكل|सभी
+pastel|Пастель|Pastel|Pastel|Pastell|Pastel|粉彩|パステル|파스텔|باستيل|पेस्टल
+vivid|Яркие|Vivos|Vives|Kräftig|Vivas|鲜艳|鮮やか|선명한|زاهية|चटकीला
+muted|Приглушённые|Apagados|Atténuées|Gedämpft|Suaves|柔和|落ち着いた色|차분한|هادئة|मद्धम
+midColors|Средние|Medios|Moyennes|Mittel|Médias|中等|中間|중간|متوسطة|मध्यम
+nearest|Ближайшие к вашему цвету|Más cercano a tu color|Plus proche de votre couleur|Ähnlichste Farbe|Mais próximas da sua cor|最接近所选颜色|選んだ色に近い順|선택한 색상과 가까운 순|الأقرب إلى لونك|आपके रंग के निकटतम
+hue|Цветовой тон|Tono|Teinte|Farbton|Matiz|色相|色相|색조|درجة اللون|रंगत
+source|Коллекция|Colección|Collection|Sammlung|Coleção|系列|コレクション|컬렉션|المجموعة|संग्रह
+css|Классические цвета CSS|Clásicos CSS|Classiques CSS|CSS-Klassiker|Clássicos CSS|CSS 标准色|CSS標準色|CSS 표준 색상|ألوان CSS القياسية|CSS मानक रंग
+page|Страница|Página|Page|Seite|Página|页|ページ|페이지|الصفحة|पृष्ठ
+previous|Назад|Anterior|Précédent|Zurück|Anterior|上一页|前へ|이전|السابق|पिछला
+next|Далее|Siguiente|Suivant|Weiter|Próximo|下一页|次へ|다음|التالي|अगला
+perPage|На странице|Por página|Par page|Pro Seite|Por página|每页|表示件数|페이지당|لكل صفحة|प्रति पृष्ठ
+resetAll|Сбросить всё|Borrar todo|Tout effacer|Alles zurücksetzen|Limpar tudo|清除全部|すべてリセット|모두 초기화|مسح الكل|सभी साफ़ करें
+showing|Показано|Mostrando|Affichage|Anzeige|Exibindo|显示|表示|표시|عرض|दिखाए गए
+live|Значения в реальном времени|Valores en vivo|Valeurs en direct|Live-Werte|Valores ao vivo|实时数值|リアルタイムの値|실시간 값|قيم مباشرة|लाइव मान
+channels|Настройка цвета|Controles de color|Réglages couleur|Farbregler|Controles de cor|颜色控制|カラー調整|색상 조절|ضبط الألوان|रंग नियंत्रण
+harmonies|Цветовые гармонии|Armonías de color|Harmonies de couleurs|Farbharmonien|Harmonias de cores|配色和谐|配色の調和|색상 조화|تناغم الألوان|रंग सामंजस्य
+complementary|Дополнительная|Complementaria|Complémentaire|Komplementär|Complementar|互补色|補色|보색|متكامل|पूरक
+analogous|Аналоговая|Análoga|Analogue|Analog|Análoga|邻近色|類似色|유사색|متجاور|समानांतर
+triadic|Триада|Triádica|Triadique|Triadisch|Triádica|三角色|三色配色|삼원색|ثلاثي|त्रिक
+share|Копировать ссылку на цвет|Copiar enlace del color|Copier le lien de la couleur|Farblink kopieren|Copiar link da cor|复制颜色链接|色のリンクをコピー|색상 링크 복사|نسخ رابط اللون|रंग लिंक कॉपी करें
+recent|Недавние цвета|Colores recientes|Couleurs récentes|Zuletzt verwendete Farben|Cores recentes|最近浏览|最近の色|최근 색상|ألوان حديثة|हाल के रंग
+studioFavorite|В избранное|Guardar en favoritos|Ajouter aux favoris|Als Favorit speichern|Salvar nos favoritos|加入收藏|お気に入りに保存|즐겨찾기에 저장|حفظ في المفضلة|पसंदीदा में सहेजें
+installInfo|Установите CopyHex из меню браузера. После первой загрузки инструменты доступны офлайн.|Instala CopyHex desde tu navegador. Tras la primera carga, las herramientas funcionan sin conexión.|Installez CopyHex depuis votre navigateur. Les outils restent disponibles hors ligne après le premier chargement.|Installiere CopyHex im Browser. Nach dem ersten Laden funktionieren die Werkzeuge offline.|Instale CopyHex pelo navegador. Após o primeiro carregamento, as ferramentas funcionam offline.|从浏览器安装 CopyHex。首次加载后，工具可离线使用。|ブラウザーからCopyHexをインストールできます。初回読み込み後はオフラインでも使えます。|브라우저에서 CopyHex를 설치하세요. 처음 불러온 뒤에는 오프라인에서도 사용할 수 있습니다.|ثبّت CopyHex من متصفحك. تعمل الأدوات دون اتصال بعد أول تحميل.|ब्राउज़र से CopyHex इंस्टॉल करें। पहली बार लोड होने के बाद टूल ऑफ़लाइन काम करते हैं।
+installManual|iPhone/iPad: «Поделиться» → «На экран Домой». На компьютере/Android: меню браузера → установка приложения.|iPhone/iPad: Compartir → Añadir a inicio. Ordenador/Android: menú del navegador → Instalar aplicación.|iPhone/iPad : Partager → Sur l’écran d’accueil. Ordinateur/Android : menu du navigateur → Installer.|iPhone/iPad: Teilen → Zum Home-Bildschirm. Computer/Android: Browsermenü → App installieren.|iPhone/iPad: Compartilhar → Adicionar à tela inicial. Computador/Android: menu do navegador → Instalar.|iPhone/iPad：分享 → 添加到主屏幕。电脑/Android：浏览器菜单 → 安装应用。|iPhone/iPad：共有→ホーム画面に追加。PC/Android：ブラウザーメニュー→アプリをインストール。|iPhone/iPad: 공유 → 홈 화면에 추가. PC/Android: 브라우저 메뉴 → 앱 설치.|iPhone/iPad: مشاركة ← إضافة إلى الشاشة الرئيسية. الكمبيوتر/Android: قائمة المتصفح ← تثبيت التطبيق.|iPhone/iPad: शेयर → होम स्क्रीन पर जोड़ें। कंप्यूटर/Android: ब्राउज़र मेनू → ऐप इंस्टॉल करें।
+offline|Офлайн · рабочее пространство доступно|Sin conexión · espacio disponible|Hors ligne · espace disponible|Offline · Arbeitsbereich verfügbar|Offline · espaço disponível|离线模式 · 工作区可用|オフライン・ワークスペースを利用可能|오프라인 · 작업 공간 사용 가능|دون اتصال · مساحة العمل متاحة|ऑफ़लाइन · कार्यक्षेत्र उपलब्ध
+version|Версия|Versión|Version|Version|Versão|版本|バージョン|버전|الإصدار|संस्करण
+privacyLabel|Конфиденциальность и данные|Privacidad y datos|Confidentialité et données|Datenschutz und Daten|Privacidade e dados|隐私与数据|プライバシーとデータ|개인정보 및 데이터|الخصوصية والبيانات|गोपनीयता और डेटा
+back|К библиотеке|Volver a la biblioteca|Retour à la bibliothèque|Zur Bibliothek|Voltar à biblioteca|返回颜色库|ライブラリに戻る|라이브러리로 돌아가기|العودة للمكتبة|लाइब्रेरी पर लौटें
+updateReady|Доступно обновление.|Hay una actualización.|Une mise à jour est prête.|Ein Update ist verfügbar.|Há uma atualização.|有新版本可用。|更新を利用できます。|업데이트가 있습니다.|يتوفر تحديث.|अपडेट उपलब्ध है।
+updateApp|Обновить приложение|Actualizar aplicación|Mettre à jour|App aktualisieren|Atualizar aplicativo|更新应用|アプリを更新|앱 업데이트|تحديث التطبيق|ऐप अपडेट करें
+readGuide|Читать руководство|Leer la guía|Lire le guide|Anleitung lesen|Ler o guia|阅读指南|ガイドを読む|가이드 읽기|اقرأ الدليل|गाइड पढ़ें
+contact|Связаться с поддержкой|Contactar con soporte|Contacter l’assistance|Support kontaktieren|Falar com o suporte|联系支持|サポートに連絡|지원팀 문의|تواصل مع الدعم|सहायता से संपर्क करें
+nature|Природа|Naturaleza|Nature|Natur|Natureza|自然|自然|자연|طبيعة|प्रकृति
+warm|Тёплые|Cálidas|Chaudes|Warm|Quentes|暖色|暖色|따뜻한|دافئة|गर्म
+earthy|Земляные|Terrosas|Terreuses|Erdig|Terrosas|大地色|アースカラー|흙빛|ترابية|मिट्टी जैसे
+minimal|Минимализм|Minimalista|Minimalistes|Minimalistisch|Minimalistas|极简|ミニマル|미니멀|بسيطة|मिनिमल
+allPalettes|Все палитры|Todas las paletas|Toutes les palettes|Alle Paletten|Todas as paletas|全部调色板|すべてのパレット|모든 팔레트|كل اللوحات|सभी पैलेट
+editPalette|Настроить палитру|Personalizar paleta|Personnaliser la palette|Palette anpassen|Personalizar paleta|自定义配色|パレットをカスタマイズ|팔레트 맞춤 설정|تخصيص اللوحة|पैलेट अनुकूलित करें
+saveCollection|Сохранить копию|Guardar copia|Enregistrer une copie|Kopie speichern|Salvar cópia|保存副本|コピーを保存|사본 저장|حفظ نسخة|कॉपी सहेजें
+viewCollection|Открыть палитру|Ver paleta|Voir la palette|Palette ansehen|Ver paleta|查看调色板|パレットを見る|팔레트 보기|عرض اللوحة|पैलेट देखें
+paletteColors|Цвета палитры|Colores de la paleta|Couleurs de la palette|Palettenfarben|Cores da paleta|调色板颜色|パレットの色|팔레트 색상|ألوان اللوحة|पैलेट के रंग
+generate|Создать палитру|Generar paleta|Générer une palette|Palette generieren|Gerar paleta|生成配色|パレットを生成|팔레트 생성|توليد لوحة|पैलेट बनाएँ
+regenerate|Попробовать другое сочетание|Probar otra combinación|Essayer une autre combinaison|Andere Kombination erzeugen|Tentar outra combinação|尝试其他配色|別の組み合わせを生成|다른 조합 만들기|جرّب مزيجًا آخر|दूसरा संयोजन आज़माएँ
+lock|Закрепить|Bloquear|Verrouiller|Sperren|Bloquear|锁定|固定|잠금|قفل|लॉक करें
+unlock|Открепить|Desbloquear|Déverrouiller|Entsperren|Desbloquear|解锁|固定を解除|잠금 해제|فتح القفل|अनलॉक करें
+locked|Закреплено|Bloqueado|Verrouillé|Gesperrt|Bloqueado|已锁定|固定中|잠김|مقفل|लॉक है
+changeOne|Изменить только этот|Cambiar solo este|Changer uniquement celle-ci|Nur diese Farbe ändern|Alterar só esta|仅更换此颜色|この色だけ変更|이 색상만 변경|تغيير هذا فقط|केवल यह बदलें
+editColor|Изменить цвет|Editar color|Modifier la couleur|Farbe bearbeiten|Editar cor|编辑颜色|色を編集|색상 편집|تعديل اللون|रंग संपादित करें
+moveLeft|Сдвинуть влево|Mover a la izquierda|Déplacer à gauche|Nach links|Mover à esquerda|向左移动|左へ移動|왼쪽으로|نقل لليسار|बाएँ ले जाएँ
+moveRight|Сдвинуть вправо|Mover a la derecha|Déplacer à droite|Nach rechts|Mover à direita|向右移动|右へ移動|오른쪽으로|نقل لليمين|दाएँ ले जाएँ
+colorCount|Число цветов|Número de colores|Nombre de couleurs|Anzahl der Farben|Número de cores|颜色数量|色数|색상 수|عدد الألوان|रंगों की संख्या
+harmonyMode|Гармония|Armonía|Harmonie|Harmonie|Harmonia|配色规则|配色ルール|조화 방식|التناغم|सामंजस्य
+paletteStyle|Настроение|Estilo|Ambiance|Stimmung|Estilo|风格|雰囲気|분위기|الطابع|मूड
+balanced|Сбалансированная|Equilibrado|Équilibrée|Ausgewogen|Equilibrado|均衡|バランス|균형|متوازن|संतुलित
+smart|Умное сочетание|Mezcla inteligente|Mélange intelligent|Intelligente Mischung|Mistura inteligente|智能配色|スマート配色|스마트 조합|مزيج ذكي|स्मार्ट मिश्रण
+split|Раздельно-дополнительная|Complementaria dividida|Complémentaire divisée|Geteilt komplementär|Complementar dividida|分裂互补色|分裂補色|분할 보색|متكامل منقسم|विभाजित पूरक
+monochromatic|Монохромная|Monocromática|Monochromatique|Monochrom|Monocromática|单色|単色|단색|أحادي اللون|एकवर्णी
+seed|Начальный цвет|Color inicial|Couleur de départ|Ausgangsfarbe|Cor inicial|起始颜色|ベースカラー|시작 색상|اللون الأساسي|शुरुआती रंग
+applySeed|Создать на основе цвета|Crear desde este color|Créer à partir de cette couleur|Um diese Farbe aufbauen|Criar a partir desta cor|围绕此颜色生成|この色から作る|이 색상으로 만들기|إنشاء حول هذا اللون|इस रंग से बनाएँ
+undo|Отменить|Deshacer|Annuler|Rückgängig|Desfazer|撤销|元に戻す|실행 취소|تراجع|पूर्ववत
+redo|Повторить|Rehacer|Rétablir|Wiederholen|Refazer|重做|やり直す|다시 실행|إعادة|फिर करें
+spaceHint|Нажмите пробел для новой палитры. Закрепите нужные цвета.|Pulsa Espacio para generar. Bloquea los colores que quieras conservar.|Espace pour générer. Verrouillez les couleurs à conserver.|Leertaste zum Generieren. Gewünschte Farben sperren.|Espaço para gerar. Bloqueie as cores que deseja manter.|按空格生成，锁定需要保留的颜色。|スペースで生成。残したい色は固定してください。|스페이스로 생성하세요. 유지할 색상은 잠그세요.|اضغط المسافة للتوليد. اقفل الألوان التي تريد الاحتفاظ بها.|जनरेट करने के लिए स्पेस दबाएँ। रखने वाले रंग लॉक करें।
+allLocked|Все цвета закреплены. Открепите один для изменения.|Todos los colores están bloqueados. Desbloquea uno.|Toutes les couleurs sont verrouillées. Déverrouillez-en une.|Alle Farben gesperrt. Entsperre eine Farbe.|Todas as cores bloqueadas. Desbloqueie uma.|所有颜色均已锁定，请先解锁一个。|すべて固定されています。1色を解除してください。|모든 색상이 잠겼습니다. 하나를 해제하세요.|كل الألوان مقفلة. افتح قفل أحدها.|सभी रंग लॉक हैं। एक को अनलॉक करें।
+alternatives|Другие варианты|Más opciones|Autres pistes|Weitere Varianten|Outras opções|更多方案|別の候補|다른 옵션|خيارات أخرى|अन्य विकल्प
+moreOptions|Создать ещё варианты|Generar más opciones|Générer d’autres options|Weitere Varianten erzeugen|Gerar mais opções|生成更多方案|候補をさらに生成|추가 옵션 생성|توليد خيارات أخرى|और विकल्प बनाएँ
+useOption|Использовать палитру|Usar esta paleta|Utiliser cette palette|Diese Palette verwenden|Usar esta paleta|使用此配色|このパレットを使う|이 팔레트 사용|استخدام هذه اللوحة|यह पैलेट उपयोग करें
+savePalette|Сохранить в мои палитры|Guardar en mis paletas|Enregistrer dans mes palettes|In meinen Paletten speichern|Salvar nas minhas paletas|保存到我的调色板|マイパレットに保存|내 팔레트에 저장|حفظ في لوحاتي|मेरे पैलेट में सहेजें
+sharePalette|Копировать ссылку на палитру|Copiar enlace de la paleta|Copier le lien de la palette|Palettenlink kopieren|Copiar link da paleta|复制配色链接|パレットのリンクをコピー|팔레트 링크 복사|نسخ رابط اللوحة|पैलेट लिंक कॉपी करें
+copyAll|Копировать все HEX-коды|Copiar todos los HEX|Copier tous les codes HEX|Alle HEX-Werte kopieren|Copiar todos os HEX|复制全部 HEX|すべてのHEXをコピー|모든 HEX 복사|نسخ كل رموز HEX|सभी HEX कोड कॉपी करें
+exportFormat|Экспорт палитры|Exportar paleta|Exporter la palette|Palette exportieren|Exportar paleta|导出调色板|パレットを書き出す|팔레트 내보내기|تصدير اللوحة|पैलेट निर्यात करें
+download|Скачать|Descargar|Télécharger|Herunterladen|Baixar|下载|ダウンロード|다운로드|تنزيل|डाउनलोड
+previewUI|Предпросмотр в интерфейсе|Vista previa en diseño|Aperçu dans une interface|Im Design ansehen|Prévia no design|设计预览|デザインで確認|디자인 미리보기|معاينة في تصميم|डिज़ाइन में देखें
+previewText|Посмотрите, как палитра работает с фоном, текстом и кнопками.|Mira cómo funciona la paleta en fondos, texto y botones.|Voyez votre palette sur les surfaces, textes et boutons.|Sieh deine Palette auf Flächen, Texten und Schaltflächen.|Veja sua paleta em fundos, textos e botões.|查看配色在背景、文字和按钮中的效果。|背景、文字、ボタンで配色を確認できます。|배경, 텍스트, 버튼에 적용된 팔레트를 확인하세요.|شاهد لوحتك على الخلفيات والنصوص والأزرار.|पृष्ठभूमि, टेक्स्ट और बटन पर पैलेट देखें।
+contrastPairs|Контраст текста|Contraste del texto|Contraste du texte|Textkontrast|Contraste do texto|文字对比度|文字のコントラスト|텍스트 대비|تباين النص|टेक्स्ट कॉन्ट्रास्ट
+contrastNote|На выбранном фоне. Для обычного текста AA требуется 4,5:1.|Sobre el fondo elegido. AA exige 4,5:1 para texto normal.|Sur le fond choisi. AA exige 4,5:1 pour le texte courant.|Zum gewählten Hintergrund. AA benötigt 4,5:1 für normalen Text.|No fundo escolhido. AA exige 4,5:1 para texto normal.|以所选背景计算。普通文字 AA 要求 4.5:1。|選んだ背景との比率です。通常の文字のAA基準は4.5:1です。|선택한 배경 기준입니다. 일반 텍스트 AA는 4.5:1이 필요합니다.|على الخلفية المختارة. يتطلب AA للنص العادي 4.5:1.|चुनी हुई पृष्ठभूमि पर। सामान्य टेक्स्ट के AA के लिए 4.5:1 चाहिए।
+imageExtract|Палитра из изображения|Paleta desde una imagen|Palette à partir d’une image|Palette aus einem Bild|Paleta a partir de imagem|从图片提取配色|画像から配色を抽出|이미지에서 팔레트 추출|لوحة من صورة|छवि से पैलेट बनाएँ
+imageExtractInfo|Выберите PNG, JPEG или WebP. Изображение обрабатывается только на вашем устройстве.|Elige PNG, JPEG o WebP. La imagen se procesa solo en tu dispositivo.|Choisissez PNG, JPEG ou WebP. L’image reste sur votre appareil.|PNG, JPEG oder WebP wählen. Das Bild bleibt auf deinem Gerät.|Escolha PNG, JPEG ou WebP. A imagem fica no seu dispositivo.|选择 PNG、JPEG 或 WebP。图片仅在您的设备上处理。|PNG、JPEG、WebPを選択。画像は端末内だけで処理されます。|PNG, JPEG, WebP를 선택하세요. 이미지는 기기에서만 처리됩니다.|اختر PNG أو JPEG أو WebP. تُعالج الصورة على جهازك فقط.|PNG, JPEG या WebP चुनें। छवि केवल आपके डिवाइस पर संसाधित होती है।
+chooseImage|Выбрать изображение|Elegir imagen|Choisir une image|Bild auswählen|Escolher imagem|选择图片|画像を選ぶ|이미지 선택|اختر صورة|छवि चुनें
+imageError|Выберите PNG, JPEG или WebP до 10 МБ.|Elige PNG, JPEG o WebP de menos de 10 MB.|Choisissez PNG, JPEG ou WebP de moins de 10 Mo.|PNG, JPEG oder WebP unter 10 MB wählen.|Escolha PNG, JPEG ou WebP com menos de 10 MB.|请选择小于 10 MB 的 PNG、JPEG 或 WebP。|10 MB未満のPNG、JPEG、WebPを選んでください。|10MB 미만의 PNG, JPEG, WebP를 선택하세요.|اختر PNG أو JPEG أو WebP بحجم أقل من 10 ميغابايت.|10 MB से कम का PNG, JPEG या WebP चुनें।
+imageEmpty|В изображении нет непрозрачных цветов.|La imagen no contiene colores opacos.|Aucune couleur opaque dans cette image.|Keine deckenden Farben im Bild gefunden.|Nenhuma cor opaca encontrada.|图片中没有不透明颜色。|不透明な色が見つかりません。|불투명한 색상이 없습니다.|لا توجد ألوان معتمة في الصورة.|छवि में अपारदर्शी रंग नहीं मिले।
+imageImported|Палитра из изображения готова|Paleta extraída|Palette extraite|Bildpalette erstellt|Paleta extraída|图片配色已提取|画像のパレットを作成しました|이미지 팔레트 추출 완료|لوحة الصورة جاهزة|छवि पैलेट तैयार है
+lockedHint|Закреплённые цвета не меняются при генерации.|Los colores bloqueados no cambian al generar.|Les couleurs verrouillées restent inchangées.|Gesperrte Farben bleiben beim Generieren erhalten.|As cores bloqueadas são mantidas ao gerar.|生成时保留锁定的颜色。|生成時も固定した色は変わりません。|생성 시 잠긴 색상은 유지됩니다.|تبقى الألوان المقفلة عند التوليد.|जनरेट करते समय लॉक किए रंग सुरक्षित रहते हैं।
+collectionAbout|Об этой палитре|Acerca de esta paleta|À propos de cette palette|Über diese Palette|Sobre esta paleta|关于此配色|このパレットについて|이 팔레트 소개|حول هذه اللوحة|इस पैलेट के बारे में
+collectionUse|Как использовать цвета|Cómo usar estos colores|Comment utiliser ces couleurs|So nutzt du diese Farben|Como usar estas cores|如何使用这些颜色|色の使い方|색상 사용 방법|كيفية استخدام الألوان|इन रंगों का उपयोग
+collectionUseText|Выберите фон, текст и акцент. Проверьте контраст каждой пары перед использованием.|Elige fondo, texto y acento. Comprueba el contraste de cada combinación.|Choisissez un fond, un texte et un accent. Vérifiez le contraste de chaque paire.|Wähle Hintergrund, Text und Akzent. Prüfe den Kontrast jeder Kombination.|Escolha fundo, texto e destaque. Verifique o contraste de cada par.|选择背景、文字和强调色，使用前检查各组合的对比度。|背景色、文字色、アクセントを選び、組み合わせのコントラストを確認しましょう。|배경, 텍스트, 강조 색상을 선택하고 각 조합의 대비를 확인하세요.|اختر خلفية ونصًا ولون إبراز. افحص تباين كل زوج قبل الاستخدام.|पृष्ठभूमि, टेक्स्ट और एक्सेंट चुनें। उपयोग से पहले हर जोड़ी का कॉन्ट्रास्ट जाँचें।
+relatedPalettes|Другие палитры|Otras paletas|Autres palettes|Weitere Paletten|Outras paletas|其他配色|ほかのパレット|다른 팔레트|لوحات أخرى|अन्य पैलेट
+backDiscover|К подборкам|Volver a descubrir|Retour aux palettes|Zurück zur Entdeckung|Voltar à descoberta|返回配色探索|パレット一覧へ|팔레트 탐색으로|العودة للاستكشاف|पैलेट खोज पर लौटें
+emptyCollections|Подходящие палитры не найдены.|No hay paletas que coincidan.|Aucune palette correspondante.|Keine passenden Paletten gefunden.|Nenhuma paleta correspondente.|未找到匹配的调色板。|一致するパレットはありません。|일치하는 팔레트가 없습니다.|لا توجد لوحات مطابقة.|कोई मिलता पैलेट नहीं मिला।
+noChanges|Палитра не изменилась.|La paleta no ha cambiado.|La palette n’a pas changé.|Die Palette ist unverändert.|A paleta não mudou.|配色未更改。|パレットは変更されていません。|팔레트가 변경되지 않았습니다.|لم تتغير اللوحة.|पैलेट नहीं बदला।
+generatedName|Моя цветовая идея|Mi idea de color|Mon idée couleur|Meine Farbidee|Minha ideia de cor|我的配色灵感|マイカラーアイデア|나의 색상 아이디어|فكرتي اللونية|मेरा रंग विचार
+generatorGuide|Как работает генератор?|¿Cómo funciona el generador?|Comment fonctionne le générateur ?|Wie funktioniert der Generator?|Como funciona o gerador?|生成器如何使用？|生成ツールの使い方|생성기 사용 방법|كيف يعمل المولّد؟|जनरेटर कैसे काम करता है?
+generatorGuideText|Выберите начальный цвет, гармонию и настроение. Закрепите любимые оттенки, создайте варианты и проверьте контраст.|Elige color inicial, armonía y estilo. Bloquea tus tonos favoritos, genera opciones y revisa el contraste.|Choisissez couleur, harmonie et ambiance. Verrouillez vos nuances, générez des variantes et vérifiez le contraste.|Wähle Ausgangsfarbe, Harmonie und Stimmung. Sperre bevorzugte Farben, erzeuge Varianten und prüfe den Kontrast.|Escolha cor, harmonia e estilo. Bloqueie seus tons, gere opções e confira o contraste.|选择起始色、配色规则和风格。锁定喜欢的颜色，生成方案并检查对比度。|ベースカラー、配色ルール、雰囲気を選択。好きな色を固定し、候補を生成してコントラストを確認します。|시작 색상, 조화 방식, 분위기를 고르세요. 좋아하는 색상을 잠그고 옵션을 생성한 뒤 대비를 확인하세요.|اختر اللون الأساسي والتناغم والطابع. اقفل درجاتك المفضلة وولّد خيارات وافحص التباين.|शुरुआती रंग, सामंजस्य और मूड चुनें। पसंद के रंग लॉक करें, विकल्प बनाएँ और कॉन्ट्रास्ट जाँचें।
+localDraft|Последний черновик хранится в браузере.|El último borrador se guarda en este navegador.|Le dernier brouillon reste dans ce navigateur.|Der letzte Entwurf bleibt in diesem Browser.|O último rascunho fica neste navegador.|最新草稿保存在此浏览器。|最新の下書きはこのブラウザーに保存されます。|최근 초안은 이 브라우저에 저장됩니다.|تُحفظ آخر مسودة في هذا المتصفح.|नवीनतम ड्राफ़्ट इस ब्राउज़र में रहता है।
+saveChanges|Сохранить изменения|Guardar cambios|Enregistrer les modifications|Änderungen speichern|Salvar alterações|保存更改|変更を保存|변경 사항 저장|حفظ التغييرات|बदलाव सहेजें
